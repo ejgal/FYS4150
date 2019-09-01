@@ -1,0 +1,9 @@
+*.aux
+*.log
+*.bcf
+*.fls
+*.fdb_latexmk
+*.run.xml
+settings.json
+__latexindent_temp.tex
+*synctex.gz
