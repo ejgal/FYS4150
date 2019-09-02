@@ -7,3 +7,5 @@
 settings.json
 __latexindent_temp.tex
 *synctex.gz
+*.bbl
+*.blg
