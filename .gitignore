@@ -11,4 +11,4 @@ __latexindent_temp.tex
 *.bbl
 *.blg
 .vscode/
-__pycache__
+**/__pycache__/  
