@@ -1,2 +1,8 @@
 \section*{Method}
-In order to solve \ref{eq:1} numerically, we need to discretize our problem. To make our computation simpler we assume Dirichlet boundary conditions.
+In order to solve eq(\ref{eq:1}) numerically, we need to discretize our problem. We also assume Dirichlet boundary conditions $u(0) = u(1) = 0$, that $x = \; \in (0,1)$ and that our equation is scaled to avoid dealing with physical units. \par The first step in discretizing any problem is let our input variable $x$ be a discrete variable $x_i \in \left[x_0, x_1, x_2, ..., x_n \right]$. The distance between each $x_i$ variable is controlled by the step size, $h = \frac{x_n -x_0}{n}$, this gives an expression for $x_i = x_0 + i\cdot h$ where $i = 1,2,3, ..., n$. 
+\par A widely used method to calculate the derivate numerically is what is called the 3 point method, (equation (\ref{eq:2})). $f_{i \pm 1}$ is introduced as a shorthand for $ f(x_i \pm h)$.   
+
+\begin{equation}\label{eq:2}
+  f'_i = \frac{f_{i+1} - f_{i-1}}{2h}
+\end{equation}
+The three point formula has an error of order of magnitude $O(h^2)$ compared to a two point method which has $O(h)$, while requiring the same number of floating point operations (flops). The idea behind the three point method is that you eva 
