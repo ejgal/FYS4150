@@ -4,9 +4,11 @@
 *.fls
 *.fdb_latexmk
 *.run.xml
+*.dvi
 settings.json
 __latexindent_temp.tex
 *synctex.gz
 *.bbl
 *.blg
 .vscode/
+**/__pycache__/  

@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{subfiles}
+\usepackage{csvsimple}
 % Standard stuff
 \usepackage{bm,amsmath,graphicx,varioref,verbatim,amsfonts,geometry, mleftright, siunitx}
 \usepackage[nottoc]{tocbibind}
@@ -120,6 +121,12 @@
 \subfile{methods.tex}
 \subfile{results.tex}
 \subfile{discussion.tex}
+
+\csvautotabular{../data/thomas.csv}
+
+\csvautotabular{../data/toeplitz.csv}
+
+\csvautotabular{../data/relative_error.csv}
 
 \newpage
 \printbibliography
