@@ -18,14 +18,19 @@ def u(x):
 
 
 
-ns = [10**i for i in range(1, 7)]
+exponent = int(sys.argv[1])
 
+ns = [10**i for i in range(1, exponent+1)]
+print(ns)
 
 with open(DATADIR + 'thomas.csv', 'w') as file:
     file.write('n, run time\n')
 
 with open(DATADIR + 'toeplitz.csv', 'w') as file:
     file.write('n, run time\n')
+
+with open(DATADIR + 'relative_error.csv', 'w') as file:
+    file.write('log_{10}(h), max(\eps)\n')
 
 
 for n in ns:
@@ -41,10 +46,19 @@ for n in ns:
     with open(DATADIR + "thomas.csv", 'a') as file:
         file.write('{},{}\n'.format(n, elapsed_time))
 
-    plt.plot(x, u(x), '+')
-    plt.plot(x, v)
-    plt.savefig(PLOTDIR + "thomas_{}.png".format(n))
-    plt.clf()
+    # plt.plot(x, u(x), '+')
+    # plt.plot(x, v)
+    # plt.savefig(PLOTDIR + "thomas_{}.png".format(n))
+    # plt.clf()
+    # Calculate relative error
+
+    h = 1./(n+1)
+    relative_error = np.max(np.abs((u(x[1:-1])-v[1:-1])/u(x[1:-1])))
+    print(np.log10(h), np.log10(relative_error))
+    with open(DATADIR + 'relative_error.csv', 'a') as file:
+        file.write('{:.2}, {:.2}\n'.format(np.log10(h), np.log10(relative_error)))
+
+
 
     # Run algorithm for special case of a töeplitz matrix
     x = np.linspace(0, 1, n+2)
@@ -52,10 +66,9 @@ for n in ns:
     start_time = time.time()
     v[1:-1] = toeplitz(2, f, n)
     elapsed_time = time.time() - start_time
-    with open(DATADIR + "toeplitz.csv", 'w') as file:
+    with open(DATADIR + "toeplitz.csv", 'a') as file:
         file.write('{},{}\n'.format(n, elapsed_time))
-
-    plt.plot(x, u(x), '+')
-    plt.plot(x, v)
-    plt.savefig(PLOTDIR + "toeplitz_{}.png".format(n))
-    plt.clf()
+    # plt.plot(x, u(x), '+')
+    # plt.plot(x, v)
+    # plt.savefig(PLOTDIR + "toeplitz_{}.png".format(n))
+    # plt.clf()
