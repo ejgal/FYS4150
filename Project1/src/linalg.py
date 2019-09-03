@@ -54,7 +54,7 @@ def build_toeplitz(a,b,c,n):
             if i == j+1:
                 A[i][j] = a
             if i == j-1:
-                A[i][j] = b
-            if i == j:
                 A[i][j] = c
+            if i == j:
+                A[i][j] = b
     return A
