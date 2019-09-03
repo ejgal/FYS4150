@@ -4,6 +4,7 @@
 *.fls
 *.fdb_latexmk
 *.run.xml
+*.dvi
 settings.json
 __latexindent_temp.tex
 *synctex.gz
