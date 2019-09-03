@@ -9,14 +9,14 @@ class pylib:
     Implements many of the functions found in M.H.Jensens
     c++-library, used in Computational Physics. This is again heavily based
     on what is found in Numerical recipes.
-    
+
     Ported to Python by
-    Kyrre Ness Sjøbæk      (k DÅTT n DÅTT sjobak ÆTT fys DÅTT uio DÅTT no),
-    Magnar Kopangen Bugge  (magnarkb ÆTT student DÅTT matnat DÅTT uio DÅTT no),
-    Marit Sandstad         (marit DÅTT sandstad ÆTT fys DÅTT uio DÅTT no)
+    Kyrre Ness Sjï¿½bï¿½k      (k Dï¿½TT n Dï¿½TT sjobak ï¿½TT fys Dï¿½TT uio Dï¿½TT no),
+    Magnar Kopangen Bugge  (magnarkb ï¿½TT student Dï¿½TT matnat Dï¿½TT uio Dï¿½TT no),
+    Marit Sandstad         (marit Dï¿½TT sandstad ï¿½TT fys Dï¿½TT uio Dï¿½TT no)
     """
 
-    
+
     ZERO = 1.0E-10;
     """Used as a meassure of machine precision in some algos"""
 
@@ -80,7 +80,7 @@ class pylib:
         """
         Python backend for luDecomp
         """
-        
+
         #Loop over rows to get scaling info, check if matrix is singular
         vv = numpy.zeros(N)
         for i in xrange(N):
@@ -132,7 +132,7 @@ class pylib:
                 A[(j+1):N,j] = A[(j+1):N,j]/A.item(j,j)
 
         return (A,index,d)
-    
+
     def luBackSubst(self, A, index, b):
         """
         Back-substitution of LU-decomposed matrix
@@ -156,7 +156,7 @@ class pylib:
                 raise SizeError("A:(%d,%d), b:(%d)" % (A.shape[0], A.shape[1], b.shape[0]))
 
         N = A.shape[0];
-        
+
         if self.cpp:
             return self.luBackSubst_cpp(A,N,index,b)
         else:
@@ -168,12 +168,12 @@ class pylib:
         """
         pylib_cpp.luBackSubst(A,index,b)
         return b
-    
+
     def luBackSubst_python(self, A, N, index, b):
         """
         Python backend for luBackSubst
         """
-        
+
         ii = -1
         for i in xrange(N):
             ip    = index[i]
@@ -192,7 +192,7 @@ class pylib:
             b[i] = sum/A[i,i]
 
         return b;
-        
+
     def trapezoidal(self, a,b, n, func):
         """
         Integrate the function func
@@ -200,23 +200,23 @@ class pylib:
         with n points. Returns value from numerical integration
         """
         step = (b-a)/float(n)
-        
+
         sum = func(a)/float(2);
         for i in xrange(1,n):
             sum = sum + func(a+i*step)
         sum = sum + func(b)/float(2)
-        
+
         return sum*step
 
     def simpson(self,a,b,n,func):
         """Same as trapezoidal, but use simpsons rule"""
         step = (b-a)/float(n)
-        
+
         sum = func(a)/float(2);
         for i in xrange(1,n):
             sum = sum + func(a+i*step)*(3+(-1)**(i+1))
         sum = sum + func(b)/float(2)
-        
+
         return sum*step/3.0
 
     def gausLegendre(self,a,b,N):
@@ -290,7 +290,7 @@ class pylib:
         """
         pylib_cpp.gausLegendre(a,b,x,w,N)
         return (x,w)
-    
+
     def jacobi(self, A, inaccurate=False):
         """
         Computes all eigenvalues and eigenvectors of a real symetric matrix A,
@@ -301,19 +301,19 @@ class pylib:
          - A: Square symetric matrix which is to be diagonalized.
               Lower part (below diag) left untouched, upper part destroyed
         - inaccurate: optional bool value to decide the degree of accuracy
-              of the method. default value is False. 
+              of the method. default value is False.
 
         Output:
          - d:    Vector containing the eigenvalues of A
          - v:    Matrix with columns representing the eigenvectors of A (normalized)
          - nrot: Number of Jacobi rotations required
-              
+
         """
 
         if self.inputcheck:
             self.checkSquare(A)
             self.checkSymetric(A)
-        
+
         n = len(A)
 	v = numpy.eye(n)    #Initializing v to the identity matrix
 	d = numpy.zeros(n)
@@ -323,10 +323,10 @@ class pylib:
                 print "Warning from pylib.jacobi: Inaccurate \
                 ignored in cpp mode"
             return self.jacobi_cpp(A,d,v,n,nrot)
-        
+
         else:
             return self.jacobi_python(A, d, v, n, nrot, inaccurate)
-        
+
     def jacobi_cpp(self,A, d, v, n, nrot):
         """
         C++ backend for jacobi, using routine
@@ -334,7 +334,7 @@ class pylib:
         """
         nrot = pylib_cpp.jacobi(A, d, v, n) #Wont return nrot through INOUT. Strange.
         return (d, v, nrot)
-        
+
     def jacobi_python(self, A, d, v, n, nrot, inaccurate):
         """
         Python backend for jacobi
@@ -347,17 +347,17 @@ class pylib:
 	    b[ip] = A[ip][ip] #Initializing b and d to be the
 	    d[ip] = A[ip][ip] #diagonal elements of A
 
-	
+
 	for i in xrange(1,500):
 	    sm = 0.0
 	    for ip in xrange(n-1):
 		for iq in xrange(ip + 1, n):
-			sm += math.fabs(A[ip][iq]) #Summing magnitude of 
+			sm += math.fabs(A[ip][iq]) #Summing magnitude of
 					      #off-diagonal elements
 	    if sm == 0.0:
                 return  d, v, nrot
             elif inaccurate and sm <= self.ZERO:
-                return  d, v, nrot  
+                return  d, v, nrot
 	    if i < 4:
 		tresh = 0.2*sm/(n*n)
 	    else:
@@ -389,7 +389,7 @@ class pylib:
                         for j in xrange(0, ip):
                             self.jacobi_rot(A, s, tau, j, ip, j, iq)
                         for j in xrange(ip + 1, iq):
-                            self.jacobi_rot(A, s, tau, ip, j, j, iq)                      
+                            self.jacobi_rot(A, s, tau, ip, j, j, iq)
                         for j in xrange(iq + 1, n):
                             self.jacobi_rot(A, s, tau, ip, j, iq, j)
                         for j in xrange(0, n):
@@ -399,8 +399,8 @@ class pylib:
                 b[ip] += z[ip]
                 d[ip] = b[ip]
                 z[ip] = 0.0
-        
-	print "Nå blir du kastet ut! nrot = %d" %nrot
+
+	print "Nï¿½ blir du kastet ut! nrot = %d" %nrot
 	sys.exit(0)
 
     def jacobi_rot(self, A, s, tau, i, j, k, l):
@@ -417,7 +417,7 @@ class pylib:
 	h = A[k][l]
 	A[i][j] = g - s * (h + g * tau)
 	A[k][l] = h + s * (g - h * tau)
-	
+
 	return A
 
     def tred2(self, A):
@@ -442,7 +442,7 @@ class pylib:
             #A should be floating-point
             if type(A[0,0]) != numpy.float64:
                 raise TypeError("Matrix not floating-point!")
-            
+
 
         #Initialize variables
         N = A.shape[0]
@@ -471,7 +471,7 @@ class pylib:
         for i in xrange(N-1,0,-1): #Start, stop, step
             l = i-1 #Index of last entry in row before diagonal
             h=scale=0.0
-            
+
             if (l > 0):
                 #for k in xrange(l+1):
                 #    scale += math.fabs(A.item(i,k))
@@ -531,8 +531,8 @@ class pylib:
                 A[j,i]=A[i,j]=0.0
 
         return(d,e)
-                    
-                        
+
+
     def pythag(self,a,b):
         """
         Function which computes sqrt(a^2+b^2) without loss of precision. Used by tqli().
@@ -558,7 +558,7 @@ class pylib:
     def tqli(self,d,e,z):
         """
         Function which finds the eigenvalues and eigenvectors of a tridiagonal symmetric
-        matrix. This is a translation of the function tqli in lib.cpp. 
+        matrix. This is a translation of the function tqli in lib.cpp.
 
         Input:
         - d: diagonal elements of the matrix
@@ -582,7 +582,7 @@ class pylib:
             self.tqli_cpp(d,e,n,z);
         else:
             self.tqli_python(d,e,n,z)
-            
+
     def tqli_cpp(self,d,e,n,z):
         """
         C++ backend for tqli(), using routine
@@ -609,7 +609,7 @@ class pylib:
                     if abs(e[m]) + dd == dd:
                         break
                     m += 1
-                    
+
                 if m != l:
                     if iter == 30:
                         print '\nToo many iterations in tqli.\n'
@@ -621,7 +621,7 @@ class pylib:
                     g = d[m]-d[l]+e[l]/(g+self.sign(r,g))
                     s = c = 1.0
                     p = 0.0
-                                         
+
                     i = m - 1
                     while i >= l:
                         f = s * e[i]
@@ -663,7 +663,7 @@ class pylib:
         General eulers method driver and stepper for
         N coupled differential eq's,
         fixed stepsize
-        
+
         Input:
          - y0:       Vector containing initial values for y
          - t0:       Initial time
@@ -681,10 +681,10 @@ class pylib:
          - yout:  N*len(y0) numpy array containing y for each timestep
         If filename specified, None is returned.
         """
-        
+
         h = (te-t0)/float(N)
         t = t0;
-        
+
         if filename == None:
             #Setup arrays
             time = numpy.zeros(N);
@@ -693,33 +693,33 @@ class pylib:
             yout.append(y0);
             time[0] = t0;
             t = t0;
-            
+
             #Loop over timesteps
             for i in xrange(1,N):
                 yout.append(y + h*deriv(y,t));
                 t = t0 + h*i;
                 time[i] = t;
-                
+
             return (time,yout)
         else:
             ofile = open(filename,'w')
             #Format string used for output file
             ostring = "%20.8E " + ("%20.8E "*len(y0)) + "\n"
-            
+
             #Initial values
             y = y0
             t = t0
-            
+
             foo = [t]; foo[1:] = y;
             ofile.write(ostring % tuple(foo))
-        
+
             while (t < te):
                 y = y + h*deriv(y,t)
                 t +=h
-                
+
                 foo = [t]; foo[1:] = y;
                 ofile.write(ostring % tuple(foo))
-                
+
             ofile.close()
             return None
 
@@ -728,7 +728,7 @@ class pylib:
         General RK2 driver for
         N coupled differential eq's,
         fixed stepsize
-        
+
         Input:
          - y0:       Vector containing initial values for y
          - t0:       Initial time
@@ -746,10 +746,10 @@ class pylib:
          - yout:  N*len(y0) numpy array containing y for each timestep
         If filename specified, None is returned.
         """
-        
+
         h = (te-t0)/float(N)
         t = t0;
-        
+
         if filename == None:
             #Setup arrays
             time = numpy.zeros(N);
@@ -758,36 +758,36 @@ class pylib:
             yout.append(y0);
             time[0] = t0;
             t = t0;
-            
+
             #Loop over timesteps
             for i in xrange(1,N):
                 yout.append(self.rk2_step(yout[i-1],t,h,deriv));
                 t = t0 + h*i;
                 time[i] = t;
-                
+
             return (time,yout)
         else:
             ofile = open(filename,'w')
             #Format string used for output file
             ostring = "%20.8E " + ("%20.8E "*len(y0)) + "\n"
-            
+
             #Initial values
             y = y0
             t = t0
-            
+
             foo = [t]; foo[1:] = y;
             ofile.write(ostring % tuple(foo))
-        
+
             while (t < te):
                 y = self.rk2_step(y,t,h,deriv)
                 t +=h
-                
+
                 foo = [t]; foo[1:] = y;
                 ofile.write(ostring % tuple(foo))
-                
+
             ofile.close()
             return None
-        
+
     def rk2_step(self,y,t,h,deriv):
         """
         General RK2 stepper for
@@ -804,7 +804,7 @@ class pylib:
 
         k1 = h*deriv(y,t);
         k2 = h*deriv(y+k1/2.0,t+h/2.0)
-        
+
 
         return y + k2;
 
@@ -813,7 +813,7 @@ class pylib:
         General RK4 driver for
         N coupled differential eq's,
         fixed stepsize
-        
+
         Input:
          - y0:       Vector containing initial values for y
          - t0:       Initial time
@@ -831,10 +831,10 @@ class pylib:
          - yout:  N*len(y0) numpy array containing y for each timestep
         If filename specified, None is returned.
         """
-        
+
         h = (te-t0)/float(N)
         t = t0;
-        
+
         if filename == None:
             #Setup arrays
             time = numpy.zeros(N);
@@ -843,33 +843,33 @@ class pylib:
             yout.append(y0);
             time[0] = t0;
             t = t0;
-            
+
             #Loop over timesteps
             for i in xrange(1,N):
                 yout.append(self.rk4_step(yout[i-1],t,h,deriv));
                 t = t0 + h*i;
                 time[i] = t;
-                
+
             return (time,yout)
         else:
             ofile = open(filename,'w')
             #Format string used for output file
             ostring = "%20.8E " + ("%20.8E "*len(y0)) + "\n"
-            
+
             #Initial values
             y = y0
             t = t0
-            
+
             foo = [t]; foo[1:] = y;
             ofile.write(ostring % tuple(foo))
-        
+
             while (t < te):
                 y = self.rk4_step(y,t,h,deriv)
                 t +=h
-                
+
                 foo = [t]; foo[1:] = y;
                 ofile.write(ostring % tuple(foo))
-                
+
             ofile.close()
             return None
 
@@ -903,7 +903,7 @@ class pylib:
         Inspired by Numerical Recipes, and
         http://www.cofc.edu/lemesurierb/math545-2007/handouts/adaptive-runge-kutta.pdf
         plus some of my own extras.
-        
+
         Input:
          - y0:        Vector containing initial values for y
          - t0:        Initial time
@@ -944,12 +944,12 @@ class pylib:
             #Inital values
             yout.append(y0);
             time.append(t0);
-            
+
         t = t0;
         i = 1
         h = h0
         yOld = y0
-        
+
         #Loop until end of time
         while t < te:
             #Bigstep:
@@ -957,10 +957,10 @@ class pylib:
             #Doublestep
             yh  = self.rk4_step(yOld,t,h,deriv)
             yhh = self.rk4_step(yh,t+h,h,deriv)
-            
+
             yErr = yhh - y2h;
             y    = yhh + yErr/15.0 # Estimate accurate to O(h^6)
-            
+
             #Accept?
             newh = errorfunc(yOld,y,yErr,h,t)
             if not newh: #Accept!
@@ -984,14 +984,14 @@ class pylib:
                         yout.append(y)
                         time.append(t)
                     yOld = y
-                    
+
                     h = newh
                 else:
                     #To big step - reject and change
                     h = newh
         if filename != None:
             ofile.close()
-            return None            
+            return None
         else:
             return (time,yout)
 
@@ -1014,7 +1014,7 @@ class pylib:
             return self.ZERO
         else:
             return hNew
-        
+
     def rk4Adaptive_stepsizeControl2(self, yOld, yNew, yErr, h, t):
         """
         Standard stepsize control algo for adaptive RK4.
@@ -1085,10 +1085,10 @@ class MatrixNotSymetricError(MatrixError):
         Input:
          - A: The matrix which has an error
          - delta: sum of abs(Aij-Aji)
-        """        
+        """
         self.A = A;
         self.delta = delta
-        
+
     def __str__(self):
         return "Matrix not symetric, delta = " + str(self.delta)
 
