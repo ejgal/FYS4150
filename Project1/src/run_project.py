@@ -24,13 +24,13 @@ ns = [10**i for i in range(1, exponent+1)]
 print(ns)
 
 with open(DATADIR + 'thomas.csv', 'w') as file:
-    file.write('n, run time\n')
+    file.write('n, run time (s)\n')
 
 with open(DATADIR + 'toeplitz.csv', 'w') as file:
-    file.write('n, run time\n')
+    file.write('n, run time (s)\n')
 
 with open(DATADIR + 'relative_error.csv', 'w') as file:
-    file.write('log_{10}(h), max(\eps)\n')
+    file.write('$log_{10}$(h), max(relative error)\n')
 
 
 for n in ns:
@@ -44,7 +44,7 @@ for n in ns:
     v[1:-1] = thomas(a, b, c, f, n)
     elapsed_time = time.time() - start_time
     with open(DATADIR + "thomas.csv", 'a') as file:
-        file.write('{},{}\n'.format(n, elapsed_time))
+        file.write('{},{:.2e}\n'.format(n, elapsed_time))
 
     # plt.plot(x, u(x), '+')
     # plt.plot(x, v)
@@ -56,7 +56,7 @@ for n in ns:
     relative_error = np.max(np.abs((u(x[1:-1])-v[1:-1])/u(x[1:-1])))
     print(np.log10(h), np.log10(relative_error))
     with open(DATADIR + 'relative_error.csv', 'a') as file:
-        file.write('{:.2}, {:.2}\n'.format(np.log10(h), np.log10(relative_error)))
+        file.write('{:.2f}, {:.2f}\n'.format(np.log10(h), np.log10(relative_error)))
 
 
 
@@ -67,7 +67,7 @@ for n in ns:
     v[1:-1] = toeplitz(2, f, n)
     elapsed_time = time.time() - start_time
     with open(DATADIR + "toeplitz.csv", 'a') as file:
-        file.write('{},{}\n'.format(n, elapsed_time))
+        file.write('{},{:.2e}\n'.format(n, elapsed_time))
     # plt.plot(x, u(x), '+')
     # plt.plot(x, v)
     # plt.savefig(PLOTDIR + "toeplitz_{}.png".format(n))
