@@ -39,3 +39,22 @@ def toeplitz(b, f, n):
     for i in reversed(range(0, n-1)):
         v[i] = (gt[i] + v[i+1]) / bt[i-1]
     return v
+
+def build_toeplitz(a,b,c,n):
+    """
+    Return toeplitz matrix of size n*n
+
+    a - constant value of lower diagonal
+    b - constant value of diagonal
+    c - constant value of upper diagonal
+    """
+    A = np.zeros(shape=(n,n))
+    for i in range(0,n):
+        for j in range(0,n):
+            if i == j+1:
+                A[i][j] = a
+            if i == j-1:
+                A[i][j] = b
+            if i == j:
+                A[i][j] = c
+    return A
