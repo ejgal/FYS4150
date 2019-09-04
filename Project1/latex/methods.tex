@@ -1,9 +1,9 @@
 \section*{Method}
 \subsection*{Numerical differentiation}
 %NOTE THIS MAY END UP IN INTRODUCTION  
-\par Computers operate in discrete steps, which means that variables are stored as discrete variables. For a discrete variable over a particular range there is a minimum step length between each value that variable can take in that range. Compared to a continuous variable which can take on any value in that particular range. The step length $h$ can either be set manually or it can be determined based on the start and end point our particular range, $h = \frac{x_n -x_0}{n}$. Where $n$ is the number of points we choose to have in our particular range. The smaller the step length in of the discrete variable the better it will approximate the continuous variable.  
+\par Computers operate in discrete steps, which means that variables are stored as discrete variables. For a discrete variable over a particular range there is a minimum step length between each value that variable can take in that range. Compared to a continuous variable which can take on any value in that particular range. The step length $h$ can either be set manually or it can be determined based on the start and end point of our particular range, $h = \frac{x_n -x_0}{n}$. Where $n$ is the number of points we choose to have in our range. The shorter the step length in the discrete variable the better it will approximate the continuous variable.  
 \par
-The simplest ways to compute the derivate numerically is to use what is called forward difference method eq.(\ref{eq:1}) or equivalently backward difference method eq.(\ref{eq:5}). We also see that if we include the limit $\lim_{h\to 0}$ we obtain the definition of the derivate. 
+The simplest ways to compute the derivate numerically is to use what is called forward difference method eq.(\ref{eq:1}) or equivalently backward difference method (eq.\ref{eq:5}). We also see that if we include the limit $\lim_{h\to 0}$ we obtain the definition of the derivate. 
 \begin{equation}\label{eq:1}
     f'(x) \approx \frac{f(x+h)-f(x)}{h}
 \end{equation}
@@ -19,6 +19,9 @@ If we next insert this taylor expansion into eq.(\ref{eq:4}) we get:
 \begin{equation}
   f'(x) = f'(x) + \frac{h f''(x)}{2} + \frac{h^2f'''(x)}{6} + \dots
 \end{equation} 
-Our approximation of the derivate includes $f'(x)$ and some terms which are proportional to $h, h^2, h^3 \dots $ and since $h$ is assumed to be small the $h$ terms would dominate. 
+Our approximation of the derivate includes $f'(x)$ and some terms which are proportional to $h, h^2, h^3 \dots $ and since $h$ is assumed to be small the $h$ terms would dominate. The error is said to be of the order $h$. 
 \par
-To find the numerical differentiation for the second derivate we would 
+To get a numerical scheme for the second derivate we would just take the derivate of eq. \ref{eq:1}. 
+\begin{equation}
+  f''(x) \approx \frac{f'(x+h)-f'(x)}{h}
+\end{equation}
