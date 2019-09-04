@@ -1,10 +1,11 @@
 \section*{Method}
 \subsection*{Numerical differentiation}
 %NOTE THIS MAY END UP IN INTRODUCTION  
-we need to discretize our problem.
-The first  step in discretizing any problem is let our input variable $x$ be a discrete variable $x_i \in \left[x_0, x_1, x_2, ..., x_n \right]$. The distance between each $x_i$ variable is controlled by the step size, $h = \frac{x_n -x_0}{n}$, this gives an expression for $x_i = x_0 + i\cdot h$ where $i = 1,2,3, ..., n$. Then if we look at the definition of the derivative \ref{eq:1} it is clear to see how this would work for the discrete case.    
+\par Computers operate in discrete steps, which means that variables are stored as discrete variables. For a discrete variable over a particular range there is a minimum step length between each value that variable can take in that range. Compared to a continuous variable which can take on any value in that particular range. The step length $h$ can either be set manually or it can be determined based on the start and end point our particular range, $h = \frac{x_n -x_0}{n}$. Where $n$ is the number of points we choose to have in our particular range. The smaller the step length in of the discrete variable the better it will approximate the continuous variable.  
+\par
+Then if we look at the definition of the derivative \ref{eq:1} it is clear to see how this would work for the discrete case.    
 \begin{equation}\label{eq:1}
-    f'(x) = \lim_{x\to 0} \frac{f(x+h)-f(x)}{h}
+    f'(x) = \lim_{h\to 0} \frac{f(x+h)-f(x)}{h}
 \end{equation}\label{eq:1} 
 Since we obviously can't on a computer let $h = 0$ the derivate will always be an approximation. A natural question to ask when making approximations is what is our error. The error can be derived if we do a taylor series expansion of the $f(x+h)$ term in around $x$.
 \begin{equation}\label{eq:4}
