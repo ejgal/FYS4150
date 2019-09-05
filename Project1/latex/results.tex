@@ -1,1 +1,32 @@
-alwidjlawidj
+
+\section*{Results}
+
+\begin{table}[h]
+  \label{table:thomas}
+  \centering
+  \csvautotabular{../data/thomas.csv}
+  \caption{Run times of thomas algorithm for selected matrix sizes.}
+\end{table}
+
+
+
+\begin{table}[h]
+  \label{table:toeplitz}
+  \centering
+  \csvautotabular{../data/toeplitz.csv}
+  \caption{Run times of improved thomas algorithm when considering a töeplitz matrix.}
+\end{table}
+
+\begin{table}[h]
+  \label{table:relative_error}
+  \centering
+  \csvautotabular{../data/relative_error.csv}
+  \caption{Maximum relative error between analytic and numeric solution.}
+\end{table}
+
+\begin{table}[h]
+  \label{table:LU_timing}
+  \centering
+  \csvautotabular{../data/LU_timing.csv}
+  \caption{Run time for solving $A\bvec{x} = \bvec{b}$ by LU decomposing and backward substituting.}
+\end{table}
