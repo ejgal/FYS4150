@@ -1,8 +1,12 @@
+# -*- coding: utf-8 -*-
+
 import sys
 import matplotlib.pyplot as plt
 import time
 import numpy as np
-from linalg import toeplitz, thomas
+
+from computationalLib import pylib
+from linalg import toeplitz, thomas, build_toeplitz
 
 PLOTDIR = '../figures/'
 DATADIR = '../data/'
@@ -19,9 +23,9 @@ def u(x):
 
 
 exponent = int(sys.argv[1])
+lu_exponent = int(sys.argv[2])
 
 ns = [10**i for i in range(1, exponent+1)]
-print(ns)
 
 with open(DATADIR + 'thomas.csv', 'w') as file:
     file.write('n, run time (s)\n')
@@ -32,6 +36,8 @@ with open(DATADIR + 'toeplitz.csv', 'w') as file:
 with open(DATADIR + 'relative_error.csv', 'w') as file:
     file.write('$log_{10}$(h), max(relative error)\n')
 
+with open(DATADIR + 'LU_timing.csv', 'w') as file:
+    file.write('n, run time (s)\n')
 
 for n in ns:
     # Run thomaz algorithm
@@ -72,3 +78,21 @@ for n in ns:
     # plt.plot(x, v)
     # plt.savefig(PLOTDIR + "toeplitz_{}.png".format(n))
     # plt.clf()
+
+ns = [10**i for i in range(1, lu_exponent+1)]
+
+for n in ns:
+    h = 1./(n+1)
+    x = np.linspace(0, 1, n+2)
+    u = f(x)*h**2
+    A = build_toeplitz(-1, 2, -1, n)
+    print(A)
+    lib = pylib()
+    print('\n\n\n')
+    start = time.time()
+    A, index, t = lib.luDecomp(A)
+    lib.luBackSubst(A, index, u[1:-1])
+    elapsed_time = time.time() - start
+    with open(DATADIR + "LU_timing.csv", 'a') as file:
+        file.write('{},{:.2e}\n'.format(n, elapsed_time))
+    print(elapsed_time)
