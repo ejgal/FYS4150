@@ -37,8 +37,15 @@ proportional to $h, h^2, h^3 \dots $ and since $h$ is assumed to be small the
 $h$ terms would dominate. The error is said to be of the order $h$. 
 \par
 To get a numerical scheme for the second derivate we would just take the
-derivate of eq. \ref{eq:1}.
+derivate of \cref{eq:1} except for a slight modification. Instead of looking at $f''(x) \approx \frac{f'(x+h)-f'(x)}{h}$ we would use 
+$f''(x) \approx\frac{f'(x)-f'(x-h)}{h}$, which are equivalent to each other
+see. \cite{mathexh}. 
 \begin{equation}
-  f''(x) \approx \frac{f'(x+h)-f'(x)}{h}
+  f''(x) \approx \frac{f(x + h) - f(x) -f(x-h+h) +f(x-h)}{h^2}
 \end{equation}
-
+Then after a bit of a clean up we get an approximation for the second order
+derivate (\cref{eq:secondorder}). 
+\begin{equation}\label{eq:secondorder}
+  f''(x) \approx \frac{f(x+h)-2f(x) + f(x-h)}{h^2}
+\end{equation}
+Then to quantify the error we do a taylor expansion of $f(x+h)$ and $f(x-h)$ 
