@@ -13,10 +13,10 @@ defined as $h = 1/(n+1)$. The boundary conditions is $v_0 = 0$ and
 $v_{n+1} = 0$. The second derivate we approximate according to
 \cref{eq:secondorder},
 \begin{equation}\label{eq:2ndordshort}
-  -\frac{v_{i-1}-2v_i + v_{i+1}}{h^2} \quad \mathrm{for} \; i = 1,2,3 \dots , n
+  g_i = -\frac{v_{i-1}-2v_i + v_{i+1}}{h^2} \quad \mathrm{for} \; i = 1,2,3 \dots , n
 \end{equation} 
 where \cref{eq:2ndordshort} is rewritten using shorthand notation. 
 Our next step will involve showing how \cref{eq:2ndordshort} can be written as a
-linear system of equations $\bvec{A} \bvec{v} = \bvec{b}$. 
+linear system of equations $\bvec{A} \bvec{v} = \bvec{g}$. 
 
 \subsection*{Thomas Algorithm}
