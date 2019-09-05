@@ -101,13 +101,10 @@ for n in ns:
     x = np.linspace(0, 1, n+2)
     u = f(x)*h**2
     A = build_toeplitz(-1, 2, -1, n)
-    print(A)
     lib = pylib()
-    print('\n\n\n')
     start = time.time()
     A, index, t = lib.luDecomp(A)
     lib.luBackSubst(A, index, u[1:-1])
     elapsed_time = time.time() - start
     with open(DATADIR + "LU_timing.csv", 'a') as file:
         file.write('{},{:.2e}\n'.format(n, elapsed_time))
-    print(elapsed_time)
