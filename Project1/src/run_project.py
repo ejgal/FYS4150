@@ -39,6 +39,21 @@ with open(DATADIR + 'relative_error.csv', 'w') as file:
 with open(DATADIR + 'LU_timing.csv', 'w') as file:
     file.write('n, run time (s)\n')
 
+
+for n in [10, 100, 1000]:
+    x = np.linspace(0, 1, n+2)
+    v = np.zeros(n+2)
+    a = -np.ones(n)
+    b = 2*np.ones(n)
+    c = -np.ones(n)
+    v[1:-1] = thomas(a, b, c, f, n)
+    plt.plot(x, v, label='n={}'.format(n))
+
+plt.plot(x, u(x), '--', label='Analytic')
+plt.legend()
+plt.savefig(PLOTDIR + 'thomas.png')
+
+
 for n in ns:
     # Run thomaz algorithm
     x = np.linspace(0, 1, n+2)
@@ -86,13 +101,10 @@ for n in ns:
     x = np.linspace(0, 1, n+2)
     u = f(x)*h**2
     A = build_toeplitz(-1, 2, -1, n)
-    print(A)
     lib = pylib()
-    print('\n\n\n')
     start = time.time()
     A, index, t = lib.luDecomp(A)
     lib.luBackSubst(A, index, u[1:-1])
     elapsed_time = time.time() - start
     with open(DATADIR + "LU_timing.csv", 'a') as file:
         file.write('{},{:.2e}\n'.format(n, elapsed_time))
-    print(elapsed_time)
