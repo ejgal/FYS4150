@@ -1,6 +1,6 @@
 \section*{Method}
 \subsection*{Numerical differentiation}
-%NOTE THIS MAY END UP IN INTRODUCTION  
+%NOTE THIS MAY END UP IN INTRODUCTION
 \par Computers operate in discrete steps, which means that variables are stored
 as discrete variables. A discrete variable defined over a particular range would
 have step length $h$ between each value and can not represent any values in
@@ -9,12 +9,12 @@ continuous variable depends on the size of the step length. The step length $h$
 can either be set manually or it can be determined based on the start and end
 point of our particular range, $h = \frac{x_n -x_0}{n}$. Where $n$ is the number
 of points we choose to have in our range. The shorter the step length in the
-discrete variable the better it will approximate the continuous variable.  
+discrete variable the better it will approximate the continuous variable.
 \par
 The simplest way to compute the derivate numerically is to use what is called
 forward difference method eq.(\ref{eq:1}) or equivalently backward difference
 method (eq.\ref{eq:5}). If we include the limit as$\lim_{h\to 0}$ we obtain the
-classic definition of the derivate. 
+classic definition of the derivate.
 \begin{equation}\label{eq:1}
     f'(x) \approx \frac{f(x+h)-f(x)}{h}
 \end{equation}
@@ -23,29 +23,29 @@ classic definition of the derivate.
   f'(x) \approx \frac{f(x-h)+f(x)}{h}
 \end{equation}
 Since numerical differentiation always will give an approximation of the
-derivate, we would like to quantify our error. The error can be derived 
+derivate, we would like to quantify our error. The error can be derived
 if we do a taylor series expansion of the $f(x+h)$ term in around $x$.
 \begin{equation}\label{eq:4}
-    f(x+h) = f(x) + h'f(x) + \frac{h^2f''(x)}{2} + \frac{h^3f'''(x)}{6} + \dots    
-\end{equation}   
+    f(x+h) = f(x) + h'f(x) + \frac{h^2f''(x)}{2} + \frac{h^3f'''(x)}{6} + \dots
+\end{equation}
 If we next insert this taylor expansion into eq.(\ref{eq:4}) we get:
 \begin{equation}
   f'(x) = f'(x) + \frac{h f''(x)}{2} + \frac{h^2f'''(x)}{6} + \dots
-\end{equation} 
+\end{equation}
 Our approximation of the derivate includes $f'(x)$ and some terms which are
 proportional to $h, h^2, h^3 \dots $ and since $h$ is assumed to be small the
-$h$ terms would dominate. The error is said to be of the order $h$. 
+$h$ terms would dominate. The error is said to be of the order $h$.
 \par
 To get a numerical scheme for the second derivate we would just take the
-derivate of \cref{eq:1} except for a slight modification. Instead of looking at $f''(x) \approx \frac{f'(x+h)-f'(x)}{h}$ we would use 
+derivate of \cref{eq:1} except for a slight modification. Instead of looking at $f''(x) \approx \frac{f'(x+h)-f'(x)}{h}$ we would use
 $f''(x) \approx\frac{f'(x)-f'(x-h)}{h}$, which are equivalent to each other
-see. \cite{mathexh}. 
+see. \cite{mathexh}.
 \begin{equation}
   f''(x) \approx \frac{f(x + h) - f(x) -f(x-h+h) +f(x-h)}{h^2}
 \end{equation}
 Then after a bit of a clean up we get an approximation for the second order
-derivate (\cref{eq:secondorder}). 
+derivate (\cref{eq:secondorder}).
 \begin{equation}\label{eq:secondorder}
   f''(x) \approx \frac{f(x+h)-2f(x) + f(x-h)}{h^2}
 \end{equation}
-Then to quantify the error we do a taylor expansion of $f(x+h)$ and $f(x-h)$ 
+Then to quantify the error we do a taylor expansion of $f(x+h)$ and $f(x-h)$
