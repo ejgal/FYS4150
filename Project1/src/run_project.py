@@ -24,6 +24,7 @@ def u(x):
 
 exponent = int(sys.argv[1])
 lu_exponent = int(sys.argv[2])
+runs = int(sys.argv[3])
 
 ns = [10**i for i in range(1, exponent+1)]
 
@@ -62,7 +63,7 @@ for n in ns:
     a = -np.ones(n)
     b = 2*np.ones(n)
     c = -np.ones(n)
-    v[1:-1], elapsed_time = thomas(a, b, c, f, n)
+    v[1:-1], elapsed_time = thomas(a, b, c, f, n, runs)
 
     with open(DATADIR + "thomas.csv", 'a') as file:
         file.write('{},{:.2e}\n'.format(n, elapsed_time))
@@ -83,7 +84,7 @@ for n in ns:
     # Run algorithm for our töeplitz matrix
     x = np.linspace(0, 1, n+2)
     v = np.zeros(n+2)
-    v[1:-1], elapsed_time = toeplitz(f, n)
+    v[1:-1], elapsed_time = toeplitz(f, n, runs)
     with open(DATADIR + "toeplitz.csv", 'a') as file:
         file.write('{},{:.2e}\n'.format(n, elapsed_time))
     plt.plot(x, u(x), '+')
@@ -94,14 +95,17 @@ for n in ns:
 ns = [10**i for i in range(1, lu_exponent+1)]
 
 for n in ns:
-    h = 1./(n+1)
-    x = np.linspace(0, 1, n+2)
-    u = f(x)*h**2
-    A = build_toeplitz(-1, 2, -1, n)
-    lib = pylib()
-    start = time.time()
-    A, index, t = lib.luDecomp(A)
-    lib.luBackSubst(A, index, u[1:-1])
-    elapsed_time = time.time() - start
+    algo_time = 0
+    for run in range(1, runs+1):
+        h = 1./(n+1)
+        x = np.linspace(0, 1, n+2)
+        u = f(x)*h**2
+        A = build_toeplitz(-1, 2, -1, n)
+        lib = pylib()
+        start = time.time()
+        A, index, t = lib.luDecomp(A)
+        lib.luBackSubst(A, index, u[1:-1])
+        algo_time += time.time() - start
+    average_algo_time = algo_time/float(runs)
     with open(DATADIR + "LU_timing.csv", 'a') as file:
-        file.write('{},{:.2e}\n'.format(n, elapsed_time))
+            file.write('{},{:.2e}\n'.format(n, average_algo_time))
