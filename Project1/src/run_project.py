@@ -76,7 +76,7 @@ for n in ns:
     h = 1./(n+1)
     relative_error = np.max(np.abs((u(x[1:-1])-v[1:-1])/u(x[1:-1])))
     with open(DATADIR + 'relative_error.csv', 'a') as file:
-        file.write('{:.2f}, {:.2f}\n'.format(np.log10(h), np.log10(relative_error)))
+        file.write('{:.2f}, {:.2e}\n'.format(np.log10(h), np.log10(relative_error)))
 
 
 
