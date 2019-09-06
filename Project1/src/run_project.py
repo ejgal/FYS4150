@@ -52,6 +52,7 @@ for n in [10, 100, 1000]:
 plt.plot(x, u(x), '--', label='Analytic')
 plt.legend()
 plt.savefig(PLOTDIR + 'thomas.png')
+plt.clf()
 
 
 for n in ns:
