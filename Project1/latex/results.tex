@@ -7,6 +7,8 @@
   \label{fig:a}
 \end{figure}
 
+ \cref{fig:a}
+
 
 The thomas algorithm run time \cref{table:thomas} is roughly linear with the
 matrix size.
@@ -20,6 +22,8 @@ matrix size.
 
 The improved thomas algorithm \cref{table:toeplitz} run time is in the same
 order of magnitude as the normal thomas algorithm, but consequently a bit faster.
+Considering the ratio
+
 
 \begin{table}[h]
   \centering
@@ -35,7 +39,7 @@ order of magnitude as the normal thomas algorithm, but consequently a bit faster
   \label{table:relative_error}
 \end{table}
 
-Comparing the run times using LU decomposing and backward substituting
+Comparing the run times using LU decomposition
 (\cref{table:LU_timing}) with run times using the thomas algorithm
 (\cref{table:thomas}) we see that the thomas algorithm is roughly n times
 faster.
