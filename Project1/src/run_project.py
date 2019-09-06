@@ -84,9 +84,7 @@ for n in ns:
     # Run algorithm for special case of a töeplitz matrix
     x = np.linspace(0, 1, n+2)
     v = np.zeros(n+2)
-    start_time = time.time()
-    v[1:-1] = toeplitz(2, f, n)
-    elapsed_time = time.time() - start_time
+    v[1:-1], elapsed_time = toeplitz(f, n)
     with open(DATADIR + "toeplitz.csv", 'a') as file:
         file.write('{},{:.2e}\n'.format(n, elapsed_time))
     # plt.plot(x, u(x), '+')
