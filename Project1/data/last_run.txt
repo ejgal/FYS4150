@@ -1,3 +1,3 @@
-exponent: 1
-lu_exponent: 1
-runs: 1
+exponent: 7
+lu_exponent: 3
+runs: 20

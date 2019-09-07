@@ -104,10 +104,10 @@ for n in ns:
     v[1:-1], elapsed_time = toeplitz(f, n, runs)
     with open(DATADIR + "toeplitz.csv", 'a') as file:
         file.write('{},{:.2e}\n'.format(n, elapsed_time))
-    plt.plot(x, u(x), '+')
-    plt.plot(x, v)
-    plt.savefig(PLOTDIR + "toeplitz_{}.png".format(n))
-    plt.clf()
+    # plt.plot(x, u(x), '+')
+    # plt.plot(x, v)
+    # plt.savefig(PLOTDIR + "toeplitz_{}.png".format(n))
+    # plt.clf()
 
 ns = [10**i for i in range(1, lu_exponent+1)]
 
