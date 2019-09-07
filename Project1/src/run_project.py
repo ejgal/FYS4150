@@ -5,11 +5,11 @@ Script for running our experiment
 
 Takes three command line arguments:
 
-First argument, the highest exponent determining the 
+First argument, the highest exponent determining the
 highest dimmension of our n x n matrix.
 
-Second argument, determining the exponent of highest dimmension 
-of our n x n matrix, when using LU decomposition. Note: Demands a 
+Second argument, determining the exponent of highest dimmension
+of our n x n matrix, when using LU decomposition. Note: Demands a
 lof of memory if set to 5 or higher.
 
 Third argument, how many times each run should be executed
@@ -126,3 +126,9 @@ for n in ns:
     average_algo_time = algo_time/float(runs)
     with open(DATADIR + "LU_timing.csv", 'a') as file:
             file.write('{},{:.2e}\n'.format(n, average_algo_time))
+
+# Write input parameters to file
+with open(DATADIR + 'last_run.txt', 'w') as file:
+    file.write('exponent: {}\n'.format(exponent))
+    file.write('lu_exponent: {}\n'.format(lu_exponent))
+    file.write('runs: {}\n'.format(runs))
