@@ -40,6 +40,10 @@ our case look like this.
   \end{bmatrix}
 \end{equation*}
 It is easy to verify that $\bvec{A} v = \bvec{\tilde{g}}$ would give us 
-\cref{eq:2ndordshort} by doing the matrix multiplication. This matri
-
+\cref{eq:2ndordshort} by doing the matrix multiplication. This matrix has some
+particular nice features, primarily it a tridiagonal matrix which means that we
+can use the efficient Thomas Algorithm to solve our linear system of equation,
+secondly it has constant values along the diagonals, which we'll exploit later.    
 \subsection*{Thomas Algorithm}
+The Thomas Algorithm quite straight forward to implement and based on the more
+general LU decomposition. 
