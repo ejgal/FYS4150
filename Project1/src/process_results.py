@@ -1,8 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# Directory for storing output
 DATADIR = '../processed_data/'
-
 
 # Import results
 thomas = pd.read_csv('../data/thomas.csv', names=['thomas'], index_col=0, header=None, skiprows=1)
