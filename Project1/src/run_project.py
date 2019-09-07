@@ -1,5 +1,22 @@
 # -*- coding: utf-8 -*-
+"""
+Script for running our experiment
 
+Takes three command line arguments:
+
+First argument, the highest exponent determining the highest dimmension 
+of our n x n matrix.
+
+Second argument, determining the exponent of highest dimmension 
+of our n x n matrix, when using LU decomposition. Note: Demanding a 
+lof of memory if set to 5 or higher.
+
+Third argument, how many times each run should be executed
+more runs would give accurate timings of each algorithm.
+
+    python2 run_project.py 6 4 10
+
+"""
 import sys
 import matplotlib.pyplot as plt
 import time
@@ -19,7 +36,6 @@ def u(x):
     Analytic solution
     """
     return 1 - (1 - np.exp(-10))* x - np.exp(-10*x)
-
 
 
 exponent = int(sys.argv[1])
