@@ -45,9 +45,43 @@ particular nice features, primarily it a tridiagonal matrix which means that we
 can use the efficient Thomas Algorithm to solve our linear system of equation,
 secondly it has constant values along the diagonals, which we'll exploit later.    
 \subsection*{Thomas Algorithm}
-The Thomas Algorithm quite straight forward to implement and based on the more
-general LU decomposition. The full implementation of the Thomas algorithm can be
-found on our
+
+The Thomas Algorithm is an general algorithm for solving tridiagonal sets of
+linear equations. The algorithm is quite straight forward to implement and 
+requires two steps only.
+We will demonstrate this algorithm with a $4 \times 4$ matrix and our linear
+system of equation $\bvec{T} \cdot \bvec{u} = \bvec{g}$ given by 
+\cref{eq:4_4matrix}.
+\begin{equation}\label{eq:4_4matrix}
+  \begin{bmatrix}
+    d_1 & c_1 & 0 & 0 \\
+    a_1 & d_1 & c_1 & 0 \\
+    0 & a_1 & d_1 & c_1  \\
+    0 & 0 & a_1 & d_1 
+  \end{bmatrix} \begin{bmatrix}
+    u_1 \\ u_2 \\ u_3 \\ u_4
+  \end{bmatrix} = \begin{bmatrix}
+    g_1 \\ g_2 \\ g_3 \\ g_4
+  \end{bmatrix}
+\end{equation} 
+Then the first step is to rewrite our matrix $T$ as upper triangular matrix.
+Starting with the first row we multiply by it by $\frac{a_1}{d_1}$ and subtract
+it from the second row.
+\begin{equation*}
+  0 + \left(d_2 - \frac{c_1 a_1}{d_1}u_2 \right)+ c_2u_3 = g_2 -g_1 
+  \frac{a_1}{d_1}  
+\end{equation*}  
+Next we define $\tilde{d}_2 = d_2 - a_1 c_1/d_1$, 
+$\tilde{g}_2 =  g_2 - g_1 c_1/d_1$ and repeat the same proses for the third row.
+One also might see the general pattern emerging:
+
+\begin{equation}
+  \tilde{d}_i = d_i- a_{i-1} c_{i-1}/d_{i-1}, \quad \tilde{g}_i =  g_i - g_{i-1} c_{i-1}/d_{i-1}
+\end{equation}
+
+
+
+
 github\footnote{https://github.com/Ovewh/Computilus/tree/master/Project1/src/linalg.py}
 here we will just outline the general idea. \par Similarly to the LU
 decomposition, the idea is to decompose our matrix $\bvec{A}$ into an upper
@@ -61,13 +95,14 @@ both we both do the LU decomposition and solve $\bvec{L} \bvec{\tilde{g}} =
 \bvec{g}$ for $\bvec{\tilde{g}}$ all in one downward sweep. The second step we
 solve $\bvec{U}\bvec{v} = \bvec{\tilde{g}}$ for $\bvec{v}$ with a upward sweep. 
 
-Something that is important to note about Thomas algorithm is to consider which
-values do we need to store. Since our matrix $\bvec{A}$ only has values along
-the tridiagonal, we only need tree arrays to store the entire matrix. If we
+Something that is important to note about Thomas algorithm is which
+values we need to store. Since our matrix $\bvec{A}$ only has values along
+the tridiagonal and we only need tree arrays to store the entire matrix. If we
 would instead use a standard LU decomposition algorithm, we would need to store
 the entire $n \times n$ matrix. For instance if we had a $10^5 \times 10^5$   
 matrix which means $10^10$ matrix elements. To store this matrix in memory where
 every matrix element is 8 bytes, would require on the order of $10^{11}$ bytes, 
-about 100 gigabytes to store. 
+about 100 gigabytes to store. An amount of memory clearly beyond any
+ordinary laptop. 
 
 \subsection*{Specialized Algorithm}
