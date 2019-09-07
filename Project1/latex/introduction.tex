@@ -1,14 +1,17 @@
 \section*{Introduction}
-Computing has had and still have an undeniable influence on science.
-has allowed scientist to explore everything from the tiniest scale of an atom,to
-tropical cyclones and galaxies.
-Therefore understanding the inner workings behind a computer program is critical
-in order to avoid unwanted errors. Errors which in the worst case can have
-catastrophic consequences \cite{sleipner_failure}. \par Our aim is to
-investigate some of the common errors one might face if one doesn't think when
-developing code. To begin with we will look at a how to solve a second order
+There is no denying the influence the computer has had on science. 
+Computing has rendered scientist able to unravel the deeper mysteries of nature.
+Today for instance a scientist can explore the violent nature of a
+hurricane while at the same time enjoying a cup of coffee. With current rate in
+increase of computational performance, we are diminishing the computational
+limit. 
+Still, to do computational problem solving both efficiently and with high
+precision requires both an deep understanding of the problem at hand, but also the inner workings of a computer. 
+
+Our aim is to demonstrate the benefits of understanding the problem at hand and to apply that knowledge to solve the problem in an efficient
+way. For our demonstration with we will look at a how to solve a second order
 differential equation, specifically the general one dimmensional Poisson's
-equation (\ref{eq:1}).
+equation \cref{eq:1}. 
 \begin{equation}\label{eq:2}
   f(x)= - \pd[^2u]{x^2}
 \end{equation}
@@ -16,18 +19,18 @@ equation (\ref{eq:1}).
 \subsection*{Numerical differentiation}
 %NOTE THIS MAY END UP IN INTRODUCTION  
 \par Computers operate in discrete steps, which means that variables are stored
-as discrete variables. A discrete variable defined over a particular range would
-have step length $h$ between each value and can not represent any values in
-between. This means that how well a discrete variable would represent the
+as discrete variables. A discrete variable  defined over a particular
+range, would 
+have a step length $h$ between each value and can not represent any values in
+between. This means that how well a discrete variable would approximate the
 continuous variable depends on the size of the step length. The step length $h$
 can either be set manually or it can be determined based on the start and end
 point of our particular range, $h = \frac{x_n -x_0}{n}$. Where $n$ is the number
-of points we choose to have in our range. The shorter the step length in the
-discrete variable the better it will approximate the continuous variable.  
+of points we choose to have in our range. 
 \par
 The simplest way to compute the derivate numerically is to use what is called
 forward difference method eq.(\ref{eq:1}) or equivalently backward difference
-method (eq.\ref{eq:5}). If we include the limit as$\lim_{h\to 0}$ we obtain the
+method (eq.\ref{eq:5}). If we include the limit $\lim_{h\to 0}$ we obtain the
 classic definition of the derivate. 
 \begin{equation}\label{eq:1}
     f'(x) \approx \frac{f(x+h)-f(x)}{h}
@@ -53,7 +56,7 @@ $h$ terms would dominate. The error is said to be of the order $h$.
 To get a numerical scheme for the second derivate we would just take the
 derivate of \cref{eq:1} except for a slight modification. Instead of looking at $f''(x) \approx \frac{f'(x+h)-f'(x)}{h}$ we would use 
 $f''(x) \approx\frac{f'(x)-f'(x-h)}{h}$, which are equivalent to each other
-see. \cite{mathexh}. 
+ \cite{mathexh}. 
 \begin{equation}
   f''(x) \approx \frac{f(x + h) - f(x) -f(x-h+h) +f(x-h)}{h^2}
 \end{equation}
