@@ -46,16 +46,16 @@ runs = int(sys.argv[3])
 ns = [10**i for i in range(1, exponent+1)]
 
 with open(DATADIR + 'thomas.csv', 'w') as file:
-    file.write('n, run time (s)\n')
+    file.write('n,run time (s)\n')
 
 with open(DATADIR + 'toeplitz.csv', 'w') as file:
-    file.write('n, run time (s)\n')
+    file.write('n,run time (s)\n')
 
 with open(DATADIR + 'relative_error.csv', 'w') as file:
     file.write('$log_{10}$(h), max(relative error)\n')
 
 with open(DATADIR + 'LU_timing.csv', 'w') as file:
-    file.write('n, run time (s)\n')
+    file.write('n,run time (s)\n')
 
 
 for n in [10, 100, 1000]:
