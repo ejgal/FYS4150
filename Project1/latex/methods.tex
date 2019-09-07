@@ -49,8 +49,14 @@ The Thomas Algorithm quite straight forward to implement and based on the more
 general LU decomposition. The full implementation of the Thomas algorithm can be
 found on our
 github\footnote{https://github.com/Ovewh/Computilus/tree/master/Project1/src/linalg.py}
-here we will just outline the general idea. \par The Thomas algorithm consist of
-two steps. The first steps is to decompose the matrix $\bvec{A}$ into an upper
-triangular matrix $\bvec{U}$ and a lower triangular matrix $\bvec{L}$
-\cite{tridia}. The first step is step is done with a forward iteration where we
-decompose the matrix and solve for $L  
+here we will just outline the general idea. \par Similarly to the LU
+decomposition, the idea is to decompose our matrix $\bvec{A}$ into an upper
+triangular matrix $\bvec{U}$ and a lower triangular matrix $\bvec{L}$. Then we
+can solve the system of linear equations by setting $\bvec{U}\bvec{v}=
+\bvec{\tilde{g}}$ and then first solving 
+$\bvec{L} \bvec{\tilde{g}} = \bvec{g}$ for $\bvec{\tilde{g}}$ and then 
+$\bvec{U}\bvec{v} = \bvec{\tilde{g}}$ for $\bvec{v}$
+\cite{tridia}. The Thomas algorithm consist of two steps. The first is where
+both we both do the decomposition and solve $\bvec{L} \bvec{\tilde{g}} =
+\bvec{g}$ for $\bvec{\tilde{g}}$ all in one downward sweep. The second step we
+solve $\bvec{U}\bvec{v} = \bvec{\tilde{g}}$ for $\bvec{v}$ with a upward sweep. 
