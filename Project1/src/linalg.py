@@ -1,7 +1,7 @@
 import numpy as np
 import time
 
-def thomas(a, b, c, f, n):
+def thomas(a, b, c, f, n, runs=1):
     """
     Solve the equation Av = g where A is a square tridiagonal matrix, and
     g = f * square(step_size).
@@ -12,32 +12,37 @@ def thomas(a, b, c, f, n):
     c - array of size n-1 with the upper diagonal elements
     f - function
     n - size of matrix
+    runs - number of times to run the algorithm
 
-    Returns solution v and algorithm run time.
+    Returns solution v and average algorithm run time.
     """
 
-    v = np.zeros(n)
-    bt = np.zeros(n)
-    gt = np.zeros(n)
-    x = np.linspace(0, 1, n)
-    h = 1./(n+1)
-    g = f(x)*h**2
+    algo_time = 0
 
-    bt[0] = b[0]
-    gt[0] = g[0]*a[0]/b[0]
+    for run in range(1, runs+1):
+        v = np.zeros(n)
+        bt = np.zeros(n)
+        gt = np.zeros(n)
+        x = np.linspace(0, 1, n)
+        h = 1./(n+1)
+        g = f(x)*h**2
 
-    start_time = time.time()
-    for i in range(1, n):
-        bt[i] = b[i] - a[i-1] * c[i-1] / bt[i-1]
-        gt[i] = g[i] - a[i-1] * gt[i-1] / bt[i-1]
+        bt[0] = b[0]
+        gt[0] = g[0]*a[0]/b[0]
 
-    v[n-1] = gt[n-1]/bt[n-1]
-    for i in reversed(range(0, n-1)):
-        v[i] = gt[i]/bt[i+1] - c[i]*v[i+1]/bt[i+1]
-    elapsed_time = time.time() - start_time
-    return v, elapsed_time
+        start_time = time.time()
+        for i in range(1, n):
+            bt[i] = b[i] - a[i-1] * c[i-1] / bt[i-1]
+            gt[i] = g[i] - a[i-1] * gt[i-1] / bt[i-1]
 
-def toeplitz(f, n):
+        v[n-1] = gt[n-1]/bt[n-1]
+        for i in reversed(range(0, n-1)):
+            v[i] = gt[i]/bt[i+1] - c[i]*v[i+1]/bt[i+1]
+        algo_time += time.time() - start_time
+    average_algo_time = algo_time / float(runs)
+    return v, average_algo_time
+
+def toeplitz(f, n, runs):
     """
     Solve the equation Av = g where A is a toeplitz matrix
     with upper and lower tridiagonal elements = -1, and
@@ -45,33 +50,39 @@ def toeplitz(f, n):
 
     Arguments:
 
+    runs - number of times to run the algorithm
+
+
     Return solution v and algorithm run time.
     """
 
+    algo_time = 0
 
-    # initialize arrays for storing solution
-    # and
-    v = np.zeros(n)
-    gt = np.zeros(n)
-    x = np.linspace(0, 1, n)
-    h = 1./(n+1)
-    g = f(x)*h**2
+    for run in range(1, runs+1):
+        # initialize arrays for storing solution
+        # and
+        v = np.zeros(n)
+        gt = np.zeros(n)
+        x = np.linspace(0, 1, n)
+        h = 1./(n+1)
+        g = f(x)*h**2
 
-    # Precalculate new diagonal elements
-    analytic_diagonal = lambda i: (i+1)/i
-    dt = analytic_diagonal(np.linspace(1, n, n))
+        # Precalculate new diagonal elements
+        analytic_diagonal = lambda i: (i+1)/i
+        dt = analytic_diagonal(np.linspace(1, n, n))
 
-    gt[0] = - g[0]/2.
-    z = 1./dt
-    start_time = time.time()
-    for i in range(1, n):
-        gt[i] = g[i] + gt[i-1]*z[i-1]
+        gt[0] = - g[0]/2.
+        z = 1./dt
+        start_time = time.time()
+        for i in range(1, n):
+            gt[i] = g[i] + gt[i-1]*z[i-1]
 
-    v[n-1] = gt[n-1]*z[n-1]
-    for i in reversed(range(0, n-1)):
-        v[i] = (gt[i] + v[i+1]) * z[i-1]
-    elapsed_time = time.time() - start_time
-    return v, elapsed_time
+        v[n-1] = gt[n-1]*z[n-1]
+        for i in reversed(range(0, n-1)):
+            v[i] = (gt[i] + v[i+1]) * z[i-1]
+        algo_time += time.time() - start_time
+    average_algo_time = algo_time/float(runs)
+    return v, average_algo_time
 
 def build_toeplitz(a,b,c,n):
     """
