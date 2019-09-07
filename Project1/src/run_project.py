@@ -4,11 +4,11 @@ Script for running our experiment
 
 Takes three command line arguments:
 
-First argument, the highest exponent determining the highest dimmension 
-of our n x n matrix.
+First argument, the highest exponent determining the 
+highest dimmension of our n x n matrix.
 
 Second argument, determining the exponent of highest dimmension 
-of our n x n matrix, when using LU decomposition. Note: Demanding a 
+of our n x n matrix, when using LU decomposition. Note: Demands a 
 lof of memory if set to 5 or higher.
 
 Third argument, how many times each run should be executed
