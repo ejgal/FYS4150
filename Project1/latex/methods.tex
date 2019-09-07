@@ -57,6 +57,17 @@ can solve the system of linear equations by setting $\bvec{U}\bvec{v}=
 $\bvec{L} \bvec{\tilde{g}} = \bvec{g}$ for $\bvec{\tilde{g}}$ and then 
 $\bvec{U}\bvec{v} = \bvec{\tilde{g}}$ for $\bvec{v}$
 \cite{tridia}. The Thomas algorithm consist of two steps. The first is where
-both we both do the decomposition and solve $\bvec{L} \bvec{\tilde{g}} =
+both we both do the LU decomposition and solve $\bvec{L} \bvec{\tilde{g}} =
 \bvec{g}$ for $\bvec{\tilde{g}}$ all in one downward sweep. The second step we
 solve $\bvec{U}\bvec{v} = \bvec{\tilde{g}}$ for $\bvec{v}$ with a upward sweep. 
+
+Something that is important to note about Thomas algorithm is to consider which
+values do we need to store. Since our matrix $\bvec{A}$ only has values along
+the tridiagonal, we only need tree arrays to store the entire matrix. If we
+would instead use a standard LU decomposition algorithm, we would need to store
+the entire $n \times n$ matrix. For instance if we had a $10^5 \times 10^5$   
+matrix which means $10^10$ matrix elements. To store this matrix in memory where
+every matrix element is 8 bytes, would require on the order of $10^{11}$ bytes, 
+about 100 gigabytes to store. 
+
+\subsection*{Specialized Algorithm}
