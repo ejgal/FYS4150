@@ -23,3 +23,8 @@ df.div(df.index.to_series(), axis=0).to_csv(DATADIR + 'normalized.csv', float_fo
 df['thomas/toeplitz'] = df['thomas']/df['toeplitz']
 df['lu/toeplitz'] = df['lu']/df['toeplitz']
 df.to_csv(DATADIR + 'comparison.csv', columns=['thomas/toeplitz', 'lu/toeplitz'], float_format='%.3e')
+
+# Plot relative error
+# error = pd.read_csv('../data/relative_error.csv', index_col=0)
+# error.plot()
+# plt.show()
