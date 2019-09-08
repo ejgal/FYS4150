@@ -37,7 +37,7 @@ def thomas(a, b, c, f, n, runs=1):
 
         v[n-1] = gt[n-1]/bt[n-1]
         for i in reversed(range(0, n-1)):
-            v[i] = gt[i]/bt[i+1] - c[i]*v[i+1]/bt[i+1]
+            v[i] = (gt[i] - c[i]*v[i+1])/bt[i+1]
         algo_time += time.time() - start_time
     average_algo_time = algo_time / float(runs)
     return v, average_algo_time

@@ -2,38 +2,39 @@
 Building upon the previously described concepts of numerical derivatives, we will now describe how to solve our differential
 equation \cref{eq:2}  numerically by rewriting it as a set of linear equations.
 \par
-Explicitly, we will solve the differential equation:
+To be explicit, the differential equation we will solve is:
 \begin{equation*}
   -u''(x) = f(x), \quad x \in (0,1), \quad u(0)=u(1)=0 
 \end{equation*} 
-We will define the discrete approximation to $u(x)$ as $v_i$ with grid points
-$x_i = ih$ in the range from $x_0 = 0$ to $x_{n +1} = 1$, and the step length is
-defined as $h = 1/(n+1)$. The boundary conditions is $v_0 = 0$ and 
-$v_{n+1} = 0$. The second derivate we approximate according to
-\cref{eq:secondorder} and also introducing the shorthand notation we get \cref{eq:2ndordshort}.  
+The first step is to define the discrete approximation $v_i$ to $u(x)$, with
+grid points 
+$x_i = ih$ in the range from $x_0 = 0$ to $x_{n +1} = 1$. Choosing the step
+length to be defined as $h = 1/(n+1)$. Including boundary conditions as $v_0 =
+0$ and $v_{n+1} = 0$. The second derivate is approximated according to
+\cref{eq:secondorder}, but rewritten in shorthand notation \cref{eq:2ndordshort}.  
 \begin{equation}\label{eq:2ndordshort}
-  g_i = -\frac{v_{i-1}-2v_i + v_{i+1}}{h^2} \quad \mathrm{for} \; i = 1,2,3 \dots , n
+  f_i = -\frac{v_{i-1}-2v_i + v_{i+1}}{h^2} \quad \mathrm{for} \; i = 1,2,3 \dots , n
 \end{equation}  
 To see how \cref{eq:2ndordshort} can be represented as matrix equation, we will
 first multiply each side by $h^2$.
 \begin{equation*}
-  v_{i-1} -2v_{i} + v_{i+1} = g_i h^2, \quad  \tilde{g}_i = g_i h^2
+  v_{i-1} -2v_{i} + v_{i+1} = f_i h^2, \quad  g_i = f_i h^2
 \end{equation*} 
-Next we represent the $v_i$'s and the $\tilde{g}_i$'s as a vectors,
+Next we represent the $v_i$'s and the $g_i$'s as a vectors,
 \begin{equation*}
   \bvec{v} = \left[v_1, v_2, v_3 ,\dots, v_{n}\right], \quad 
-  \bvec{\tilde{g}} = \left[\tilde{g}_1,, \tilde{g}_2, \tilde{g}_3,
-  \dots, \tilde{g}_{n} \right]
+  \bvec{g} = \left[g_1, g_2, g_3,
+  \dots, g_{n} \right]
 \end{equation*}  
 Then if we transpose our two vectors we only need to find the $n\times n$ matrix
 $\bvec{A}$ and our matrix equation is complete. The matrix $\bvec{A}$ would in
-our case look like this.
+our case looks like this.
 \begin{equation*}
   \bvec{A} = 
   \begin{bmatrix}
-    -2 & 1 & 0 & 0 &\dots & 0 \\
-     1 & -2 & 1 & 0 & \dots & 0 \\
-     0 & 1 & -2 & 1 & \dots & 0  \\
+    2 & -1 & 0 & 0 &\dots & 0 \\
+    -1 & 2 & -1 & 0 & \dots & 0 \\
+     0 & -1 & 2 & -1 & \dots & 0  \\
      \dots & \dots & \dots & \dots & \dots & \dots \\
      0 & \dots & & -1 & 2 & -1 \\
      0 & \dots & & 0 & -1 & 2
@@ -42,15 +43,87 @@ our case look like this.
 It is easy to verify that $\bvec{A} v = \bvec{\tilde{g}}$ would give us 
 \cref{eq:2ndordshort}, simply by doing the matrix multiplication. The matrix $\bvec{A}$ has some
 particular nice features, primarily it a tridiagonal matrix which means that we
-can use the efficient Thomas Algorithm to solve our linear system of equation,
-secondly it has constant values along the diagonals, which we'll exploit later.    
+can use the efficient Thomas algorithm to solve our linear system of equation,
+secondly it has constant values along the diagonals, which we'll exploit in our
+specialized Toeplitz algorithm.    
 \subsection*{Thomas Algorithm}
-The Thomas Algorithm quite straight forward to implement and based on the more
-general LU decomposition. The full implementation of the Thomas algorithm can be
-found on our
-github\footnote{https://github.com/Ovewh/Computilus/tree/master/Project1/src/linalg.py}
-here we will just outline the general idea. \par The Thomas algorithm consist of
-two steps. The first steps is to decompose the matrix $\bvec{A}$ into an upper
-triangular matrix $\bvec{U}$ and a lower triangular matrix $\bvec{L}$
-\cite{tridia}. The first step is step is done with a forward iteration where we
-decompose the matrix and solve for $L  
+
+The Thomas Algorithm is an general algorithm for solving tridiagonal sets of
+linear equations. The algorithm is quite straight forward to implement and 
+requires two steps only.
+We will demonstrate this algorithm with a $4 \times 4$ matrix, and 
+our equation is $\bvec{T} \cdot \bvec{u} = \bvec{g}$, see \cref{eq:4_4matrix}.
+\begin{equation}\label{eq:4_4matrix}
+  \begin{bmatrix}
+    d_1 & c_1 & 0 & 0 \\
+    a_1 & d_2 & c_2 & 0 \\
+    0 & a_2 & d_3 & c_3  \\
+    0 & 0 & a_3 & d_4 
+  \end{bmatrix} \begin{bmatrix}
+    u_1 \\ u_2 \\ u_3 \\ u_4
+  \end{bmatrix} = \begin{bmatrix}
+    g_1 \\ g_2 \\ g_3 \\ g_4
+  \end{bmatrix}
+\end{equation} 
+Then the first step is to rewrite our matrix $T$ as upper triangular matrix.
+Starting with the first row we multiply by it by $\frac{a_1}{d_1}$ and subtract
+it from the second row.
+\begin{equation*}
+  0 + \left(d_2 - \frac{c_1 a_1}{d_1}u_2 \right)+ c_2u_3 = g_2 -g_1 
+  \frac{a_1}{d_1}  
+\end{equation*}  
+Next we define $\tilde{d}_2 = d_2 - a_1 c_1/d_1$, 
+$\tilde{g}_2 =  g_2 - g_1 c_1/d_1$ and repeat the same proses for the third row.
+One also might see the general pattern emerging:
+
+\begin{equation}
+  \tilde{d}_i = d_i- a_{i-1} c_{i-1}/d_{i-1}, \quad \tilde{g}_i =  g_i - g_{i-1} c_{i-1}/d_{i-1}
+\end{equation}
+
+After doing this forward sweep the matrix equation does now look like this,
+\begin{equation*}
+  \begin{bmatrix}
+    d_1 & c_1 & 0 & 0 \\
+    0 & \tilde{d}_2 & c_2 & 0 \\
+    0 & 0 & \tilde{d}_3 & c_3  \\
+    0 & 0 & 0 & \tilde{d}_4 
+  \end{bmatrix} \begin{bmatrix}
+    u_1 \\ u_2 \\ u_3 \\ u_4
+  \end{bmatrix} = \begin{bmatrix}
+    \tilde{g}_1 \\ \tilde{g}_2 \\ \tilde{g}_3 \\ \tilde{g}_4
+  \end{bmatrix}
+\end{equation*}
+and now we can solve our equation with respect to $\bvec{u}$ by starting from
+the bottom row. We can directly read of $u_4 = \tilde{g}_4 / \tilde{d}_4$.
+Working from the bottom and up we get $u_3 = \left(\tilde{g}_3-c_3
+u_4\right)/\tilde{d}_3$. Then we have the following general pattern
+\begin{equation}
+  u_i = \left(\tilde{g}_i - c_i u_{i+1}/\tilde{d}_i \right)
+\end{equation}  
+Our implementation of the Thomas algorithm, is available
+through our github\footnote{https://github.com/Ovewh/Computilus/tree/master/Project1/src/linalg.py}.
+
+
+To get an idea of how an algorithm performs, we can count
+the number of floating point operations per second (FLOPS). When counting FLOPS
+we only look at the mathematical operations and only count those inside our
+for-loops. Counting the number of FLOPS for the Thomas algorithm we get $9N$
+FLOPS, which is considerably less than the standard LU decomposition which has
+on the order of $N^3$ FLOPS.   
+Memory usage is another important consideration to make when choosing
+algorithms. For instance with the Thomas algorithm we only need to store the
+values along the tridiagonal, since all the other elements are zero. Then we only need tree arrays to store the entire matrix. If we
+would instead use the general LU decomposition algorithm which requires an $N
+\times N$ matrix, we would need to store the entire matrix in memory. For
+instance if we had a $10^5 \times 10^5$ matrix, which means $10^10$ matrix
+elements. To store this matrix in memory when
+every matrix element is 8 bytes, would require on the order of $10^{11}$
+bytes, about 100 gigabytes to store. An amount of memory clearly beyond any
+ordinary laptop. 
+
+\subsection*{Specialized Algorithm}
+To create a specialized version of Thomas algorithm for our tridiagonal Toeplitz
+matrix we will take 
+advantage of the fact that elements along the diagonals are constants. This
+means that we can pre-calculate the new diagonal elements $\tilde{d}$, reducing
+the number of FLOPS from $9N$ to $4N$
