@@ -122,4 +122,8 @@ bytes, about 100 gigabytes to store. An amount of memory clearly beyond any
 ordinary laptop. 
 
 \subsection*{Specialized Algorithm}
-
+To create a specialized version of Thomas algorithm for our tridiagonal Toeplitz
+matrix we will take 
+advantage of the fact that elements along the diagonals are constants. This
+means that we can pre-calculate the new diagonal elements $\tilde{d}$, reducing
+the number of FLOPS from $9N$ to $4N$
