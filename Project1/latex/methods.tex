@@ -49,15 +49,14 @@ secondly it has constant values along the diagonals, which we'll exploit later.
 The Thomas Algorithm is an general algorithm for solving tridiagonal sets of
 linear equations. The algorithm is quite straight forward to implement and 
 requires two steps only.
-We will demonstrate this algorithm with a $4 \times 4$ matrix and our linear
-system of equation $\bvec{T} \cdot \bvec{u} = \bvec{g}$ given by 
-\cref{eq:4_4matrix}.
+We will demonstrate this algorithm with a $4 \times 4$ matrix, and 
+our equation is $\bvec{T} \cdot \bvec{u} = \bvec{g}$, see \cref{eq:4_4matrix}.
 \begin{equation}\label{eq:4_4matrix}
   \begin{bmatrix}
     d_1 & c_1 & 0 & 0 \\
-    a_1 & d_1 & c_1 & 0 \\
-    0 & a_1 & d_1 & c_1  \\
-    0 & 0 & a_1 & d_1 
+    a_1 & d_2 & c_2 & 0 \\
+    0 & a_2 & d_3 & c_3  \\
+    0 & 0 & a_3 & d_4 
   \end{bmatrix} \begin{bmatrix}
     u_1 \\ u_2 \\ u_3 \\ u_4
   \end{bmatrix} = \begin{bmatrix}
@@ -79,8 +78,26 @@ One also might see the general pattern emerging:
   \tilde{d}_i = d_i- a_{i-1} c_{i-1}/d_{i-1}, \quad \tilde{g}_i =  g_i - g_{i-1} c_{i-1}/d_{i-1}
 \end{equation}
 
-
-
+After doing this forward sweep the matrix equation does now look like this,
+\begin{equation*}
+  \begin{bmatrix}
+    d_1 & c_1 & 0 & 0 \\
+    0 & \tilde{d}_2 & c_2 & 0 \\
+    0 & 0 & \tilde{d}_3 & c_3  \\
+    0 & 0 & 0 & \tilde{d}_4 
+  \end{bmatrix} \begin{bmatrix}
+    u_1 \\ u_2 \\ u_3 \\ u_4
+  \end{bmatrix} = \begin{bmatrix}
+    \tilde{g}_1 \\ \tilde{g}_2 \\ \tilde{g}_3 \\ \tilde{g}_4
+  \end{bmatrix}
+\end{equation*}
+and now we can solve our equation with respect to $\bvec{u}$ by starting from
+the bottom row. We can directly read of $u_4 = \tilde{g}_4 / \tilde{d}_4$.
+Working from the bottom and up we get $u_3 = \left(\tilde{g}_3-c_3
+u_4\right)/\tilde{d}_3$. Then we get the following general pattern
+\begin{equation}
+  u_i = \left(\tilde{g}_i - c_i u_{i+1}/\tilde{d}_i \right)
+\end{equation}  
 
 github\footnote{https://github.com/Ovewh/Computilus/tree/master/Project1/src/linalg.py}
 here we will just outline the general idea. \par Similarly to the LU
