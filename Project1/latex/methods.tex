@@ -126,4 +126,12 @@ To create a specialized version of Thomas algorithm for our tridiagonal Toeplitz
 matrix we will take 
 advantage of the fact that elements along the diagonals are constants. This
 means that we can pre-calculate the new diagonal elements $\tilde{d}$, reducing
-the number of FLOPS from $9N$ to $4N$
+the number of FLOPS from $9N$ to $4N$.
+
+\subsection*{Experimental setup}
+To measure the performance difference between the Thomas, specialized
+Toeplitz and the general LU-decomposition, we ran each algorithm for different
+values of $n$ ranging by power of 10 from $10$ to $10^7$. In order to achieve
+more accurate timings, we ran each algorithm 10 times for each $n$ and then
+taking the average time. We also analysed the numerical error and how the error
+varied with step size, by computing the maximum relative error.      
