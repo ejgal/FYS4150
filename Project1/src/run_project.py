@@ -43,8 +43,8 @@ exponent = int(sys.argv[1])
 lu_exponent = int(sys.argv[2])
 runs = int(sys.argv[3])
 
-ns = [10**i for i in range(1, exponent+1)]
 
+# Write headers to output files
 with open(DATADIR + 'thomas.csv', 'w') as file:
     file.write('n,run time (s)\n')
 
@@ -72,7 +72,7 @@ plt.legend()
 plt.savefig(PLOTDIR + 'thomas.png')
 plt.clf()
 
-
+ns = [10**i for i in range(1, exponent+1)]
 for n in ns:
     # Run thomaz algorithm
     x = np.linspace(0, 1, n+2)
@@ -82,35 +82,28 @@ for n in ns:
     c = -np.ones(n)
     v[1:-1], elapsed_time = thomas(a, b, c, f, n, runs)
 
+    # Write results to file
     with open(DATADIR + "thomas.csv", 'a') as file:
         file.write('{},{:.2e}\n'.format(n, elapsed_time))
 
-    plt.plot(x, u(x), '+')
-    plt.plot(x, v)
-    plt.savefig(PLOTDIR + "thomas_{}.png".format(n))
-    plt.clf()
     # Calculate relative error
-
     h = 1./(n+1)
-    relative_error = np.max(np.abs((u(x[1:-1])-v[1:-1])/u(x[1:-1])))
+    relative_error = np.max(np.log10(np.abs((v[1:-1]- u(x[1:-1]))/u(x[1:-1]))))
     with open(DATADIR + 'relative_error.csv', 'a') as file:
-        file.write('{:.2f}, {:.2e}\n'.format(np.log10(h), np.log10(relative_error)))
-
-
+        file.write('{:.2f}, {:.2e}\n'.format(np.log10(h), relative_error))
 
     # Run algorithm for our töeplitz matrix
     x = np.linspace(0, 1, n+2)
     v = np.zeros(n+2)
     v[1:-1], elapsed_time = toeplitz(f, n, runs)
+
+    # Write results to file
     with open(DATADIR + "toeplitz.csv", 'a') as file:
         file.write('{},{:.2e}\n'.format(n, elapsed_time))
-    # plt.plot(x, u(x), '+')
-    # plt.plot(x, v)
-    # plt.savefig(PLOTDIR + "toeplitz_{}.png".format(n))
-    # plt.clf()
 
+
+# Run LU decomposition and back substitution
 ns = [10**i for i in range(1, lu_exponent+1)]
-
 for n in ns:
     algo_time = 0
     for run in range(1, runs+1):
@@ -124,6 +117,8 @@ for n in ns:
         lib.luBackSubst(A, index, u[1:-1])
         algo_time += time.time() - start
     average_algo_time = algo_time/float(runs)
+
+    # Write results to file
     with open(DATADIR + "LU_timing.csv", 'a') as file:
             file.write('{},{:.2e}\n'.format(n, average_algo_time))
 
