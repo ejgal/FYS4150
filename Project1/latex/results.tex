@@ -1,5 +1,22 @@
 \section*{Results}
 
+\begin{table}[htp]
+  \centering
+  \csvautotabular{../processed_data/algorithm_time.csv}
+  \caption{Summary of algorithm timings in seconds. Average timings of 10 runs}
+  \label{table:normalized}
+\end{table}
+
+
+To see how the timing of each algorithm scaled with n all the 
+all timings are divided by n (\cref{table:normalized}). Both the Thomas and
+Toeplitz algorithm timings (normalized by n) are of the same order, as was
+expected from the counting of flops. The times for LU show an increase of to
+orders of magnitude for each magnitude increase in n. This is consistent with
+our expectations of the LU algorithm time being proportional to $n^3$.
+
+
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.66\textwidth]{../figures/thomas.png}
@@ -21,21 +38,6 @@ After running the thomas and toeplitz algorithm on matrixes from 10x10 to
 1000000 x 1000000, and the lower/upper decomposition + backward subtitution (LU)
 on matrixes from 10x10 to 1000x1000 ten times and taking the average we got the
 results in \cref{table:normalized}.
-
-\begin{table}[htp]
-  \centering
-  \csvautotabular{../processed_data/algorithm_time.csv}
-  \caption{Summary of algorithm times.}
-  \label{table:normalized}
-\end{table}
-
-
-To see how the algorithm time for our different methods scales with n we divide
-all timings with n (\cref{table:normalized}). Both the thomas and toeplitz
-algorithm times (normalized by n) are of the same order, as was expected from
-the counting of flops. The times for LU show an increase of to orders of magnitude
-for each magnitude increase in n. This is consistent with our expectations
-of the LU algorithm time being proportional to $n^3$.
 
 \begin{table}[htp]
   \centering
