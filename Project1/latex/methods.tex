@@ -98,28 +98,25 @@ u_4\right)/\tilde{d}_3$. Then we get the following general pattern
 \begin{equation}
   u_i = \left(\tilde{g}_i - c_i u_{i+1}/\tilde{d}_i \right)
 \end{equation}  
+Our implementation of the Thomas algorithm, is available
+through our github \footnote{https://github.com/Ovewh/Computilus/tree/master/Project1/src/linalg.py}.
 
-github\footnote{https://github.com/Ovewh/Computilus/tree/master/Project1/src/linalg.py}
-here we will just outline the general idea. \par Similarly to the LU
-decomposition, the idea is to decompose our matrix $\bvec{A}$ into an upper
-triangular matrix $\bvec{U}$ and a lower triangular matrix $\bvec{L}$. Then we
-can solve the system of linear equations by setting $\bvec{U}\bvec{v}=
-\bvec{\tilde{g}}$ and then first solving 
-$\bvec{L} \bvec{\tilde{g}} = \bvec{g}$ for $\bvec{\tilde{g}}$ and then 
-$\bvec{U}\bvec{v} = \bvec{\tilde{g}}$ for $\bvec{v}$
-\cite{tridia}. The Thomas algorithm consist of two steps. The first is where
-both we both do the LU decomposition and solve $\bvec{L} \bvec{\tilde{g}} =
-\bvec{g}$ for $\bvec{\tilde{g}}$ all in one downward sweep. The second step we
-solve $\bvec{U}\bvec{v} = \bvec{\tilde{g}}$ for $\bvec{v}$ with a upward sweep. 
 
-Something that is important to note about Thomas algorithm is which
-values we need to store. Since our matrix $\bvec{A}$ only has values along
-the tridiagonal and we only need tree arrays to store the entire matrix. If we
-would instead use a standard LU decomposition algorithm, we would need to store
-the entire $n \times n$ matrix. For instance if we had a $10^5 \times 10^5$   
-matrix which means $10^10$ matrix elements. To store this matrix in memory where
-every matrix element is 8 bytes, would require on the order of $10^{11}$ bytes, 
-about 100 gigabytes to store. An amount of memory clearly beyond any
+To gain an idea of how an given algorithm would perform, it is common to count
+the number of floating points operations per second (FLOPS). When counting FLOPS
+we only look at the mathematical operations and only count those inside our
+for loops. Counting the number of FLOPS for the Thomas algorithm we get $9N$
+FLOPS, which is considerably less than the standard LU decomposition which has
+on the order of $N^3$ FLOPS.   
+Memory usage is another important consideration to make when choosing
+algorithms. For instance with the Thomas algorithm we only need to store the
+values along the tridiagonal, since all the other elements are zero. Then we only need tree arrays to store the entire matrix. If we
+would instead use a standard LU decomposition algorithm which requires an $N
+\times N$ matrix, we would need to store the entire matrix in memory. For
+instance if we had a $10^5 \times 10^5$ matrix, which means $10^10$ matrix elements. To store this matrix in memory with
+every matrix element requiring 8 bytes, would require on the order of $10^{11}$
+bytes, about 100 gigabytes to store. An amount of memory clearly beyond any
 ordinary laptop. 
 
 \subsection*{Specialized Algorithm}
+
