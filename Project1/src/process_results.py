@@ -11,7 +11,7 @@ lu = pd.read_csv('../data/LU_timing.csv', names=['LU'],index_col=0, header=None,
 
 # Concatenate data frames and set index name
 df = pd.concat([TDMA, TDCMAitz, lu], axis=1)
-df.index.name='n'
+df.index.name='N'
 
 # Write summary of algorithm times
 df.to_csv(DATADIR + 'algorithm_time.csv', float_format='%.3e')
