@@ -1,5 +1,8 @@
 \section*{Results}
 
+
+\subsection*{Algorithm run time}
+
 \begin{table}[htp]
   \centering
   \csvautotabular{../processed_data/algorithm_time.csv}
@@ -11,8 +14,6 @@
 From the summary (\cref{table:summary}) we immediately see that the
 TDCMA is slower than TDMA and the LU is considerably slower than both TDMA and
 TDCMA.
-
-
 
 To see how the algorithm time for our different methods scales with N we divide
 all timings with N (\cref{table:normalized}). Both TDMA and TDCMA run times are
@@ -34,6 +35,8 @@ we see they are the same order of magnitude. Theoretically we would
 expect TDCMA to be $\frac{9 FLOPS}{4 FLOPS} \approx 2.25$ times as fast as
 TDMA. When counting FLOPS we did not consider memory operations, so getting as
 these values close to 2.25 is considered to be in agreement with the theory.
+We also see that solving the problem by using LU decomposition with N = 1000
+takes 80000 times as long as with TDCMA.
 
 \begin{table}[htp]
   \centering
@@ -43,9 +46,11 @@ these values close to 2.25 is considered to be in agreement with the theory.
 \end{table}
 
 
+\subsection*{Error in numerical approximation}
+
 \Cref{fig:a} shows that we get quite good agreement with the analytic solution
 when N goes to 1000. To investigate further we look at the relative error
-$\epsilon_i = \abs{\frac{u_i - v_i}{u_i}}$ in \cref{fig:a}.
+$\epsilon_i = \abs{\frac{u_i - v_i}{u_i}}$ in \cref{fig:relative_error}.
 When increasing N (decreasing the step size h) up to $10^6$ the relative error
 decreases proportionally, until N = $10^7$, which might be a sign that we are
 starting to experience some round off errors.
@@ -62,6 +67,6 @@ starting to experience some round off errors.
 \begin{figure}[htp]
   \centering
   \includegraphics[width=0.66\textwidth]{../figures/relative_error.png}
-  \caption{Maxmimum relative error between analytical and TDMA solution.}
+  \caption{Maximum relative error between analytical and TDMA solution.}
   \label{fig:relative_error}
 \end{figure}
