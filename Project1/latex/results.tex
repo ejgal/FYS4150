@@ -3,34 +3,32 @@
 \begin{table}[htp]
   \centering
   \csvautotabular{../processed_data/algorithm_time.csv}
-  \caption{Summary of algorithm timings in seconds. Average timings of 10 runs}
+  \caption{Summary of algorithm timings in seconds. Average timings of 10 runs.}
   \label{table:normalized}
 \end{table}
 
 
+
+
 To see how the timing of each algorithm scaled with n all the
-all timings are divided by n (\cref{table:normalized}). Both the Thomas and
-Toeplitz algorithm timings (normalized by n) are of the same order, as was
-expected from the counting of flops. The times for LU show an increase of to
+all timings are divided by n (\cref{table:normalized}). Both TDMA and
+TDCMA run times are of the same order, as was
+expected from the counting of flops. The run times for LU show an increase of two
 orders of magnitude for each magnitude increase in n. This is consistent with
 our expectations of the LU algorithm time being proportional to $n^3$.
 
 
 
-\begin{figure}[H]
+
+
+\begin{figure}[htp]
   \centering
-  \includegraphics[width=0.66\textwidth]{../figures/thomas.png}
-  \caption{Comparison of analytic solution and numerical approximations}
+  \includegraphics[width=0.66\textwidth]{../figures/relative_error.png}
+  \caption{Maxmimum relative error between analytical and TDMA solution.}
   \label{fig:a}
 \end{figure}
 
 
-\begin{table}[htp]
-  \centering
-  \csvautotabular{../data/relative_error.csv}
-  \caption{Maximum relative error between analytic and numeric solution.}
-  \label{table:relative_error}
-\end{table}
 
 
 \begin{table}[htp]
@@ -42,9 +40,9 @@ our expectations of the LU algorithm time being proportional to $n^3$.
 
 
 To see how the algorithm time for our different methods scales with n we divide
-all timings with n (\cref{table:normalized}). Both the thomas and toeplitz
-algorithm times (normalized by n) are of the same order, as was expected from
-the counting of flops. The times for LU show an increase of to orders of magnitude
+all timings with n (\cref{table:normalized}). Both TDMA and TDCMA run times
+are of the same order, as was expected from
+the counting of flops. The times for LU show an increase of two orders of magnitude
 for each magnitude increase in n. This is consistent with our expectations
 of the LU algorithm time being proportional to $n^3$.
 
@@ -64,6 +62,14 @@ toeplitz, and our results for larger values of n are quite close.
 \begin{table}[htp]
   \centering
   \csvautotabular{../processed_data/comparison.csv}
-  \caption{Algorithm times of thomas divided by that of toeplitz.}
+  \caption{Algorithm times compared to TDCMA.}
   \label{table:comparison}
 \end{table}
+
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=0.66\textwidth]{../figures/TDMA.png}
+  \caption{Comparison of analytic solution and numerical approximations.}
+  \label{fig:a}
+\end{figure}
