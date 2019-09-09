@@ -88,10 +88,15 @@ for n in ns:
 
     # Calculate relative error
     h = 1./(n+1)
-    relative_error = np.max(np.log10(np.abs((v[1:-1]- u(x[1:-1]))/u(x[1:-1]))))
+    # analytic = u(x[int(n/10.):-1])
+    # numeric = v[int(n/10.):-1]
+    analytic = u(x[1:-1])
+    numeric = v[1:-1]
+    relative_error = np.max(np.abs((analytic - numeric)/analytic))
     with open(DATADIR + 'relative_error.csv', 'a') as file:
-        file.write('{:.2f}, {:.2e}\n'.format(np.log10(h), relative_error))
-
+        file.write('{:.10e}, {:.10e}\n'.format(h, relative_error))
+    # plt.plot(x[1:-1], analytic-numeric)
+    # plt.show()
     # Run algorithm for our töeplitz matrix
     x = np.linspace(0, 1, n+2)
     v = np.zeros(n+2)
