@@ -3,41 +3,23 @@
 \begin{table}[htp]
   \centering
   \csvautotabular{../processed_data/algorithm_time.csv}
-  \caption{Summary of algorithm timings in seconds. Average timings of 10 runs}
-  \label{table:normalized}
+  \caption{Average (20 runs) algorithm run times in seconds.}
+  \label{table:summary}
 \end{table}
 
 
-To see how the timing of each algorithm scaled with n all the 
-all timings are divided by n (\cref{table:normalized}). Both the Thomas and
-Toeplitz algorithm timings (normalized by n) are of the same order, as was
-expected from the counting of flops. The times for LU show an increase of to
-orders of magnitude for each magnitude increase in n. This is consistent with
-our expectations of the LU algorithm time being proportional to $n^3$.
+From the summary (\cref{table:summary}) we immediately see that the
+TDCMA is slower than TDMA and the LU is considerably slower than both TDMA and
+TDCMA.
 
 
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.66\textwidth]{../figures/thomas.png}
-  \caption{Comparison of analytic solution and numerical approximations}
-  \label{fig:a}
-\end{figure}
-
-
-\begin{table}[htp]
-  \centering
-  \csvautotabular{../data/relative_error.csv}
-  \caption{Maximum relative error between analytic and numeric solution.}
-  \label{table:relative_error}
-\end{table}
-
-
-
-After running the thomas and toeplitz algorithm on matrixes from 10x10 to
-1000000 x 1000000, and the lower/upper decomposition + backward subtitution (LU)
-on matrixes from 10x10 to 1000x1000 ten times and taking the average we got the
-results in \cref{table:normalized}.
+To see how the algorithm time for our different methods scales with N we divide
+all timings with N (\cref{table:normalized}). Both TDMA and TDCMA run times are
+of the same order, as was expected from the counting of flops. The times for LU
+show an increase of two orders of magnitude for each magnitude increase in n.
+This is consistent with our expectations of the LU algorithm time being
+proportional to $n^3$.
 
 \begin{table}[htp]
   \centering
@@ -47,14 +29,39 @@ results in \cref{table:normalized}.
 \end{table}
 
 
-Comparing the algorithm times of thomas and toeplitz (\cref{table:comparison})
+Comparing the run times of TDMA and TDCMA (\cref{table:comparison})
 we see they are the same order of magnitude. Theoretically we would
-expect the toeplitz algorithm to be $\frac{9 FLOPS}{4 FLOPS} \approx 2.25$ times as fast as
-toeplitz, and our results for larger values of n are quite close.
+expect TDCMA to be $\frac{9 FLOPS}{4 FLOPS} \approx 2.25$ times as fast as
+TDMA. When counting FLOPS we did not consider memory operations, so getting as
+these values close to 2.25 is considered to be in agreement with the theory.
 
 \begin{table}[htp]
   \centering
   \csvautotabular{../processed_data/comparison.csv}
-  \caption{Algorithm times of thomas divided by that of toeplitz.}
+  \caption{Run times of algorithms compared to TDCMA.}
   \label{table:comparison}
 \end{table}
+
+
+\Cref{fig:a} shows that we get quite good agreement with the analytic solution
+when N goes to 1000. To investigate further we look at the relative error
+$\epsilon_i = \abs{\frac{u_i - v_i}{u_i}}$ in \cref{fig:a}.
+When increasing N (decreasing the step size h) up to $10^6$ the relative error
+decreases proportionally, until N = $10^7$, which might be a sign that we are
+starting to experience some round off errors.
+
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=0.66\textwidth]{../figures/TDMA.png}
+  \caption{Comparison of analytic solution and numerical approximations with TDMA.}
+  \label{fig:a}
+\end{figure}
+
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=0.66\textwidth]{../figures/relative_error.png}
+  \caption{Maxmimum relative error between analytical and TDMA solution.}
+  \label{fig:relative_error}
+\end{figure}
