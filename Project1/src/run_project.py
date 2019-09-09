@@ -24,7 +24,7 @@ import time
 import numpy as np
 
 from computationalLib import pylib
-from linalg import toeplitz, thomas, build_toeplitz
+from linalg import TDCMA, TDMA, build_toeplitz
 
 PLOTDIR = '../figures/'
 DATADIR = '../data/'
@@ -45,10 +45,10 @@ runs = int(sys.argv[3])
 
 
 # Write headers to output files
-with open(DATADIR + 'thomas.csv', 'w') as file:
+with open(DATADIR + 'TDMA.csv', 'w') as file:
     file.write('n,run time (s)\n')
 
-with open(DATADIR + 'toeplitz.csv', 'w') as file:
+with open(DATADIR + 'TDCMA.csv', 'w') as file:
     file.write('n,run time (s)\n')
 
 with open(DATADIR + 'relative_error.csv', 'w') as file:
@@ -64,12 +64,12 @@ for n in [10, 100, 1000]:
     a = -np.ones(n)
     b = 2*np.ones(n)
     c = -np.ones(n)
-    v[1:-1], elapsed_time = thomas(a, b, c, f, n)
+    v[1:-1], elapsed_time = TDMA(a, b, c, f, n)
     plt.plot(x, v, label='n={}'.format(n))
 
 plt.plot(x, u(x), '--', label='Analytic')
 plt.legend()
-plt.savefig(PLOTDIR + 'thomas.png')
+plt.savefig(PLOTDIR + 'TDMA.png')
 plt.clf()
 
 ns = [10**i for i in range(1, exponent+1)]
@@ -80,10 +80,10 @@ for n in ns:
     a = -np.ones(n)
     b = 2*np.ones(n)
     c = -np.ones(n)
-    v[1:-1], elapsed_time = thomas(a, b, c, f, n, runs)
+    v[1:-1], elapsed_time = TDMA(a, b, c, f, n, runs)
 
     # Write results to file
-    with open(DATADIR + "thomas.csv", 'a') as file:
+    with open(DATADIR + "TDMA.csv", 'a') as file:
         file.write('{},{:.2e}\n'.format(n, elapsed_time))
 
     # Calculate relative error
@@ -100,10 +100,10 @@ for n in ns:
     # Run algorithm for our töeplitz matrix
     x = np.linspace(0, 1, n+2)
     v = np.zeros(n+2)
-    v[1:-1], elapsed_time = toeplitz(f, n, runs)
+    v[1:-1], elapsed_time = TDCMA(f, n, runs)
 
     # Write results to file
-    with open(DATADIR + "toeplitz.csv", 'a') as file:
+    with open(DATADIR + "TDCMA.csv", 'a') as file:
         file.write('{},{:.2e}\n'.format(n, elapsed_time))
 
 
