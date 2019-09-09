@@ -1,7 +1,7 @@
 import numpy as np
 import time
 
-def thomas(a, b, c, f, n, runs=1):
+def TDMA(a, b, c, f, n, runs=1):
     """
     Solve the equation Av = g where A is a square tridiagonal matrix, and
     g = f * square(step_size).
@@ -41,7 +41,7 @@ def thomas(a, b, c, f, n, runs=1):
     average_algo_time = algo_time / float(runs)
     return v, average_algo_time
 
-def toeplitz(f, n, runs):
+def TDCMA(f, n, runs):
     """
     Solve the equation Av = g where A is a toeplitz matrix
     with upper and lower tridiagonal elements = -1, and
