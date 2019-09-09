@@ -1,31 +1,29 @@
 \section*{Introduction}
-There is no denying the influence the computer has had on science. 
-Computing has rendered scientist able to unravel the deeper mysteries of nature.
-Today for instance a scientist can explore the violent nature of a
-hurricane while at the same time enjoying a cup of coffee. With current rate in
-increase of computational performance, we are diminishing the computational
-limit. 
-Still, to do computational problem solving both efficiently and with high
-precision requires both an deep understanding of the problem at hand, but also the inner workings of a computer. 
+There is no denying the influence the computing has had on science. Where we
+today are at a point where the computer has become almost unanimous with the
+scientist. In a time where the computer can solve all your problems, one might
+ask if the old fashioned pen and paper method still necessary? We will argue for
+the necessity old pen and paper thinking, and demonstrate how pen and paper and
+computing supplement each other. 
 
-Our aim is to demonstrate the benefits of understanding the problem at hand and to apply that knowledge to solve the problem in an efficient
-way. For our demonstration with we will look at a how to solve a second order
-differential equation, specifically the general one dimmensional Poisson's
-equation \cref{eq:1}. 
+For our demonstration we will look at a how to solve a second order
+differential equation, specifically the general one dimensional Poisson's
+equation \cref{eq:1}. We will show how not thinking about the problem at hand
+and just computationally brute force  the solution can lead to huge performance
+penalties.   
 \begin{equation}\label{eq:2}
   f(x)= - \pd[^2u]{x^2}
 \end{equation}
 
 \subsection*{Numerical differentiation}
-%NOTE THIS MAY END UP IN INTRODUCTION  
-\par Computers operate in discrete steps, which means that variables are stored
-as discrete variables. A discrete variable  defined over a particular
+\par A computer can only operate in discrete steps, which means that variables
+are stored as discrete variables. A discrete variable  defined over a particular
 range, would 
 have a step length $h$ between each value and can not represent any values in
 between. This means that how well a discrete variable would approximate the
 continuous variable depends on the size of the step length. The step length $h$
-can either be set manually or it can be determined based on the start and end
-point of our particular range, $h = \frac{x_n -x_0}{n}$. Where $n$ is the number
+can either be set manually or it can be determined from the start and end
+point of our range, $h = \frac{x_n -x_0}{n}$. Where $n$ is the number
 of points we choose to have in our range. 
 \par
 The simplest way to compute the derivate numerically is to use what is called
@@ -55,8 +53,8 @@ $h$ terms would dominate. The error is said to be of the order $h$.
 \par
 To get a numerical scheme for the second derivate we would just take the
 derivate of \cref{eq:1} except for a slight modification. Instead of looking at $f''(x) \approx \frac{f'(x+h)-f'(x)}{h}$ we would use 
-$f''(x) \approx\frac{f'(x)-f'(x-h)}{h}$, which are equivalent to each other
- \cite{mathexh}. 
+$f''(x) \approx\frac{f'(x)-f'(x-h)}{h}$. it is simple to prove that the two
+expression are equivalent \cite{mathexh}. 
 \begin{equation}
   f''(x) \approx \frac{f(x + h) - f(x) -f(x-h+h) +f(x-h)}{h^2}
 \end{equation}
