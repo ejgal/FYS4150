@@ -1,13 +1,14 @@
 \section*{Abstract}
 This work demonstrates the necessity of understanding the problem
-before hand when doing numerical problem solving instead of right away opting
-for a brute force a solution. To demonstrate we solved the one dimensional
+before hand when doing numerical problem solving, and the consequence of right
+away opting for a brute force a solution. To demonstrate we solved the one
+dimensional
 Poisson's equation using tree different algorithms 
 , LU-decomposition, the general tridiagonal matrix algorithm (TDMA) or the
 Thomas algorithm \cite{tridia} and a specialized TDMA.
-We used the LU-decomposition algorithm to illustrate the brute force solution.
-By thinking before hand and creating a specialized TDMA for our problem, we
-experienced a speed up 
-of around 80000 compared to using the general LU-decomposition. For large
+We used the LU-decomposition algorithm to illustrate a brute force solution.
+From understanding our problem before hand, we developed a specialized TDMA for
+our problem. The specialized TDMA was about 
+80000 times faster compared to the general LU-decomposition. For large
 matrices the general LU-decomposition also faced memory constraints. Our
 specialized TDMA also showed an increase of around 2.2 in performance compared to the general TDMA.     
