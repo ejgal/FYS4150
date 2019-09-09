@@ -24,7 +24,7 @@ import time
 import numpy as np
 
 from computationalLib import pylib
-from linalg import toeplitz, thomas, build_toeplitz
+from linalg import TDCMA, TDMA, build_toeplitz
 
 PLOTDIR = '../figures/'
 DATADIR = '../data/'
@@ -43,19 +43,19 @@ exponent = int(sys.argv[1])
 lu_exponent = int(sys.argv[2])
 runs = int(sys.argv[3])
 
-ns = [10**i for i in range(1, exponent+1)]
 
-with open(DATADIR + 'thomas.csv', 'w') as file:
-    file.write('n,run time (s)\n')
+# Write headers to output files
+with open(DATADIR + 'TDMA.csv', 'w') as file:
+    file.write('N,run time\n')
 
-with open(DATADIR + 'toeplitz.csv', 'w') as file:
-    file.write('n,run time (s)\n')
+with open(DATADIR + 'TDCMA.csv', 'w') as file:
+    file.write('N,run time\n')
 
 with open(DATADIR + 'relative_error.csv', 'w') as file:
     file.write('$log_{10}$(h), max(relative error)\n')
 
 with open(DATADIR + 'LU_timing.csv', 'w') as file:
-    file.write('n,run time (s)\n')
+    file.write('N,run time\n')
 
 
 for n in [10, 100, 1000]:
@@ -64,15 +64,15 @@ for n in [10, 100, 1000]:
     a = -np.ones(n)
     b = 2*np.ones(n)
     c = -np.ones(n)
-    v[1:-1], elapsed_time = thomas(a, b, c, f, n)
-    plt.plot(x, v, label='n={}'.format(n))
+    v[1:-1], elapsed_time = TDMA(a, b, c, f, n)
+    plt.plot(x, v, label='N={}'.format(n))
 
 plt.plot(x, u(x), '--', label='Analytic')
 plt.legend()
-plt.savefig(PLOTDIR + 'thomas.png')
+plt.savefig(PLOTDIR + 'TDMA.png')
 plt.clf()
 
-
+ns = [10**i for i in range(1, exponent+1)]
 for n in ns:
     # Run thomaz algorithm
     x = np.linspace(0, 1, n+2)
@@ -80,37 +80,35 @@ for n in ns:
     a = -np.ones(n)
     b = 2*np.ones(n)
     c = -np.ones(n)
-    v[1:-1], elapsed_time = thomas(a, b, c, f, n, runs)
+    v[1:-1], elapsed_time = TDMA(a, b, c, f, n, runs)
 
-    with open(DATADIR + "thomas.csv", 'a') as file:
+    # Write results to file
+    with open(DATADIR + "TDMA.csv", 'a') as file:
         file.write('{},{:.2e}\n'.format(n, elapsed_time))
 
-    plt.plot(x, u(x), '+')
-    plt.plot(x, v)
-    plt.savefig(PLOTDIR + "thomas_{}.png".format(n))
-    plt.clf()
     # Calculate relative error
-
     h = 1./(n+1)
-    relative_error = np.max(np.abs((u(x[1:-1])-v[1:-1])/u(x[1:-1])))
+    # analytic = u(x[int(n/10.):-1])
+    # numeric = v[int(n/10.):-1]
+    analytic = u(x[1:-1])
+    numeric = v[1:-1]
+    relative_error = np.max(np.abs((analytic - numeric)/analytic))
     with open(DATADIR + 'relative_error.csv', 'a') as file:
-        file.write('{:.2f}, {:.2e}\n'.format(np.log10(h), np.log10(relative_error)))
-
-
-
+        file.write('{:.10e}, {:.10e}\n'.format(h, relative_error))
+    # plt.plot(x[1:-1], analytic-numeric)
+    # plt.show()
     # Run algorithm for our töeplitz matrix
     x = np.linspace(0, 1, n+2)
     v = np.zeros(n+2)
-    v[1:-1], elapsed_time = toeplitz(f, n, runs)
-    with open(DATADIR + "toeplitz.csv", 'a') as file:
+    v[1:-1], elapsed_time = TDCMA(f, n, runs)
+
+    # Write results to file
+    with open(DATADIR + "TDCMA.csv", 'a') as file:
         file.write('{},{:.2e}\n'.format(n, elapsed_time))
-    # plt.plot(x, u(x), '+')
-    # plt.plot(x, v)
-    # plt.savefig(PLOTDIR + "toeplitz_{}.png".format(n))
-    # plt.clf()
 
+
+# Run LU decomposition and back substitution
 ns = [10**i for i in range(1, lu_exponent+1)]
-
 for n in ns:
     algo_time = 0
     for run in range(1, runs+1):
@@ -124,6 +122,8 @@ for n in ns:
         lib.luBackSubst(A, index, u[1:-1])
         algo_time += time.time() - start
     average_algo_time = algo_time/float(runs)
+
+    # Write results to file
     with open(DATADIR + "LU_timing.csv", 'a') as file:
             file.write('{},{:.2e}\n'.format(n, average_algo_time))
 
