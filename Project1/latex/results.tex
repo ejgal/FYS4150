@@ -16,18 +16,13 @@
 \end{table}
 
 
-
-After running the thomas and toeplitz algorithm on matrixes from 10x10 to
-1000000 x 1000000, and the lower/upper decomposition + backward subtitution (LU)
-on matrixes from 10x10 to 1000x1000 ten times and taking the average we got the
-results in \cref{table:normalized}.
-
 \begin{table}[htp]
   \centering
   \csvautotabular{../processed_data/algorithm_time.csv}
   \caption{Summary of algorithm times.}
-  \label{table:normalized}
+  \label{table:summary}
 \end{table}
+
 
 
 To see how the algorithm time for our different methods scales with n we divide
