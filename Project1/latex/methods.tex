@@ -11,7 +11,7 @@ grid points
 $x_i = ih$ in the range from $x_0 = 0$ to $x_{n +1} = 1$. Choosing the step
 length to be defined as $h = 1/(n+1)$. Including boundary conditions as $v_0 =
 0$ and $v_{n+1} = 0$. The second derivate is approximated according to
-\cref{eq:secondorder}, but rewritten in shorthand notation \cref{eq:2ndordshort}.
+\cref{eq:secondorder}, but here rewritten in shorthand notation \cref{eq:2ndordshort}.  
 \begin{equation}\label{eq:2ndordshort}
   f_i = -\frac{v_{i-1}-2v_i + v_{i+1}}{h^2} \quad \mathrm{for} \; i = 1,2,3 \dots , n
 \end{equation}
@@ -40,19 +40,24 @@ our case looks like this.
      0 & \dots & & 0 & -1 & 2
   \end{bmatrix}
 \end{equation*}
-It is easy to verify that $\bvec{A} v = \bvec{\tilde{g}}$ would give us
-\cref{eq:2ndordshort}, simply by doing the matrix multiplication. The matrix $\bvec{A}$ has some
+It is easy to verify that $\bvec{A} v = \bvec{\tilde{g}}$ would give us 
+\cref{eq:2ndordshort}, simply by doing the matrix multiplication. Just to be
+clear, the full solution is of length $n+2$,
+but we only solve our equation for the $n$ unknown values because the boundary
+conditions are given. \par The matrix $\bvec{A}$ has some
 particular nice features, primarily it a tridiagonal matrix which means that we
-can use the efficient Thomas algorithm to solve our linear system of equation,
-secondly it has constant values along the diagonals, which we'll exploit in our
-specialized Toeplitz algorithm.
+can use the efficient Thomas algorithm or tridiagonal matrix algorithm (TDMA) to
+solve our linear system of equation. 
+Secondly it has constant values along the diagonals also called a Toeplitz
+matrix, which we'll exploit in our specialized Toeplitz algorithm.    
 \subsection*{Thomas Algorithm}
 
-The Thomas Algorithm is an general algorithm for solving tridiagonal sets of
-linear equations. The algorithm is quite straight forward to implement and
+The TDMA is an general algorithm for solving tridiagonal sets of
+linear equations. The algorithm is quite straight forward to implement and 
 requires two steps only.
-We will demonstrate this algorithm with a $4 \times 4$ matrix, and
-our equation is $\bvec{T} \cdot \bvec{u} = \bvec{g}$, see \cref{eq:4_4matrix}.
+We will demonstrate this algorithm with a $4 \times 4$ matrix, by solving 
+the equation $\bvec{T} \cdot \bvec{u} = \bvec{g}$ with respect to $\bvec{u}$
+\cref{eq:4_4matrix}. 
 \begin{equation}\label{eq:4_4matrix}
   \begin{bmatrix}
     d_1 & c_1 & 0 & 0 \\
@@ -66,7 +71,7 @@ our equation is $\bvec{T} \cdot \bvec{u} = \bvec{g}$, see \cref{eq:4_4matrix}.
   \end{bmatrix}
 \end{equation}
 Then the first step is to rewrite our matrix $T$ as upper triangular matrix.
-Starting with the first row we multiply by it by $\frac{a_1}{d_1}$ and subtract
+Starting with the first row we multiply by it by $a_1/d_1$ and subtract
 it from the second row.
 \begin{equation*}
   0 + \left(d_2 - \frac{c_1 a_1}{d_1}u_2 \right)+ c_2u_3 = g_2 -g_1
@@ -103,7 +108,6 @@ u_4\right)/\tilde{d}_3$. Then we have the following general pattern
 Our implementation of the Thomas algorithm, is available
 through our github\footnote{https://github.com/Ovewh/Computilus/tree/master/Project1/src/linalg.py}.
 
-
 To get an idea of how an algorithm performs, we can count
 the number of floating point operations per second (FLOPS). When counting FLOPS
 we only look at the mathematical operations and only count those inside our
@@ -115,13 +119,13 @@ algorithms. For instance with the Thomas algorithm we only need to store the
 values along the tridiagonal, since all the other elements are zero. Then we only need tree arrays to store the entire matrix. If we
 would instead use the general LU decomposition algorithm which requires an $N
 \times N$ matrix, we would need to store the entire matrix in memory. For
-instance if we had a $10^5 \times 10^5$ matrix, which means $10^10$ matrix
+instance if we had a $10^5 \times 10^5$ matrix, which means $10^{10}$ matrix
 elements. To store this matrix in memory when
 every matrix element is 8 bytes, would require on the order of $10^{11}$
-bytes, about 100 gigabytes to store. An amount of memory clearly beyond any
-ordinary laptop.
+bytes, about 100 gigabytes. An amount of memory clearly beyond any
+ordinary laptop. 
 
-\subsection*{Specialized Algorithm}
+\subsection*{Thomas Algorithm with constant diagonals}
 To create a specialized version of Thomas algorithm for our tridiagonal Toeplitz
 matrix we will take
 advantage of the fact that elements along the diagonals are constants. This
@@ -129,9 +133,15 @@ means that we can pre-calculate the new diagonal elements $\tilde{d}$, reducing
 the number of FLOPS from $9N$ to $4N$.
 
 \subsection*{Experimental setup}
+To solve the differential equation we assumed $f(x) = 100e^{-10x}$ with the same
+interval and boundary conditions as described previously. Then our differential
+equation has a analytic solution $u(x) = 1-(1-e^{-10})x -e^{-10x}$. 
+
 To measure the performance difference between the Thomas, specialized
-Toeplitz and the general LU-decomposition, we ran each algorithm for different
-values of $n$ ranging by power of 10 from $10$ to $10^7$. In order to achieve
-more accurate timings, we ran each algorithm 10 times for each $n$ and then
-taking the average time. We also analysed the numerical error and how the error
-varied with step size, by computing the maximum relative error.
+Toeplitz and the general LU-decomposition. The LU-decomposition we included to
+represent a "not thinking brute force" case. We ran each algorithm for different
+values of $n$ ranging by power of 10 from $10$ to $10^7$. To achieve
+more accurate timings, we ran each algorithm 20 times for each $n$ and taking
+the average the timings. Lastly we also analysed the numerical error and how
+the error varied with step size, comparing our solution with the
+analytic solution.
