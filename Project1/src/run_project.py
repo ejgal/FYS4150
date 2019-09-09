@@ -46,16 +46,16 @@ runs = int(sys.argv[3])
 
 # Write headers to output files
 with open(DATADIR + 'TDMA.csv', 'w') as file:
-    file.write('n,run time (s)\n')
+    file.write('N,run time\n')
 
 with open(DATADIR + 'TDCMA.csv', 'w') as file:
-    file.write('n,run time (s)\n')
+    file.write('N,run time\n')
 
 with open(DATADIR + 'relative_error.csv', 'w') as file:
     file.write('$log_{10}$(h), max(relative error)\n')
 
 with open(DATADIR + 'LU_timing.csv', 'w') as file:
-    file.write('n,run time (s)\n')
+    file.write('N,run time\n')
 
 
 for n in [10, 100, 1000]:
@@ -65,7 +65,7 @@ for n in [10, 100, 1000]:
     b = 2*np.ones(n)
     c = -np.ones(n)
     v[1:-1], elapsed_time = TDMA(a, b, c, f, n)
-    plt.plot(x, v, label='n={}'.format(n))
+    plt.plot(x, v, label='N={}'.format(n))
 
 plt.plot(x, u(x), '--', label='Analytic')
 plt.legend()
