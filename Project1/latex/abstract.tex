@@ -1,1 +1,13 @@
 \section*{Abstract}
+This work demonstrates the advantages of thinking and understanding the problem
+before hand, instead of right away computationally brute forcing a solution. For
+our demonstration we 
+solved the one dimensional Poisson's equation using tree different algorithms
+, LU-decomposition, the general tridiagonal matrix algorithm (TDMA) or the
+Thomas algorithm \cite{tridia} and a specialized TDMA.
+We used the LU-decomposition algorithm to illustrate the brute force solution.
+By thinking before hand and creating a specialized TDMA for our problem, we
+experienced a speed up 
+of around 80000 compared to using the general LU-decomposition. For large
+matrices the general LU-decomposition also faced memory constraints. Our
+specialized TDMA also showed an increase of around 2.2 in performance compared to the general TDMA.     
