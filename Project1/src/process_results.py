@@ -25,6 +25,6 @@ df['lu/toeplitz'] = df['lu']/df['toeplitz']
 df.to_csv(DATADIR + 'comparison.csv', columns=['thomas/toeplitz', 'lu/toeplitz'], float_format='%.3e')
 
 # Plot relative error
-# error = pd.read_csv('../data/relative_error.csv', index_col=0)
-# error.plot()
-# plt.show()
+error = pd.read_csv('../data/relative_error.csv', index_col=0)
+error.plot(loglog=True)
+plt.savefig('../figures/relative_error.png')
