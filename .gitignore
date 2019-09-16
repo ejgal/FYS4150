@@ -1,4 +1,6 @@
 # Latex
+*.out
+*.pdf
 *.aux
 *.log
 *.bcf
