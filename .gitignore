@@ -18,5 +18,9 @@ __latexindent_temp.tex
 **/__pycache__/
 *.pyc
 
+# C++
+*.out
+*.o
+
 # Other
 **/.vscode/
