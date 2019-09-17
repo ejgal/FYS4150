@@ -1,4 +1,6 @@
 # Latex
+*.out
+*.pdf
 *.aux
 *.log
 *.bcf
@@ -15,6 +17,10 @@ __latexindent_temp.tex
 # python
 **/__pycache__/
 *.pyc
+
+# C++
+*.out
+*.o
 
 # Other
 **/.vscode/
