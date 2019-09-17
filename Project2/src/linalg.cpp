@@ -69,33 +69,16 @@ int main(int argc, char *argv[]) {
     c = 1./(sqrt(1+t*t));
     s = t*c;
 
-    // Perform transformation
-    // Easy way of calculating transformed matrix - replace with something more efficient.
-    // mat S = mat(N+1,N+1, fill::zeros);
-    // mat Sinv = mat(N+1,N+1, fill::zeros);
-    // for (int i = 0; i<N+1; i++){
-    //   S(i,i) = 1;
-    //   Sinv(i,i) = 1;
-    // }
-    // S(k,k) = c;
-    // S(l,l) = c;
-    // S(k,l) = s;
-    // S(l,k) = -s;
-    // Sinv(k,k) = c;
-    // Sinv(l,l) = c;
-    // Sinv(k,l) = -s;
-    // Sinv(l,k) = s;
-    // A = Sinv * A * S;
-
     // Alternative way of calculating transformed matrix with fewer calculations
     for (int i=0; i<N+1; i++) {
-      if ( i != k && i != l) { // Working one row at a time
+      if ( i != k && i != l) {
         double temp_a_ik = A(i,k);  // Store elements that will be overwritten
         double temp_a_il = A(i,l); // Store elements that will be overwritten
-        A(i,k) = temp_a_ik*c - temp_a_il*s;
-        A(i,l) = temp_a_il*c + temp_a_ik*s;
-        A(k,i) = A(i,k);
-        A(l,i) = A(i,l);
+        A(i,k) = temp_a_ik*c - temp_a_il*s; // Column k
+        A(i,l) = temp_a_il*c + temp_a_ik*s; // Column l
+        // Similarity transformation -> symmetric matrix
+        A(k,i) = A(i,k); // Row k
+        A(l,i) = A(i,l); // Row l
       }
     }
     double temp_a_kk = A(k,k); // Store elements that will be overwritten
