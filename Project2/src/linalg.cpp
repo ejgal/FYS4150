@@ -61,7 +61,11 @@ int main(int argc, char *argv[]) {
     max_nondiagonal(A, N+1, k, l); // find indexes of largest non-diag element
     // Calculate c and s (elements of transformation matrix)
     tau = (A(l,l) - A(k,k))/(2*A(k,l));
-    t = 1./(tau + sqrt(1 + tau*tau));
+    if (tau > 0) {
+      t = 1./(tau + sqrt(1. + tau*tau));
+    } else {
+      t = -1./(-tau + sqrt(1. + tau*tau));
+    }
     c = 1./(sqrt(1+t*t));
     s = t*c;
 
