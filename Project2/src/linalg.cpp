@@ -32,8 +32,50 @@ void max_nondiagonal(mat A, int N, int &row, int &col) {
   }
 }
 
+void rotate(mat &A, int N, int k, int l) {
+  double temp_a_ik; double temp_a_il; double temp_a_kk; double temp_a_ll;
+  double c; double s; double tau; double t;
+  tau = (A(l,l) - A(k,k))/(2*A(k,l));
+  if (tau > 0) {
+    t = 1./(tau + sqrt(1. + tau*tau));
+  } else {
+    t = -1./(-tau + sqrt(1. + tau*tau));
+  }
+  c = 1./(sqrt(1+t*t));
+  s = t*c;
+
+
+  for (int i=0; i<N+1; i++) {
+    if ( i != k && i != l) {
+      temp_a_ik = A(i,k);  // Store elements that will be overwritten
+      temp_a_il = A(i,l); // Store elements that will be overwritten
+      A(i,k) = temp_a_ik*c - temp_a_il*s; // Column k
+      A(i,l) = temp_a_il*c + temp_a_ik*s; // Column l
+      // Similarity transformation -> symmetric matrix
+      A(k,i) = A(i,k); // Row k
+      A(l,i) = A(i,l); // Row l
+    }
+  }
+  temp_a_kk = A(k,k); // Store elements that will be overwritten
+  temp_a_ll = A(l,l); // Store elements that will be overwritten
+  A(k,k) = temp_a_kk*c*c - 2*A(k,l)*c*s + temp_a_ll*s*s;
+  A(l,l) = temp_a_ll*c*c + 2*A(k,l)*c*s + temp_a_kk*s*s;
+  A(k,l) = 0.0;
+  A(l,k) = 0.0;
+}
+
+
+void jacobi(N, a, d, epsilon) {
+  double h = 1./N;
+  double hh = h*h;
+  double a = -1./hh;
+  double d = 2./hh;
+  mat A = toeplitz(a, d, N+1);
+  double pi = datum::pi;
+}
+
+
 int main(int argc, char *argv[]) {
-  cout << scientific;
 
   int N = atoi(argv[1]);
   double h = 1./N;
@@ -42,18 +84,16 @@ int main(int argc, char *argv[]) {
   double d = 2./hh;
   mat A = toeplitz(a, d, N+1);
   double pi = datum::pi;
-  // vec eigval;
-  // eig_gen(eigval, A);
 
-
-  // chrono::duration<double> elapsed_time = finish-start;
+  // Time to find eigenvalues with armadillo
   auto start = std::chrono::high_resolution_clock::now();
   cx_vec eigval = eig_gen( A );
   auto finish = std::chrono::high_resolution_clock::now();
-
   cout << "Time used armadillo eig_gen: ";
   cout << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count();
   cout << endl;
+
+
   // Print analytical eigenvalues
   for (int i=1; i<=N+1; i++) {
     cout << d + 2*a*cos(i*pi/(N+2)) << endl;
@@ -72,40 +112,7 @@ int main(int argc, char *argv[]) {
   int count = 0;
   double max_A = A(k,l);
   while (max_A*max_A  > epsilon) {
-    double c; double s; double tau; double t;
-
-    max_nondiagonal(A, N+1, k, l); // find indexes of largest non-diag element
-    // Calculate c and s (elements of transformation matrix)
-    tau = (A(l,l) - A(k,k))/(2*A(k,l));
-    if (tau > 0) {
-      t = 1./(tau + sqrt(1. + tau*tau));
-    } else {
-      t = -1./(-tau + sqrt(1. + tau*tau));
-    }
-    c = 1./(sqrt(1+t*t));
-    s = t*c;
-
-    // Alternative way of calculating transformed matrix with fewer calculations
-    for (int i=0; i<N+1; i++) {
-      if ( i != k && i != l) {
-        double temp_a_ik = A(i,k);  // Store elements that will be overwritten
-        double temp_a_il = A(i,l); // Store elements that will be overwritten
-        A(i,k) = temp_a_ik*c - temp_a_il*s; // Column k
-        A(i,l) = temp_a_il*c + temp_a_ik*s; // Column l
-        // Similarity transformation -> symmetric matrix
-        A(k,i) = A(i,k); // Row k
-        A(l,i) = A(i,l); // Row l
-      }
-    }
-    double temp_a_kk = A(k,k); // Store elements that will be overwritten
-    double temp_a_ll = A(l,l); // Store elements that will be overwritten
-    A(k,k) = temp_a_kk*c*c - 2*A(k,l)*c*s + temp_a_ll*s*s;
-    A(l,l) = temp_a_ll*c*c + 2*A(k,l)*c*s + temp_a_kk*s*s;
-    A(k,l) = 0.0;
-    A(l,k) = 0.0;
-    // End transformation function - move this into a function
-
-
+    rotate(A, N, k, l);
     max_nondiagonal(A,N+1,k,l);
     max_A = A(k,l);
     count ++;
