@@ -23,7 +23,7 @@ void max_nondiagonal(mat A, int N, int &row, int &col) {
   col = 0;
   for (int i=0; i<N; i++) {
     for (int j=0; j<N; j++) {
-      if ((i != j) && (abs(A(i,j))) > current_max) {
+      if ((i != j) && (abs(A(i,j))) >= current_max) {
         row = i;
         col = j;
         current_max = abs(A(i,j)); // update maximum value
@@ -55,9 +55,9 @@ int main(int argc, char *argv[]) {
   cout << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count();
   cout << endl;
   // Print analytical eigenvalues
-  // for (int i=1; i<=N+1; i++) {
-  //   cout << d + 2*a*cos(i*pi/(N+2)) << endl;
-  // }
+  for (int i=1; i<=N+1; i++) {
+    cout << d + 2*a*cos(i*pi/(N+2)) << endl;
+  }
 
   // Print armadillo eigenvalues
   // cout << eigval << endl;
@@ -128,10 +128,10 @@ int main(int argc, char *argv[]) {
   cout << endl;
 
   // Print eigenvalues
-  // cout << scientific;
-  // for (int i=0; i<N+1; i++) {
-  //   cout << "eigenvalue " << i << ": " << A(i,i) << endl;
-  // }
+  cout << scientific;
+  for (int i=0; i<N+1; i++) {
+    cout << "eigenvalue " << i << ": " << A(i,i) << endl;
+  }
 
   cout << "Transformations performed: " << count << endl;
 }
