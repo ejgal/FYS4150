@@ -37,11 +37,33 @@ Our equation is now in the form of an eigenvalue problem, which has analytical
 eigenvalues $\lambda_j = d + 2a\cos{(\frac{j\pi}{n+1})}$ for $j \in [1,2,...,n]$
 where n is the size of A.
 
-Mathematical intermezzo.
 
 
-Jacobi´s rotation algorithm.
+An orthogonal transformation U has the property $U^T U = U U^T = I$.
 
+Assuming we have an orthonormal basis consisting of $\vec{v}_i^T = [v_{1i},
+v_{2i}, ... , v_{ni}]$ we know that $\vec{v}_i^T \vec{v}_j = \vec{v}_i \cdot
+\vec{v}_j = \delta_{ij}$. Let $\vec{w}_i = U\vec{v}_i$. $\vec{w}_i^T \vec{w}_j =
+(U\vec{v}_i)^T(U\vec{v}_j) = \vec{v}_i^T U^T U \vec{v}_j = \vec{v}_i^T \vec{v}_j
+= \delta_{ij}$. This shows that a orthogonal transformation preserves the dot
+product and orthogonality.
+
+\subsection{Jacobi´s method}
+
+The idea behind Jacobi´s method is to diagonalize A by applying repeated
+orthogonal transformations S$^T$.
+
+After one transformation $S^T A S S^T \vec{x} = B (S^T \vec{x}) = \lambda (S^T
+\vec{x})$ we see that the new eigenvector is $S^T\vec{x}$.
+
+$b_{kl} = (a_{kk}-a_{ll})cs + a_{kl} (c^2 + s^2) = 0$.
+
+
+
+
+The orthogonal transformation used in Jacobi´s method is a rotation matrix.
+We will use the shorthand c = $\cos{\theta}$ and s = $\sin{\theta}$ where $\theta$
+is the angle of rotation.
 
 \subsection{Extending to quantum mechanics}
 Adding potential.
