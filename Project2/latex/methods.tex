@@ -1,0 +1,74 @@
+\section{Methods}
+
+
+Beskriv:
+original ligning og skalering.
+
+Considering the one dimensional wave function
+\begin{equation}
+\gamma \frac{d^2 u(x)}{dx^2} = -F u(x)
+\end{equation}
+, with u(x) being the vertical displacement of a beam in the y direction.
+x $\in [0, L]$, with L being the length of the beam. $\gamma$ is a material constant,
+and F is a force towards the origin being applied at the right hand side of the beam.
+We will use the boundary conditions u(0) = u(L) = 0, meaning the beam doesn't move
+at the end points.
+
+
+Since we want to solve this equation numerically we scale it.
+
+Introducing $ \rho = \frac{x}{L} $ limits $\rho$ to $[0, 1]$ and scales the
+equation to
+$$\frac{d^2 u(\rho)}{d\rho^2} = - \frac{FL^2}{\gamma} u(\rho) = -\lambda u(\rho).$$
+
+We discretize $\rho$ on a grid with N points, which
+define the step length as $h = \frac{\rho_N - \rho_0}{N}$ with $\rho_N = 1$ and
+$\rho_0 = 0$.
+
+Using the three point formula for the second derivative $ u'' = \frac{u(\rho + h) - 2u(\rho) +
+u(\rho -u))}{h^2} + O(h^2)$, the initial equation can be discretized as
+$\frac{-u_{i+1} + 2u_i - u_{i-1}}{h^2} = \lambda u_i$
+or, in matrix form
+$ A \vec{u} = \lambda \vec{u}$
+with A being a tridiagonal matrix with $a = \frac{-1}{h^2}$ on the upper and lower
+diagonal, and $d = \frac{2}{h^2}$ on the diagonal. $\vec{u}^T = [u_1, u_2, ..., u_{n-1}]$
+
+Our equation is now in the form of an eigenvalue problem, which has analytical
+eigenvalues $\lambda_j = d + 2a\cos{(\frac{j\pi}{n+1})}$ for $j \in [1,2,...,n]$
+where n is the size of A.
+
+
+
+An orthogonal transformation U has the property $U^T U = U U^T = I$.
+
+Assuming we have an orthonormal basis consisting of $\vec{v}_i^T = [v_{1i},
+v_{2i}, ... , v_{ni}]$ we know that $\vec{v}_i^T \vec{v}_j = \vec{v}_i \cdot
+\vec{v}_j = \delta_{ij}$. Let $\vec{w}_i = U\vec{v}_i$. $\vec{w}_i^T \vec{w}_j =
+(U\vec{v}_i)^T(U\vec{v}_j) = \vec{v}_i^T U^T U \vec{v}_j = \vec{v}_i^T \vec{v}_j
+= \delta_{ij}$. This shows that a orthogonal transformation preserves the dot
+product and orthogonality.
+
+\subsection{Jacobi´s method}
+
+The idea behind Jacobi´s method is to diagonalize A by applying repeated
+orthogonal transformations S$^T$.
+
+After one transformation $S^T A S S^T \vec{x} = B (S^T \vec{x}) = \lambda (S^T
+\vec{x})$ we see that the new eigenvector is $S^T\vec{x}$.
+
+$b_{kl} = (a_{kk}-a_{ll})cs + a_{kl} (c^2 + s^2) = 0$.
+
+
+
+
+The orthogonal transformation used in Jacobi´s method is a rotation matrix.
+We will use the shorthand c = $\cos{\theta}$ and s = $\sin{\theta}$ where $\theta$
+is the angle of rotation.
+
+\subsection{Extending to quantum mechanics}
+Adding potential.
+
+Approximating infinity.
+
+
+\subsection{Bisection method}
