@@ -14,3 +14,15 @@ TEST_CASE("max_nondiagonal returns largest element") {
   max_nondiagonal(A, N, k, l);
   REQUIRE( (k == 3 && l == 2) );
 }
+
+
+
+// TEST_CASE("Jacobis method compare with analytical eigenvalues") {
+//
+//   vec analytic = analytic_eigenvalues(3, -1, 2);
+//   cout << analytic;
+//
+//   REQUIRE();
+//   REQUIRE();
+//   REQUIRE();
+// }
