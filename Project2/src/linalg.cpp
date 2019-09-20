@@ -26,10 +26,10 @@ void max_nondiagonal(mat A, int N, int &row, int &col) {
   col = 0;
   for (int i=0; i<N; i++) {
     for (int j=0; j<N; j++) {
-      if ((i != j) && (abs(A(i,j))) >= current_max) {
+      if ((i != j) && (fabs(A(i,j))) >= current_max) {
         row = i;
         col = j;
-        current_max = abs(A(i,j)); // update maximum value
+        current_max = fabs(A(i,j)); // update maximum value
       }
     }
   }
