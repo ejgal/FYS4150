@@ -33,6 +33,9 @@ $ A \vec{u} = \lambda \vec{u}$
 with A being a tridiagonal matrix with $a = \frac{-1}{h^2}$ on the upper and lower
 diagonal, and $d = \frac{2}{h^2}$ on the diagonal. $\vec{u}^T = [u_1, u_2, ..., u_{n-1}]$
 
+Our equation is now in the form of an eigenvalue problem, which has analytical
+eigenvalues $\lambda_j = d + 2a\cos{(\frac{j\pi}{n+1})}$ for $j \in [1,2,...,n]$
+where n is the size of A.
 
 Mathematical intermezzo.
 
