@@ -49,9 +49,9 @@ product and orthogonality.
 
 The idea behind Jacobi´s method is to diagonalize A by applying an orthogonal
 rotation R$^T$ a repeated number of times. By chosing a spesific angle $\theta$
-we can zero out one element of the transformed matrix.
-We will use the shorthand c = $\cos{\theta}$ and s = $\sin{\theta}$ where $\theta$
-is the angle of rotation.
+we can zero out one element of the transformed matrix. We will use the shorthand
+c = $\cos{\theta}$, s = $\sin{\theta}$ and t = $\tan{\theta}$ where $\theta$ is
+the angle of rotation.
 
 
 $$R(k,l,\theta) =
@@ -84,8 +84,7 @@ Performing the transformation results in the following matrix.
 \end{align}
 
 Since A is symmetric, the orthogonal transformation of A will also be symmetric
-and we get
-
+which leads to
 \begin{align}
   b_{ki} &= b_{ik} \\
   b_{li} &= b_{il} \\
@@ -93,6 +92,19 @@ and we get
 \end{align}
 
 From this we see that the only changes between B and A will be in the columns
-and rows k,l.
+and rows k,l, and we will not have to perform the full matrix multiplication.
+
+By choosing b$_{kl}$ to be zero we get the equation
 
 $b_{kl} = (a_{kk}-a_{ll})cs + a_{kl} (c^2 + s^2) = 0$.
+
+$0 = \frac{a_{kk} - a_{ll}}{2a_{kl}} = \tau = -\frac{cos(2\theta)}{sin(2\theta)} = \frac{1}{tan(2\theta)}$
+
+and
+
+$t^2 + 2t\tau -1 = 0$ with roots $t = -\tau \pm \sqrt{(\tau^2 + 1)}$. We will
+use this equation to fix $\theta$ to the angle that eliminates element a$_{kl}$.
+Having fixed the angle we find $c = \frac{1}{\sqrt{(1+t^2)}}$ and $s = tc$.
+
+We need a strategy for choosing which element to minimize. It can be shown that
+the frobenius norm is preserved under an orthogonal transformation.
