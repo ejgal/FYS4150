@@ -1,9 +1,6 @@
 \section{Methods}
 
 
-Beskriv:
-original ligning og skalering.
-
 Considering the one dimensional wave function
 \begin{equation}
 \gamma \frac{d^2 u(x)}{dx^2} = -F u(x)
@@ -37,7 +34,7 @@ Our equation is now in the form of an eigenvalue problem, which has analytical
 eigenvalues $\lambda_j = d + 2a\cos{(\frac{j\pi}{n+1})}$ for $j \in [1,2,...,n]$
 where n is the size of A.
 
-
+\subsection{Properties of orthogonal transformations}
 
 An orthogonal transformation U has the property $U^T U = U U^T = I$.
 
@@ -50,25 +47,52 @@ product and orthogonality.
 
 \subsection{Jacobi´s method}
 
-The idea behind Jacobi´s method is to diagonalize A by applying repeated
-orthogonal transformations S$^T$.
-
-After one transformation $S^T A S S^T \vec{x} = B (S^T \vec{x}) = \lambda (S^T
-\vec{x})$ we see that the new eigenvector is $S^T\vec{x}$.
-
-$b_{kl} = (a_{kk}-a_{ll})cs + a_{kl} (c^2 + s^2) = 0$.
-
-
-
-
-The orthogonal transformation used in Jacobi´s method is a rotation matrix.
+The idea behind Jacobi´s method is to diagonalize A by applying an orthogonal
+rotation R$^T$ a repeated number of times. By chosing a spesific angle $\theta$
+we can zero out one element of the transformed matrix.
 We will use the shorthand c = $\cos{\theta}$ and s = $\sin{\theta}$ where $\theta$
 is the angle of rotation.
 
-\subsection{Extending to quantum mechanics}
-Adding potential.
 
-Approximating infinity.
+$$R(k,l,\theta) =
+\begin{bmatrix}
+  1       & \cdots  & 0       & \cdots  & 0       & \cdots  & 0 \\
+  \vdots  & \ddots  &  \vdots &         & \vdots  &         & \vdots \\
+  0       & \cdots  & c       & \cdots  & -s      & \cdots  & 0 \\
+  \vdots  &         & \vdots  & \ddots  & \vdots  &         & \vdots\\
+  0       & \cdots  & s       & \cdots  & c       & \cdots  & 0\\
+  \vdots  &         & \vdots  &         &  \vdots & \ddots  & \vdots\\
+  0       & \cdots  & 0       & \cdots  & 0       & \cdots  & 1
+\end{bmatrix}
+$$
+where k and l is the row number containing c and -s, and s and c respectively.
 
 
-\subsection{Bisection method}
+After one transformation $R^T A R R^T \vec{x} = B (R^T \vec{x}) = \lambda (R^T
+\vec{x})$ we see that the new eigenvector is $R^T\vec{x}$.
+
+Performing the transformation results in the following matrix.
+(refer compendium 216)
+
+\begin{align}
+  b_{ii} &= a_{ii}, i \neq k, i \neq \\
+  b_{ik} &= a_{ik}c - a_{il}s, i \neq k, i \neq \\
+  b_{il} &= a_{il}c + a_{ik}s, i \neq k, i \neq \\
+  b_{kk} &= a_{kk}c^2 - 2a_{kl}cs + a_{ll}s^2 \\
+  b_{ll} &= a_{ll}c^2 + 2a_{kl}cs + a_{kk}s^2 \\
+  b_{kl} &= (a_{kk}- a_{ll})cs + a_{kl}(c^2 - s^2)
+\end{align}
+
+Since A is symmetric, the orthogonal transformation of A will also be symmetric
+and we get
+
+\begin{align}
+  b_{ki} &= b_{ik} \\
+  b_{li} &= b_{il} \\
+  b_{lk} &= b_{lk}
+\end{align}
+
+From this we see that the only changes between B and A will be in the columns
+and rows k,l.
+
+$b_{kl} = (a_{kk}-a_{ll})cs + a_{kl} (c^2 + s^2) = 0$.
