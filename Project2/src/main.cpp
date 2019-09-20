@@ -15,8 +15,7 @@ int main(int argc, char *argv[]) {
   double a = -1./hh;
   double d = 2./hh;
   cout << analytic_eigenvalues(N+1, a, d);
-
-  jacobi(N+1, a, d, pow(10, -8));
+  jacobi(N, a, d, pow(10, -8));
 
   // double h = 1./N;
   // double hh = h*h;

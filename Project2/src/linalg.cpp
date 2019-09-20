@@ -75,8 +75,8 @@ void rotate(mat &A, int N, int k, int l) {
 }
 
 
-void jacobi(int N, double a, double d, double epsilon) {
-  int k; int l; double max_offdiag;
+vec jacobi(int N, double a, double d, double epsilon) {
+  int k=0; int l=0; double max_offdiag;
   int iter=0;
 
   mat A = toeplitz(a, d, N+1);
@@ -89,18 +89,24 @@ void jacobi(int N, double a, double d, double epsilon) {
     iter ++;
 
     // Print diagnostics every 1000 steps
-    // if (count % 1000 == 0) {
-    //   cout << "Count: " << count << endl;
-    //   cout << "Max nondiagonal squared: " << max_A*max_A << endl;
-    //   cout << "Indexes: " << k << " " << l << endl;
-    //   cout << "tau: " << tau << endl;
-    //   cout << "tan(theta): " << t << endl;
-    //   cout << "cos(theta): " << c << endl;
-    //   cout << "sin(theta): " << s << endl << endl;
-    // }
+    if (iter % 1 == 0) {
+      cout << "Count: " << iter << endl;
+      cout << "Max nondiagonal squared: " << max_offdiag*max_offdiag << endl;
+      cout << "Indexes: " << k << " " << l << endl;
+
+      // cout << "tau: " << tau << endl;
+      // cout << "tan(theta): " << t << endl;
+      // cout << "cos(theta): " << c << endl;
+      // cout << "sin(theta): " << s << endl << endl;
+    }
   }
-  for (int i=0; i<N; i++) {
+  vec eigval = vec(N+1);
+
+  for (int i=0; i<=N; i++) {
     cout << "eigenvalue " << i << ": " << A(i,i) << endl;
+    eigval(i) = A(i,i);
   }
+  cout << "Iterations: " << iter << endl;
+  return eigval;
 
 }
