@@ -1,3 +1,9 @@
+# Ignore all files without extensions, except from makefiles
+*
+!/**/
+!*.*
+!Makefile
+
 # Latex
 *.out
 *.pdf
