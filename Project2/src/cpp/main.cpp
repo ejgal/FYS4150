@@ -1,5 +1,5 @@
 #include <armadillo>
-
+#include <iostream>
 #include "linalg.h"
 
 using namespace std;
@@ -10,15 +10,23 @@ int main(int argc, char *argv[]) {
 
   // Size of matrix
   int n = atoi(argv[1]);
-
   double h = 1./(n+1);
   double hh = h*h;
   double a = -1./hh;
   double d = 2./hh;
-  cout << analytic_eigenvalues(n, a, d);
-  jacobi(n, a, d, pow(10, -8));
+  vec eigval = vec(n);
 
 
+  ofstream ofile;
+  ofile.open("../../data/test.dat", ios::app);
+  auto start = std::chrono::high_resolution_clock::now();
+  int iterations = jacobi(n, a, d, eigval, pow(10, -8));
+  auto finish = std::chrono::high_resolution_clock::now();
+  ofile << n << ",";
+  ofile << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count();
+  ofile << endl;
+  ofile.close();
+  cout << iterations;
   // Time to find eigenvalues with armadillo
   // auto start = std::chrono::high_resolution_clock::now();
   // cx_vec eigval = eig_gen( A );
