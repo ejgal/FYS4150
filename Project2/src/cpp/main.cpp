@@ -8,21 +8,16 @@ using namespace arma;
 
 int main(int argc, char *argv[]) {
 
-  int N = atoi(argv[1]);
+  // Size of matrix
+  int n = atoi(argv[1]);
 
-  double h = 1./(N+1);
+  double h = 1./(n+1);
   double hh = h*h;
   double a = -1./hh;
   double d = 2./hh;
-  cout << analytic_eigenvalues(N, a, d);
-  jacobi(N, a, d, pow(10, -9));
+  cout << analytic_eigenvalues(n, a, d);
+  jacobi(n, a, d, pow(10, -8));
 
-  // double h = 1./N;
-  // double hh = h*h;
-  // double a = -1./hh;
-  // double d = 2./hh;
-  // mat A = toeplitz(a, d, N+1);
-  // double pi = datum::pi;
 
   // Time to find eigenvalues with armadillo
   // auto start = std::chrono::high_resolution_clock::now();
@@ -31,12 +26,6 @@ int main(int argc, char *argv[]) {
   // cout << "Time used armadillo eig_gen: ";
   // cout << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count();
   // cout << endl;
-
-
-  // Print analytical eigenvalues
-  // for (int i=1; i<=N+1; i++) {
-  //   cout << d + 2*a*cos(i*pi/(N+2)) << endl;
-  // }
 
   // Print armadillo eigenvalues
   // cout << eigval << endl;

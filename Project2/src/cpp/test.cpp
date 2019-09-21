@@ -17,7 +17,7 @@ TEST_CASE("max_nondiagonal returns largest element") {
 
 TEST_CASE("Jacobis method gives analytical eigenvalues") {
   vec analytic = sort(analytic_eigenvalues(3, -1, 2));
-  vec eigval = sort(jacobi(2, -1, 2, pow(10,-8)));
+  vec eigval = sort(jacobi(3, -1, 2, pow(10,-8)));
   REQUIRE( analytic(0) == Approx(eigval(0)));
   REQUIRE( analytic(1) == Approx(eigval(1)));
   REQUIRE( analytic(2) == Approx(eigval(2)));

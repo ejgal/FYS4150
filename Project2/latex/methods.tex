@@ -1,9 +1,6 @@
 \section{Methods}
 
 
-Beskriv:
-original ligning og skalering.
-
 Considering the one dimensional wave function
 \begin{equation}
 \gamma \frac{d^2 u(x)}{dx^2} = -F u(x)
@@ -21,7 +18,7 @@ Introducing $ \rho = \frac{x}{L} $ limits $\rho$ to $[0, 1]$ and scales the
 equation to
 $$\frac{d^2 u(\rho)}{d\rho^2} = - \frac{FL^2}{\gamma} u(\rho) = -\lambda u(\rho).$$
 
-We discretize $\rho$ on a grid with N points, which
+We discretize $\rho$ on a grid with N+1 points, which
 define the step length as $h = \frac{\rho_N - \rho_0}{N}$ with $\rho_N = 1$ and
 $\rho_0 = 0$.
 
@@ -37,7 +34,7 @@ Our equation is now in the form of an eigenvalue problem, which has analytical
 eigenvalues $\lambda_j = d + 2a\cos{(\frac{j\pi}{n+1})}$ for $j \in [1,2,...,n]$
 where n is the size of A.
 
-
+\subsection{Properties of orthogonal transformations}
 
 An orthogonal transformation U has the property $U^T U = U U^T = I$.
 
@@ -50,25 +47,83 @@ product and orthogonality.
 
 \subsection{Jacobi´s method}
 
-The idea behind Jacobi´s method is to diagonalize A by applying repeated
-orthogonal transformations S$^T$.
+The idea behind Jacobi´s method is to diagonalize A by applying an orthogonal
+rotation R$^T$ a repeated number of times. By chosing a spesific angle $\theta$
+we can zero out one element of the transformed matrix. We will use the shorthand
+c = $\cos{\theta}$, s = $\sin{\theta}$ and t = $\tan{\theta}$ where $\theta$ is
+the angle of rotation.
 
-After one transformation $S^T A S S^T \vec{x} = B (S^T \vec{x}) = \lambda (S^T
-\vec{x})$ we see that the new eigenvector is $S^T\vec{x}$.
+
+$$R(k,l,\theta) =
+\begin{bmatrix}
+  1       & \cdots  & 0       & \cdots  & 0       & \cdots  & 0 \\
+  \vdots  & \ddots  &  \vdots &         & \vdots  &         & \vdots \\
+  0       & \cdots  & c       & \cdots  & -s      & \cdots  & 0 \\
+  \vdots  &         & \vdots  & \ddots  & \vdots  &         & \vdots\\
+  0       & \cdots  & s       & \cdots  & c       & \cdots  & 0\\
+  \vdots  &         & \vdots  &         &  \vdots & \ddots  & \vdots\\
+  0       & \cdots  & 0       & \cdots  & 0       & \cdots  & 1
+\end{bmatrix}
+$$
+where k and l is the row number containing c and -s, and s and c respectively.
+
+
+After one transformation $R^T A R R^T \vec{x} = B (R^T \vec{x}) = \lambda (R^T
+\vec{x})$ we see that the new eigenvector is $R^T\vec{x}$.
+
+Performing the transformation results in the following matrix.
+(refer compendium 216)
+
+\begin{align}
+  b_{ii} &= a_{ii}, i \neq k, i \neq \\
+  b_{ik} &= a_{ik}c - a_{il}s, i \neq k, i \neq \\
+  b_{il} &= a_{il}c + a_{ik}s, i \neq k, i \neq \\
+  b_{kk} &= a_{kk}c^2 - 2a_{kl}cs + a_{ll}s^2 \\
+  b_{ll} &= a_{ll}c^2 + 2a_{kl}cs + a_{kk}s^2 \\
+  b_{kl} &= (a_{kk}- a_{ll})cs + a_{kl}(c^2 - s^2)
+\end{align}
+
+Since A is symmetric, the orthogonal transformation of A will also be symmetric
+which leads to
+\begin{align}
+  b_{ki} &= b_{ik} \\
+  b_{li} &= b_{il} \\
+  b_{lk} &= b_{lk}
+\end{align}
+
+From this we see that the only changes between B and A will be in the columns
+and rows k,l, and we will not have to perform the full matrix multiplication.
+
+By choosing b$_{kl}$ to be zero we get the equation
 
 $b_{kl} = (a_{kk}-a_{ll})cs + a_{kl} (c^2 + s^2) = 0$.
 
+$0 = \frac{a_{kk} - a_{ll}}{2a_{kl}} = \tau = -\frac{cos(2\theta)}{sin(2\theta)} = \frac{1}{tan(2\theta)}$
 
+and
 
+$t^2 + 2t\tau -1 = 0$ with roots $t = -\tau \pm \sqrt{(\tau^2 + 1)}$. We will
+use this equation to fix $\theta$ to the angle that eliminates element a$_{kl}$.
+Having fixed the angle we find $c = \frac{1}{\sqrt{(1+t^2)}}$ and $s = tc$, which
+we need to build the transformation matrix.
 
-The orthogonal transformation used in Jacobi´s method is a rotation matrix.
-We will use the shorthand c = $\cos{\theta}$ and s = $\sin{\theta}$ where $\theta$
-is the angle of rotation.
+We need a strategy for choosing which element to eliminate. Our goal is to
+transform A into a diagonal matrix, meaning all offdiagonal elements are zero
+(or very close to zero). We can achieve this by minimizing the sum of the
+squared nondiagional elements, off(B)$^2$. Since the frobenius norm is
+preserved under an orthogonal transformation we must have
+$$ \abs{B}_F^2 = \abs{A}_F^2 =  off(B)^2 + \sum_{i}^{n} b_{ii} = off(A)^2 + \sum_{i}^{n} a_{ii}.$$
 
-\subsection{Extending to quantum mechanics}
-Adding potential.
+Utilizing this we can show that
 
-Approximating infinity.
+\begin{align*}
+  off(B)^2 &= \abs{B}_F^2 - \sum_{i=1}^{n} b_{ii}^2 \\
+  &= \abs{A}_F^2 - \sum_{i=1}^{n} b_{ii}^2 \\
+  &= \abs{A}_F^2 - \sum_{i \neq k \neq l}^{n} b_{ii}^2 - (b_{kk}^2 + 2b_{kl}^2 + b_{ll}^2) \\
+  &= \abs{A}_F^2 - \sum_{i\neq k \neq l}^{n} a_{ii]^2 - (a_{kk}^2 + 2a_{kl}^2 + a_{ll}^2)} \\
+  &= \abs{A}_F^2 - \sum_{i=1}^{n} a_{ii}^2 - 2a_{kl}^2 \\
+  &= off(A)^2 - 2a_{kl}^2
+\end{align*}
 
-
-\subsection{Bisection method}
+and we see that the difference in the off(A)$^2$ and off(B)$^2$ is the greatest
+when we choose k and l to correspond with the largest offdiagonal element in A.
