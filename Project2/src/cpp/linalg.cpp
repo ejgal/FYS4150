@@ -80,6 +80,7 @@ vec jacobi(int N, double a, double d, double epsilon) {
   int iter=0;
 
   mat A = toeplitz(a, d, N+1);
+  cout << A << endl;
   max_nondiagonal(A, N+1, k,l);
   max_offdiag = A(k,l);
   while (max_offdiag*max_offdiag  > epsilon) {

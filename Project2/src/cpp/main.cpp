@@ -10,12 +10,12 @@ int main(int argc, char *argv[]) {
 
   int N = atoi(argv[1]);
 
-  double h = 1./N;
+  double h = 1./(N+1);
   double hh = h*h;
   double a = -1./hh;
   double d = 2./hh;
-  cout << analytic_eigenvalues(N+1, a, d);
-  jacobi(N, a, d, pow(10, -8));
+  cout << analytic_eigenvalues(N, a, d);
+  jacobi(N, a, d, pow(10, -9));
 
   // double h = 1./N;
   // double hh = h*h;
