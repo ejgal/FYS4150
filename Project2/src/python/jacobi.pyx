@@ -1,12 +1,29 @@
 import numpy as np
 cimport numpy as np
 from libc.math cimport sqrt, abs
+from libc.time cimport time,time_t,clock ,clock_t
 cimport cython
 
+np.import_array()
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-def cmaxElemOffDiag(double [:,:] A):
+def cCreate_toeplitz(double d,double a,int  N):
+    cdef size_t i
+    cdef np.ndarray[double, ndim=2] toeplitz = np.empty((N,N)) 
+    cdef double [:,:] A = toeplitz 
+    for i in range(N):
+        A[i,i] = d
+    for i in range(N-1):
+        A[i+1,i] = a
+        A[i, i+1] = a
+    
+    return toeplitz
+
+# Trust that I have coded it correctly, set cython to not 
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def cMaxElemOffDiag(double [:,:] A):
     cdef double offdiagmax = 0.0
     cdef double aij
     cdef size_t n = A.shape[0]
@@ -16,13 +33,13 @@ def cmaxElemOffDiag(double [:,:] A):
             aij = abs(A[i,j])
             if (i!=j and aij >= offdiagmax):
                 offdiagmax = aij
-                row = i; col = j;
+                row = i; col = j
 
     return offdiagmax, row, col
 
 @cython.boundscheck(False)
 @cython.wraparound(False)  
-def jacobiRotate(double [:,:] A,int k, int l): 
+def cJacobiRotate(double [:,:] A,int k, int l): 
     cdef int n = A.shape[0]
     cdef size_t i
     cdef double tau, t, c, s, a_kk, a_ll
@@ -53,3 +70,13 @@ def jacobiRotate(double [:,:] A,int k, int l):
             A[i,l] = c*a_il + s*a_ik
             A[l,i] = A[i,l]
     return A
+
+def jacobiRun(double [:,:] A):
+    cdef int iterations = 0
+    cdef size_t row, col
+    cdef double offDiagMax = cMaxElemOffDiag(A)[0]
+    while(offDiagMax > 10e-9):
+        iterations += 1
+        offDiagMax, row, col = cMaxElemOffDiag(A)
+        A = cJacobiRotate(A,row, col)
+    return iterations ,A
