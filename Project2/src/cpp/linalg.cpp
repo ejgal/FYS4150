@@ -6,10 +6,10 @@ using namespace arma;
 using namespace std;
 
 
-vec analytic_eigenvalues(int N, double a, double d) {
-  vec eigval = vec(N);
-  for (int i=1; i<=N; i++) {
-    eigval(i-1) = d + 2*a*cos(i*datum::pi/(N+1));
+vec analytic_eigenvalues(int n, double a, double d) {
+  vec eigval = vec(n);
+  for (int i=1; i<=n; i++) {
+    eigval(i-1) = d + 2*a*cos(i*datum::pi/(n+1));
   }
   return eigval;
 }
@@ -55,7 +55,7 @@ void rotate(mat &A, int N, int k, int l) {
   }
   c = 1./(sqrt(1+t*t));
   s = t*c;
-  for (int i=0; i<N+1; i++) {
+  for (int i=0; i<N; i++) {
     if ( i != k && i != l) {
       temp_a_ik = A(i,k);  // Store elements that will be overwritten
       temp_a_il = A(i,l); // Store elements that will be overwritten
@@ -79,12 +79,12 @@ vec jacobi(int N, double a, double d, double epsilon) {
   int k=0; int l=0; double max_offdiag;
   int iter=0;
 
-  mat A = toeplitz(a, d, N+1);
-  max_nondiagonal(A, N+1, k,l);
+  mat A = toeplitz(a, d, N);
+  max_nondiagonal(A, N, k,l);
   max_offdiag = A(k,l);
   while (max_offdiag*max_offdiag  > epsilon) {
     rotate(A, N, k, l);
-    max_nondiagonal(A,N+1,k,l);
+    max_nondiagonal(A,N,k,l);
     max_offdiag = A(k,l);
     iter ++;
 
@@ -100,9 +100,9 @@ vec jacobi(int N, double a, double d, double epsilon) {
       // cout << "sin(theta): " << s << endl << endl;
     }
   }
-  vec eigval = vec(N+1);
+  vec eigval = vec(N);
 
-  for (int i=0; i<=N; i++) {
+  for (int i=0; i<N; i++) {
     cout << "eigenvalue " << i << ": " << A(i,i) << endl;
     eigval(i) = A(i,i);
   }
