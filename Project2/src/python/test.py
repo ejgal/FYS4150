@@ -1,5 +1,10 @@
 import numpy as np
-
+import jacobi
+def __calAnalyticEigenVals(d, a, N):
+    x = np.zeros(N)
+    for i in range(1,N+1):
+        x[i-1] = d + 2*a*np.cos((i*np.pi)/(N+1))
+    return x
 
  def test_MaxElemOffDiag():
     np.random.seed(126)
@@ -25,8 +30,33 @@ def test_rotation():
         for j in range(2):
             assert Before[i,j] == Unchanged[i,j]
 
+def test_Eigenvalues():
+    N = 20
+
+
+    h = 1./(N)
+    d = 2./(h**2)
+    a = -1./(h**2)
+    eigValsAnalytic =  calAnalyticEigenVals(d, a, N)
+
+    A = jacobi.cCreate_toeplitz(d, a, N)
+    start = np.copy(A)
+    offDiagMax = jacobi.cMaxElemOffDiag(A)[0]
+    iterations = 0
+    while(offDiagMax > 10e-9):
+        iterations += 1
+        offDiagMax, row, col = jacobi.cMaxElemOffDiag(A)
+        A =jacobi.cJacobiRotate(A,row, col)
+    
+    eigValsAnalytic = __calAnalyticEigenVals(d, a, N)
+    
+    assert np.sum(np.sort(np.diag(A)) - eigValsAnalytic) < 10e-9
+
+test_Eigenvalues()
+
 
 if __name__ == "__main__":
-    test_MaxElemOffDiag()
-    test_rotation()
+    #test_MaxElemOffDiag()
+    #test_rotation()
+    test_Eigenvalues()
     
