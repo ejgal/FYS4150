@@ -18,9 +18,9 @@ void compare_jacobi_armadillo(int n, const char* filename) {
 
   // Time one run of jacobis method
   auto start = std::chrono::high_resolution_clock::now();
-  jacobi(n, a, d, eigval, pow(10, -8));
+  int iterations = jacobi(n, a, d, eigval, pow(10, -8));
   auto finish = std::chrono::high_resolution_clock::now();
-  ofile << n << ",";
+  ofile << n << "," << iterations << ',';
   ofile << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count();
 
   // Time one run of finding the eigenvalues with armadillo
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
   // Write header line
   ofstream ofile;
   ofile.open(filename);
-  ofile << "n,jacobi,armadillo";
+  ofile << "n,iterations,jacobi,armadillo" << endl;
   ofile.close();
   for (int i=start; i<=stop; i++) {
     for (int j=1; j<=runs; j++) {
