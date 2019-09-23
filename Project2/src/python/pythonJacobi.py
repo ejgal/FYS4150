@@ -24,7 +24,7 @@ def maxElemOffDiag(A, N):
 
 
     
-def jacobiRotate(A, k, l): 
+def jacobiRotate(A, k, l, N): 
     n = N
     if (A[k,l] != 0.0):
         tau = (A[l,l] - A[k,k])/(2*A[k,l])
@@ -53,3 +53,12 @@ def jacobiRotate(A, k, l):
             A[i,l] = c*a_il + s*a_ik
             A[l,i] = A[i,l]
     return A
+
+def jacobiRun(A, N):
+    interations = 0
+    offDiagMax = maxElemOffDiag(A, N)[0]
+    while(offDiagMax > 10e-9):
+        interations += 1
+        offDiagMax, row, col = maxElemOffDiag(A,N)
+        A = jacobiRotate(A,row,col,N)
+    return A, interations

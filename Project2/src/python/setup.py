@@ -3,7 +3,7 @@ from Cython.Build import cythonize
 import numpy
 
 setup(
-    name="jacobi",
-    ext_modules=cythonize("jacobi.pyx"),
+    name="cythonJacobi",
+    ext_modules=cythonize("cythonJacobi.pyx"),
     include_dirs=[numpy.get_include()]
 )
