@@ -120,10 +120,23 @@ Utilizing this we can show that
   off(B)^2 &= \abs{B}_F^2 - \sum_{i=1}^{n} b_{ii}^2 \\
   &= \abs{A}_F^2 - \sum_{i=1}^{n} b_{ii}^2 \\
   &= \abs{A}_F^2 - \sum_{i \neq k \neq l}^{n} b_{ii}^2 - (b_{kk}^2 + 2b_{kl}^2 + b_{ll}^2) \\
-  &= \abs{A}_F^2 - \sum_{i\neq k \neq l}^{n} a_{ii]^2 - (a_{kk}^2 + 2a_{kl}^2 + a_{ll}^2)} \\
+  &= \abs{A}_F^2 - \sum_{i\neq k \neq l}^{n} a_{ii}^2 - (a_{kk}^2 + 2a_{kl}^2 + a_{ll}^2) \\
   &= \abs{A}_F^2 - \sum_{i=1}^{n} a_{ii}^2 - 2a_{kl}^2 \\
   &= off(A)^2 - 2a_{kl}^2
 \end{align*}
 
 and we see that the difference in the off(A)$^2$ and off(B)$^2$ is the greatest
 when we choose k and l to correspond with the largest offdiagonal element in A.
+
+
+
+
+Algorithm:
+
+while (max nondiagonal squared)$^2$ < $\epsilon$.
+
+  calculate: tau,t s, c.
+
+  Perform transformation
+
+Read off the diagonal elements to find eigenvalues

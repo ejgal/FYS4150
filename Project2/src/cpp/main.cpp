@@ -1,59 +1,81 @@
 #include <armadillo>
+#include <iostream>
+#include "time.h"
+#include <iomanip>
 
 #include "linalg.h"
 
 using namespace std;
 using namespace arma;
 
-
-int main(int argc, char *argv[]) {
-
-  // Size of matrix
-  int n = atoi(argv[1]);
-
+void compare_jacobi_armadillo(int n, const char* filename) {
+  // Initialize variables
   double h = 1./(n+1);
   double hh = h*h;
   double a = -1./hh;
   double d = 2./hh;
-  cout << analytic_eigenvalues(n, a, d);
-  jacobi(n, a, d, pow(10, -8));
+  vec eigval = vec(n);
+
+  ofstream ofile;
+  ofile.open(filename, ios::app); // Open file in append mode
+  ofile << setiosflags(ios::showpoint);
+  ofile << setprecision(10);
+
+  // Time one run of jacobis method
+  mat A = toeplitz(a,d,n);
+  clock_t start, finish;
+  start = clock();
+  int iterations = jacobi(n, a, d, eigval, A, pow(10, -8));
+  finish = clock();
+  ofile << n << "," << iterations << ',';
+  double timeused = (double) (finish - start)/(CLOCKS_PER_SEC);
+  ofile << timeused << ",";
+
+  // Time one run of finding the eigenvalues with armadillo
+
+  vec arma_eigval;
+  mat arma_eigvec;
+
+  start = clock();
+  eig_sym(arma_eigval, arma_eigvec, A);
+
+  // cx_vec eigval_arma = eig_sym( toeplitz(a, d, n) );
+  finish = clock();
+  timeused = (double)(finish - start)/(CLOCKS_PER_SEC);
+  ofile << timeused << endl;
+  ofile.close();
+}
 
 
-  // Time to find eigenvalues with armadillo
-  // auto start = std::chrono::high_resolution_clock::now();
-  // cx_vec eigval = eig_gen( A );
-  // auto finish = std::chrono::high_resolution_clock::now();
-  // cout << "Time used armadillo eig_gen: ";
-  // cout << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count();
-  // cout << endl;
+int main(int argc, char *argv[]) {
+  int start = atoi(argv[1]);
+  int stop = atoi(argv[2]);
+  int runs = atoi(argv[3]);
+  const char* filename = argv[4];
 
-  // Print armadillo eigenvalues
-  // cout << eigval << endl;
+  cout << start << endl;
+  cout << stop << endl;
+  cout << runs << endl;
 
+  // Write header line
+  ofstream ofile;
+  ofile.open(filename);
+  ofile << "n,iterations,jacobi,armadillo" << endl;
+  ofile.close();
 
-  // start = std::chrono::high_resolution_clock::now();
-    // Print diagnostics every 1000 steps
-    // if (count % 1000 == 0) {
-    //   cout << "Count: " << count << endl;
-    //   cout << "Max nondiagonal squared: " << max_A*max_A << endl;
-    //   cout << "Indexes: " << k << " " << l << endl;
-    //   cout << "tau: " << tau << endl;
-    //   cout << "tan(theta): " << t << endl;
-    //   cout << "cos(theta): " << c << endl;
-    //   cout << "sin(theta): " << s << endl << endl;
-    // }
-  // }
-  // finish = std::chrono::high_resolution_clock::now();
-  // // chrono::duration<double> elapsed_time = finish-start;
-  // cout << "Time used jacobis method: ";
-  // cout << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count();
-  // cout << endl;
+  // Run experiment
+  for (int i=start; i<=stop; i++) {
+    for (int j=1; j<=runs; j++) {
+      compare_jacobi_armadillo(i, filename);
+    }
+    // Print to keep track of progress
+    cout << "n: " << i << endl;
+  }
 
-  // Print eigenvalues
-  // cout << scientific;
-  // for (int i=0; i<N+1; i++) {
-  //   cout << "eigenvalue " << i << ": " << A(i,i) << endl;
-  // }
-  //
-  // cout << "Transformations performed: " << count << endl;
+  // Write arguments to file
+  ofile.open("../../data/last_run.txt");
+  ofile << "start: " << start << endl;
+  ofile << "stop: " << stop << endl;
+  ofile << "runs: " << runs << endl;
+  ofile.close();
 }
