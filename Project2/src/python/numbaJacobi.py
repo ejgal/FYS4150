@@ -21,7 +21,7 @@ def maxElemOffDiag(A ,N):
             aij = np.abs(A[i,j])
             if (i!=j and aij >= offdiagmax):
                 offdiagmax = aij
-                row = i; col = j;
+                row = i; col = j
 
     return offdiagmax, row, col
 
@@ -56,12 +56,3 @@ def jacobiRotate(A, k, l, N):
             A[i,l] = c*a_il + s*a_ik
             A[l,i] = A[i,l]
     return A
-
-def jacobiRun(A, N):
-    interations = 0
-    offDiagMax = maxElemOffDiag(A, N)[0]
-    while(offDiagMax > 10e-9):
-        interations += 1
-        offDiagMax, row, col = maxElemOffDiag(A,N)
-        A = jacobiRotate(A,row,col,N)
-    return A, interations
