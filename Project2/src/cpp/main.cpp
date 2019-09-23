@@ -62,11 +62,20 @@ int main(int argc, char *argv[]) {
   ofile.open(filename);
   ofile << "n,iterations,jacobi,armadillo" << endl;
   ofile.close();
+
+  // Run experiment
   for (int i=start; i<=stop; i++) {
     for (int j=1; j<=runs; j++) {
       compare_jacobi_armadillo(i, filename);
     }
+    // Print to keep track of progress
     cout << "n: " << i << endl;
   }
 
+  // Write arguments to file
+  ofile.open("../../data/last_run.txt");
+  ofile << "start: " << start << endl;
+  ofile << "stop: " << stop << endl;
+  ofile << "runs: " << runs << endl;
+  ofile.close();
 }
