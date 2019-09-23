@@ -1,4 +1,4 @@
-GPP= g++ -Wall
+GPP= c++ -Wall
 LIB= -larmadillo -llapack -lblas
 
 main:	linalg.o main.cpp

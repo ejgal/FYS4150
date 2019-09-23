@@ -25,7 +25,7 @@ void compare_jacobi_armadillo(int n, const char* filename) {
   mat A = toeplitz(a,d,n);
   clock_t start, finish;
   start = clock();
-  int iterations = jacobi(n, a, d, eigval, A, pow(10, -8));
+  int iterations = jacobi(n, a, d, eigval, A, pow(10.0, -8));
   finish = clock();
   ofile << n << "," << iterations << ',';
   double timeused = (double) (finish - start)/(CLOCKS_PER_SEC);
