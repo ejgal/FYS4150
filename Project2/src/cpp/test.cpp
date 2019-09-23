@@ -17,14 +17,35 @@ TEST_CASE("max_nondiagonal returns largest element") {
 
 TEST_CASE("Jacobis method gives analytical eigenvalues") {
   int n = 3;
-  double a = -1;
-  double d = 2;
+  double a = -1.;
+  double d = 2.;
   double tol = pow(10,-8);
   vec eigval = vec(n);
   vec analytic = sort(analytic_eigenvalues(n, a, d));
-  jacobi(n, a, d, eigval, tol);
+  mat A = toeplitz(a,d,n);
+  jacobi(n, a, d, eigval, A, tol);
   eigval = sort(eigval);
   REQUIRE( analytic(0) == Approx(eigval(0)));
   REQUIRE( analytic(1) == Approx(eigval(1)));
   REQUIRE( analytic(2) == Approx(eigval(2)));
+}
+
+
+TEST_CASE("Jacobis method == analytic eigenvalues realistic") {
+  int n = 150;
+  double h = 1./(n+1);
+  double hh = h*h;
+  double a = -1./hh;
+  double d = 2./hh;
+  double tol = pow(10,-8);
+  vec eigval = vec(n);
+  vec analytic = sort(analytic_eigenvalues(n, a, d));
+  mat A = toeplitz(a,d,n);
+  jacobi(n, a, d, eigval, A, tol);
+  eigval = sort(eigval);
+  for (int i=0; i<n; i++) {
+    REQUIRE( analytic(i) == Approx(eigval(i)).epsilon(tol));
+  }
+
+
 }
