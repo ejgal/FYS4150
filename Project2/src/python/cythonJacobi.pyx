@@ -9,7 +9,7 @@ cnp.import_array()
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-def cCreate_toeplitz(double d,double a, int  N):
+def create_toeplitz(double d,double a, int  N):
     cdef int i
     cdef cnp.ndarray[double, ndim=2] toeplitz = np.zeros((N,N),
     dtype=np.float64)
@@ -21,13 +21,12 @@ def cCreate_toeplitz(double d,double a, int  N):
     for i in range(N-1):
         A[i+1,i] = a
         A[i, i+1] = a
-    print(A.shape)
     return A
 
 # Trust that I have coded it correctly, set cython to not 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-def cMaxElemOffDiag(double [:,:] A, int n):
+def maxElemOffDiag(double [:,:] A, int n):
     cdef double offdiagmax = 0.0
     cdef double aij
     cdef size_t i, j, row, col
@@ -42,7 +41,7 @@ def cMaxElemOffDiag(double [:,:] A, int n):
 
 @cython.boundscheck(False)
 @cython.wraparound(False)  
-def cJacobiRotate(double [:,:] A,int k, int l, int n): 
+def jacobiRotate(double [:,:] A,int k, int l, int n): 
     cdef size_t i
     cdef double tau, t, c, s, a_kk, a_ll
     if (A[k,l] != 0.0):
@@ -73,14 +72,14 @@ def cJacobiRotate(double [:,:] A,int k, int l, int n):
             A[l,i] = A[i,l]
     return A
 
-def jacobiRun(double[:,:] A):
-    cdef int n = A.shape[0]
+def jacobiRun(double[:,:] A, int N):
+    cdef int n = N
     cdef int iterations = 0
     cdef int row, col
-    cdef double offDiagMax = cMaxElemOffDiag(A, n)[0]
+    cdef double offDiagMax = maxElemOffDiag(A, n)[0]
     while(offDiagMax > 10e-9):
         iterations += 1
-        offDiagMax, row, col = cMaxElemOffDiag(A, n)
-        A = cJacobiRotate(A,row, col, n)
-        print(iterations)
-    return iterations
+        offDiagMax, row, col = maxElemOffDiag(A, n)
+        A = jacobiRotate(A,row, col, n)
+
+    return A, iterations
