@@ -1,5 +1,8 @@
 #include <armadillo>
 #include <iostream>
+#include "time.h"
+#include <iomanip>
+
 #include "linalg.h"
 
 using namespace std;
@@ -15,21 +18,31 @@ void compare_jacobi_armadillo(int n, const char* filename) {
 
   ofstream ofile;
   ofile.open(filename, ios::app); // Open file in append mode
+  ofile << setiosflags(ios::showpoint);
+  ofile << setprecision(10);
 
   // Time one run of jacobis method
-  auto start = std::chrono::high_resolution_clock::now();
-  int iterations = jacobi(n, a, d, eigval, pow(10, -8));
-  auto finish = std::chrono::high_resolution_clock::now();
+  mat A = toeplitz(a,d,n);
+  clock_t start, finish;
+  start = clock();
+  int iterations = jacobi(n, a, d, eigval, A, pow(10, -8));
+  finish = clock();
   ofile << n << "," << iterations << ',';
-  ofile << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count();
+  double timeused = (double) (finish - start)/(CLOCKS_PER_SEC);
+  ofile << timeused << ",";
 
   // Time one run of finding the eigenvalues with armadillo
-  start = std::chrono::high_resolution_clock::now();
-  cx_vec eigval_arma = eig_gen( toeplitz(a, d, n) );
-  finish = std::chrono::high_resolution_clock::now();
-  ofile << ",";
-  ofile << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count();
-  ofile << endl;
+
+  vec arma_eigval;
+  mat arma_eigvec;
+
+  start = clock();
+  eig_sym(arma_eigval, arma_eigvec, A);
+
+  // cx_vec eigval_arma = eig_sym( toeplitz(a, d, n) );
+  finish = clock();
+  timeused = (double)(finish - start)/(CLOCKS_PER_SEC);
+  ofile << timeused << endl;
   ofile.close();
 }
 

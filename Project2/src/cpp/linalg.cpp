@@ -75,11 +75,10 @@ void rotate(mat &A, int N, int k, int l) {
 }
 
 
-int jacobi(int n, double a, double d, vec &eigval, double epsilon) {
+int jacobi(int n, double a, double d, vec &eigval, mat &A, double epsilon) {
   int k=0; int l=0; double max_offdiag;
   int iterations=0;
 
-  mat A = toeplitz(a, d, n);
   max_nondiagonal(A, n, k,l);
   max_offdiag = A(k,l);
   while (max_offdiag*max_offdiag  > epsilon) {
