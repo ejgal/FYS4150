@@ -34,10 +34,14 @@ def test_rotation(prog):
     for i in range(2):
         for j in range(2):
             assert Before[i,j] == Unchanged[i,j]
-@pytest.mark.parametrize("prog", [cythonJacobi, numbaJacobi, pythonJacobi])
-def test_Eigenvalues(prog):
-    N = 20
 
+testsetup = [(cythonJacobi, 200),
+             (numbaJacobi, 200),
+              (pythonJacobi, 20)]
+
+@pytest.mark.parametrize("prog, N" , testsetup)
+def test_Eigenvalues(prog, N):
+    N = N
 
     h = 1./(N)
     d = 2./(h**2)
@@ -47,19 +51,12 @@ def test_Eigenvalues(prog):
     A = prog.create_toeplitz(d, a, N)
     offDiagMax = prog.maxElemOffDiag(A,N)[0]
     iterations = 0
-    while(offDiagMax > 10e-9):
+    while(offDiagMax > 1e-9):
         iterations += 1
         offDiagMax, row, col = prog.maxElemOffDiag(A, N)
         A =prog.jacobiRotate(A,row, col, N)
     eigValsAnalytic = __calAnalyticEigenVals(d, a, N)
-    
-    assert np.sum(np.sort(np.diag(A)) - eigValsAnalytic) < 10e-6
+
+    assert np.allclose(np.sort(np.diag(A), eigValsAnalytic)
 
 
-if __name__ == "__main__":
-    versions = [cythonJacobi, numbaJacobi, pythonJacobi]
-    for version in versions:
-        test_MaxElemOffDiag(version)
-        test_rotation(version)
-        test_Eigenvalues(version)
-    
