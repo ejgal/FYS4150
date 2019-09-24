@@ -15,7 +15,7 @@ def create_toeplitz(double d,double a, int  N):
     dtype=np.float64)
 #    toeplitz = cvarray(shape=(N,N), itemsize=sizeof(double), format='d')
     cdef double [:,:] A = toeplitz
-     
+
     for i in range(N):
         A[i,i] = d
     for i in range(N-1):
@@ -23,7 +23,7 @@ def create_toeplitz(double d,double a, int  N):
         A[i, i+1] = a
     return A
 
-# Trust that I have coded it correctly, set cython to not 
+# Trust that I have coded it correctly, set cython to not
 @cython.boundscheck(False)
 @cython.wraparound(False)
 def maxElemOffDiag(double [:,:] A, int n):
@@ -40,8 +40,8 @@ def maxElemOffDiag(double [:,:] A, int n):
     return offdiagmax, row, col
 
 @cython.boundscheck(False)
-@cython.wraparound(False)  
-def jacobiRotate(double [:,:] A,int k, int l, int n): 
+@cython.wraparound(False)
+def jacobiRotate(double [:,:] A,int k, int l, int n):
     cdef size_t i
     cdef double tau, t, c, s, a_kk, a_ll
     if (A[k,l] != 0.0):
