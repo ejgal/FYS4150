@@ -1,10 +1,8 @@
 import numpy as np
-import timeit
 cimport numpy as cnp
 cimport cython
 from libc.math cimport sqrt, abs
-
-from libc.time cimport clock ,clock_t
+import timeit
 
 cdef class CythonJacobi:
     cdef double offdiagmax
@@ -12,7 +10,7 @@ cdef class CythonJacobi:
     cdef double [:,:] A
     cdef double epsilon, 
     
-    @cython.profile(False)
+
     def __init__(self,int N ,double a, double d, double epsilon=1e-9):
         self.row = 0
         self.n = N
@@ -21,7 +19,7 @@ cdef class CythonJacobi:
         self.iterations = 0
         self.A = self.create_toeplitz(d, a, self.n)
         self.epsilon = epsilon
-    @cython.profile(False)
+
     @cython.boundscheck(False)
     @cython.wraparound(False)    
     cdef double [:,:] create_toeplitz(self,double d,double a, int  N):
@@ -39,22 +37,24 @@ cdef class CythonJacobi:
     @cython.boundscheck(False)
     @cython.wraparound(False)
     @cython.initializedcheck(False)
+    @cython.nonecheck(False)
     cdef void maxElemOffDiag(self,double [:,:] A, int N):
         self.offdiagmax = 0
         cdef int n = N
         cdef double aij
         cdef size_t i, j
         for i in range(n):
-            for j in range(i,n):
+            for j in range(i+1,n):
                 aij = abs(A[i,j])
-                if (i!=j and aij >= self.offdiagmax):
+                if (aij >= self.offdiagmax):
                     self.offdiagmax = aij
                     self.row = i; self.col = j
     
     @cython.boundscheck(False)
     @cython.wraparound(False)
-    @cython.cdivision(True)
     @cython.initializedcheck(False)
+    @cython.nonecheck(False)
+    @cython.cdivision(True) 
     cdef void jacobiRotate(self,double [:,:] A,int k, int l, int n): 
         cdef size_t i
         cdef double tau, t, c, s, a_kk, a_ll
@@ -86,17 +86,17 @@ cdef class CythonJacobi:
                 A[l,i] = A[i,l]
     
     @cython.initializedcheck(False)
+    @cython.boundscheck(False)
+    @cython.nonecheck(False)
     cdef void run(self):
         self.iterations = 0
         self.maxElemOffDiag(self.A, self.n)
-        while(self.offdiagmax >= self.epsilon):
+        while(self.offdiagmax*self.offdiagmax >= self.epsilon):
             self.iterations += 1 
             self.jacobiRotate(self.A, self.row, self.col, self.n)
             self.maxElemOffDiag(self.A, self.n)
 
     
-    cpdef void runJacobi(self):
-        self.run()
     
     @property
     def getIterations(self):
@@ -113,7 +113,7 @@ cdef class CythonJacobi:
 
 def run(N, a, d): 
     cdef CythonJacobi run = CythonJacobi(N, a, d)
-    run.runJacobi()
+    run.run()
     return run.getIterations, run.getEigenvalues
 
 #This function is stupid, let it be for now to have compability with 
@@ -122,3 +122,15 @@ def maxElemOffDiag(double [:,:] testA, int N):
     cdef CythonJacobi maxoffdiag = CythonJacobi(10, 1, 2)
     maxoffd = maxoffdiag.calcOffDiagMax(testA, N)
     return maxoffd, None, None
+
+def timeJacobi(N, runs):
+    cdef CythonJacobi run
+    h = 1./(N)
+    d = 2./(h**2)
+    a = -1./(h**2)
+    timeElapsed = np.zeros(runs)
+    for i in range(runs):
+        run = CythonJacobi(N, a, d)
+        timer = timeit.Timer(lambda: run.run())
+        timeElapsed[i] = timer.timeit(1)
+    return timeElapsed.mean(), timeElapsed.std(), timeElapsed

@@ -1,5 +1,4 @@
 import numpy as np
-import cythonJacobi_test
 import numbaJacobi
 import pythonJacobi
 import pytest
@@ -10,7 +9,7 @@ def __calAnalyticEigenVals(d, a, N):
     for i in range(1,N+1):
         x[i-1] = d + 2*a*np.cos((i*np.pi)/(N+1))
     return x
-@pytest.mark.parametrize("prog", [cythonJacobi_test, numbaJacobi, pythonJacobi])
+@pytest.mark.parametrize("prog", [cythonJacobi, numbaJacobi, pythonJacobi])
 def test_MaxElemOffDiag(prog):
 
     np.random.seed(126)
@@ -21,29 +20,19 @@ def test_MaxElemOffDiag(prog):
     N = rand_mat.shape[0]
     assert prog.maxElemOffDiag(rand_mat,N)[0] == 98
 
-testsetup = [(cythonJacobi_test, 200, True),
-             (numbaJacobi, 200, False),
-              (pythonJacobi, 20, False)]
+testsetup = [(cythonJacobi, 200),
+             (numbaJacobi, 200),
+              (pythonJacobi, 20)]
 
-@pytest.mark.parametrize("prog, N, Cython" , testsetup)
-def test_Eigenvalues(prog, N, Cython):
+@pytest.mark.parametrize("prog, N" , testsetup)
+def test_Eigenvalues(prog, N):
     N = N
 
     h = 1./(N)
     d = 2./(h**2)
     a = -1./(h**2)
     eigValsAnalytic =  __calAnalyticEigenVals(d, a, N)
-    if Cython:
-        calcEigVals = np.sort(prog.run(N, a, d)[1])
-    else:
-        A = prog.create_toeplitz(d, a, N)
-        offDiagMax = prog.maxElemOffDiag(A,N)[0]
-        iterations = 0
-        while(offDiagMax > 1e-9):
-            iterations += 1
-            offDiagMax, row, col = prog.maxElemOffDiag(A, N)
-            A =prog.jacobiRotate(A,row, col, N)
-        calcEigVals = np.sort(np.diag(A))
-    
+    calcEigVals = np.sort(prog.run(N, a, d)[1])
+
     assert np.allclose(calcEigVals, eigValsAnalytic)
     

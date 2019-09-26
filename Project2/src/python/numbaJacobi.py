@@ -1,5 +1,6 @@
 from numba import jit
 import numpy as np
+import timeit
 
 @jit(nopython=True) 
 def create_toeplitz(d, a,N):
@@ -17,9 +18,9 @@ def maxElemOffDiag(A ,N):
     offdiagmax = 0.0
     n = N
     for i in range(n):
-        for j in range(n):
+        for j in range(i+1,n):
             aij = np.abs(A[i,j])
-            if (i!=j and aij >= offdiagmax):
+            if (aij >= offdiagmax):
                 offdiagmax = aij
                 row = i; col = j
 
@@ -56,3 +57,28 @@ def jacobiRotate(A, k, l, N):
             A[i,l] = c*a_il + s*a_ik
             A[l,i] = A[i,l]
     return A
+
+def run(N,a,d):
+    A = create_toeplitz(d, a, N)
+    A,iterations = runJacobi(A,N)
+    return iterations, np.diag(A)
+
+def runJacobi(A,N):
+    offDiagMax = maxElemOffDiag(A,N)[0]
+    iterations = 0
+    while(offDiagMax*offDiagMax > 1e-9):
+        iterations += 1
+        offDiagMax, row, col = maxElemOffDiag(A, N)
+        A =jacobiRotate(A,row, col, N)
+    return A, iterations
+
+def timeJacobi(N, runs):
+    h = 1./(N)
+    d = 2./(h**2)
+    a = -1./(h**2)
+    timeElapsed = np.zeros(runs)
+    for i in range(runs):
+        A = create_toeplitz(d, a, N)
+        timer = timeit.Timer(lambda: runJacobi(A,N))
+        timeElapsed[i] = timer.timeit(1)
+    return timeElapsed.mean(), timeElapsed.std(), timeElapsed
