@@ -1,13 +1,33 @@
 \section{Results}
 
 
-\subsection{Jacobi method run time vs armadillo}
+\subsection{Number of iterations}
 
-time(armadillo)/time(jacobi) $\approx 10^{3}$.
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=0.66\textwidth]{../figures/iterations.png}
 
-\subsection{Jacobis method N scale}
+  \caption{Runs of the Jacobi method implemented in c++. Number of iterations
+  needed to make all offdiagonal elements smaller than 10$^{-8}$ as function of
+  matrix size n.}
 
-Number of transformations needed until $max(a_{ij}) < \epsilon = 1e^{-8}$ and we
-can read of the eigenvalues.
+  \label{fig:iterations}
+\end{figure}
 
-$1.4 (N+1)^2$.
+
+\subsection{Jacobi method c++ run time vs armadillo}
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=0.66\textwidth]{../figures/compare_arma_cpp.png}
+
+  \caption{Run time of the Jacobi method implemented in c++ divided by the run time of eigsys
+  from armadillo. Average of three runs for all n.}
+
+  \label{fig:cpp_arma}
+\end{figure}
+
+
+
+
+\subsection{Comparing run times of different implementations of the Jacobi method}

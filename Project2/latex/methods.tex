@@ -56,7 +56,7 @@ diagonal, and $d = \frac{2}{h^2}$ on the diagonal. $\vec{u}^T = [u_1, u_2, ..., 
 
 Our equation is now in the form of an eigenvalue problem, which has analytical
 eigenvalues $\lambda_j = d + 2a\cos{(\frac{j\pi}{n+1})}$ for $j \in [1,2,...,n]$
-where n is the size of A.
+where n is the size of A. (source?)
 
 \subsection{Properties of orthogonal transformations}
 
@@ -138,7 +138,7 @@ squared nondiagional elements, off(B)$^2$. Since the frobenius norm is
 preserved under an orthogonal transformation we must have
 $$ \abs{B}_F^2 = \abs{A}_F^2 =  off(B)^2 + \sum_{i}^{n} b_{ii} = off(A)^2 + \sum_{i}^{n} a_{ii}.$$
 
-Utilizing this we can show that
+Utilizing this we show that
 
 \begin{align*}
   off(B)^2 &= \abs{B}_F^2 - \sum_{i=1}^{n} b_{ii}^2 \\
@@ -149,7 +149,7 @@ Utilizing this we can show that
   &= off(A)^2 - 2a_{kl}^2
 \end{align*}
 
-and we see that the difference in the off(A)$^2$ and off(B)$^2$ is the greatest
+meaning the difference in the off(A)$^2$ and off(B)$^2$ is the greatest
 when we choose k and l to correspond with the largest offdiagonal element in A.
 
 
@@ -159,8 +159,11 @@ Algorithm:
 
 while (max nondiagonal squared)$^2$ < $\epsilon$.
 
+
   calculate: tau,t s, c.
 
   Perform transformation
+
+  Find largest nondiagonal element
 
 Read off the diagonal elements to find eigenvalues
