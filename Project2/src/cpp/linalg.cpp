@@ -35,17 +35,14 @@ void max_nondiagonal(mat& A, int& n, unsigned& row, unsigned int& col) {
   // Find indexes of the offdiagonal element with the largest absolute value
   // for a symmetric matrix
   double current_max = 0.0;
-  // row = 0;
-  // col = 0;
+  double a_ij;
   for (unsigned int i=0; i<n; i++) {
-    for (unsigned int j=i; j<n; j++) { // Symmetric matrix -> only loop over upper half
-      // a_ij = fabs(A(i,j));
-      // cout << "i: " << i <<endl;
-      // cout << "j: " << j <<endl;
-      if ( i != j && fabs(A(i,j)) >= current_max) {
+    for (unsigned int j=i+1; j<n; j++) { // Symmetric matrix -> only loop over upper half
+      a_ij = fabs(A(i,j));
+      if (a_ij >= current_max) {
         row = i;
-        col = j;
-        current_max = fabs(A(i,j)); // update maximum value
+        col = j
+        current_max = a_ij; // update maximum value
       }
     }
   }
