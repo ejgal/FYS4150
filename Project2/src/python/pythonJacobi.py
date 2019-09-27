@@ -63,7 +63,7 @@ def run(N,a,d):
 def _runJacobi(A,N):
     offDiagMax = maxElemOffDiag(A,N)[0]
     iterations = 0
-    while(offDiagMax*offDiagMax > 1e-9):
+    while(offDiagMax**2 > 1e-9):
         iterations += 1
         offDiagMax, row, col = maxElemOffDiag(A, N)
         A = jacobiRotate(A,row, col, N)

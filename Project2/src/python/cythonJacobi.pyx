@@ -91,7 +91,7 @@ cdef class CythonJacobi:
     cdef void run(self):
         self.iterations = 0
         self.maxElemOffDiag(self.A, self.n)
-        while(self.offdiagmax*self.offdiagmax >= self.epsilon):
+        while(self.offdiagmax**2 >= self.epsilon):
             self.iterations += 1 
             self.jacobiRotate(self.A, self.row, self.col, self.n)
             self.maxElemOffDiag(self.A, self.n)
