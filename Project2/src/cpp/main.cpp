@@ -25,7 +25,7 @@ void compare_jacobi_armadillo(int n, const char* filename) {
   mat A = toeplitz(a,d,n);
   clock_t start, finish;
   start = clock();
-  tolerance = pow(10.0, -9);
+  double tolerance = pow(10.0, -9);
   int iterations = jacobi(n, a, d, eigval, A, tolerance);
   finish = clock();
   ofile << n << "," << iterations << ',';
