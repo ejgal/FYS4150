@@ -41,7 +41,7 @@ void max_nondiagonal(mat& A, int& n, unsigned& row, unsigned int& col) {
       a_ij = fabs(A(i,j));
       if (a_ij >= current_max) {
         row = i;
-        col = j
+        col = j;
         current_max = a_ij; // update maximum value
       }
     }
