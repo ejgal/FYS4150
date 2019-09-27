@@ -125,7 +125,7 @@ def maxElemOffDiag(double [:,:] testA, int N):
 
 def timeJacobi(N, runs):
     cdef CythonJacobi run
-    h = 1./(N)
+    h = 1./(N+1)
     d = 2./(h**2)
     a = -1./(h**2)
     timeElapsed = np.zeros(runs)

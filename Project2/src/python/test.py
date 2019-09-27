@@ -20,6 +20,10 @@ def test_MaxElemOffDiag(prog):
     N = rand_mat.shape[0]
     assert prog.maxElemOffDiag(rand_mat,N)[0] == 98
 
+"""
+Test computed eigenvalus against analytic eigenvalues
+
+"""
 testsetup = [(cythonJacobi, 200),
              (numbaJacobi, 200),
               (pythonJacobi, 20)]
@@ -28,7 +32,7 @@ testsetup = [(cythonJacobi, 200),
 def test_Eigenvalues(prog, N):
     N = N
 
-    h = 1./(N)
+    h = 1./(N+1)
     d = 2./(h**2)
     a = -1./(h**2)
     eigValsAnalytic =  __calAnalyticEigenVals(d, a, N)

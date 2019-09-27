@@ -70,7 +70,7 @@ def _runJacobi(A,N):
     return A, iterations
 
 def timeJacobi(N, runs):
-    h = 1./(N)
+    h = 1./(N+1)
     d = 2./(h**2)
     a = -1./(h**2)
     timeElapsed = np.zeros(runs)
