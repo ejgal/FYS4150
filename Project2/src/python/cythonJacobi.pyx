@@ -133,4 +133,4 @@ def timeJacobi(N, runs):
         run = CythonJacobi(N, a, d)
         timer = timeit.Timer(lambda: run.run())
         timeElapsed[i] = timer.timeit(1)
-    return timeElapsed.mean(), timeElapsed.std(), timeElapsed
+    return timeElapsed.mean(), timeElapsed.std() ,timeElapsed

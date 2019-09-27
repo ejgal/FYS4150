@@ -21,9 +21,9 @@ df = df.groupby(level=0).mean()
 print(df)
 
 
+pydf = pd.read_csv(DATADIR+'pythonRuns.dat', index_col=0, header=0)
 
-
-
+print(pydf)
 
 
 # Iterations divided by n**2
