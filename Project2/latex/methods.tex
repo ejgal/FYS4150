@@ -1,6 +1,30 @@
 \section{Methods}
 
+\subsection*{Cython}
+Cython is an optimising static compiler for Cython, which is a superset of the
+python programming language. The cython compiler translate Python into C code by
+adding static type decelerations. Cython offers the readability of high-level
+python code combined with speed low level C and C++. This makes Cython ideal for
+creating fast modules which can speed up otherwise slow python code. One of the
+great advantages with Cython when developing code compared to for instance c++
+or C, is that since Cython is a superset of Python we can actually start with
+our slow Python code and then optimize the code iteratively. Compared to lets
+say translating our entire python program into c++/c, where we'll most likely
+make mistakes along the way and then have to spend unnecessary time debugging. 
 
+$\bf{Disadvantages?}$
+
+\subsection*{Numba}
+Numba is an just in time (JIT) compiler which translates a subset of python code
+into fast machine code. Currently Numba works best with NumPy, functions
+and loops. Enabling numba in a python script is very simple and is done by
+simply typing in a @jit deceleration above the python function you want to speed
+up. If the @jit(nopython = true) Numba will compile the python fuction with out
+using involving python at all, resulting in maximum speed up. Still to gain any increase in speed at all, the code needs to consist of
+numpy functions or loops.     
+
+
+\subsection*{Mathematical intermezzo}
 Considering the one dimensional wave function
 \begin{equation}
 \gamma \frac{d^2 u(x)}{dx^2} = -F u(x)
@@ -48,7 +72,7 @@ product and orthogonality.
 \subsection{Jacobi´s method}
 
 The idea behind Jacobi´s method is to diagonalize A by applying an orthogonal
-rotation R$^T$ a repeated number of times. By chosing a spesific angle $\theta$
+rotation R$^T$ a repeated number of times. By choosing a specific angle $\theta$
 we can zero out one element of the transformed matrix. We will use the shorthand
 c = $\cos{\theta}$, s = $\sin{\theta}$ and t = $\tan{\theta}$ where $\theta$ is
 the angle of rotation.
