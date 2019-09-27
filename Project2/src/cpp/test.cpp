@@ -6,13 +6,17 @@
 using namespace arma;
 
 TEST_CASE("max_nondiagonal returns largest element") {
-  int N = 4;
-  mat A = mat(N,N, fill::randu); //Fill A with random numbers [0,1]
-  A(0,1) = 5;
-  A(3,2) = -10;
-  int k=0; int l=0;
+  int N = 3;
+  mat A = mat(N,N); //Fill A with random numbers [0,1]
+  A = {{1,2,-7},
+      {2,1,3},
+      {-7,1,4}};
+  // A(0,1) = 5;
+  // A(3,2) = -10;
+  cout << A;
+  unsigned int k=0; unsigned int l=0;
   max_nondiagonal(A, N, k, l);
-  REQUIRE( (k == 3 && l == 2) );
+  REQUIRE( (k == 0 && l == 2) );
 }
 
 TEST_CASE("Jacobis method gives analytical eigenvalues") {

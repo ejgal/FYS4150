@@ -1,6 +1,8 @@
 #include "linalg.h"
 #include <tuple>
 #include <chrono>
+#include "time.h"
+#include <iomanip>
 
 using namespace arma;
 using namespace std;
@@ -17,7 +19,8 @@ vec analytic_eigenvalues(int n, double a, double d) {
 mat toeplitz(double a, double d, int N) {
   // Build a NxN toeplitz matrix with diagonal elements d and offdiagonal
   // elements d
-  mat A = mat(N, N, fill::zeros);
+  // mat A = mat(N, N, fill::zeros);
+  mat A = zeros<mat>(N,N);
   for (int i=0; i<N; i++) {
     A(i,i) = d; // Fill diagonal elements
   }
@@ -28,21 +31,25 @@ mat toeplitz(double a, double d, int N) {
   return A;
 }
 
-void max_nondiagonal(mat A, int N, int &row, int &col) {
+void max_nondiagonal(mat& A, int& n, unsigned& row, unsigned int& col) {
   // Find indexes of the offdiagonal element with the largest absolute value
-  double current_max = 0;
-  row = 0;
-  col = 0;
-  for (int i=0; i<N; i++) {
-    for (int j=0; j<N; j++) {
-      if ((i != j) && (fabs(A(i,j))) >= current_max) {
+  // for a symmetric matrix
+  double current_max = 0.0;
+  double a_ij;
+  for (unsigned int i=0; i<n; i++) {
+    for (unsigned int j=i+1; j<n; j++) { // Symmetric matrix -> only loop over upper half
+      a_ij = fabs(A(i,j));
+      if (a_ij >= current_max) {
         row = i;
-        col = j;
-        current_max = fabs(A(i,j)); // update maximum value
+        col = j
+        current_max = a_ij; // update maximum value
       }
     }
   }
 }
+
+
+
 
 void rotate(mat &A, int N, int k, int l) {
   double temp_a_ik; double temp_a_il; double temp_a_kk; double temp_a_ll;
@@ -76,17 +83,31 @@ void rotate(mat &A, int N, int k, int l) {
 
 
 int jacobi(int n, double a, double d, vec &eigval, mat &A, double epsilon) {
-  int k=0; int l=0; double max_offdiag;
+  unsigned int k=0; unsigned int l=0; double max_offdiag;
   int iterations=0;
-
+  clock_t start, finish;
+  cout << setiosflags(ios::showpoint);
+  cout << setprecision(10);
   max_nondiagonal(A, n, k,l);
   max_offdiag = A(k,l);
+  double elapsed_rotate = 0;
+  double elapsed_max = 0;
   while (max_offdiag*max_offdiag  > epsilon) {
+    start = clock();
     rotate(A, n, k, l);
+    finish = clock();
+    elapsed_rotate += (double) (finish - start)/(CLOCKS_PER_SEC);
+
+    start = clock();
     max_nondiagonal(A,n,k,l);
+    finish = clock();
+    elapsed_max += (double) (finish - start)/(CLOCKS_PER_SEC);
     max_offdiag = A(k,l);
     iterations ++;
-    }
+  }
+  cout << "Time rotate: " << elapsed_rotate << endl;
+  cout << "Find max: " << elapsed_max << endl;
+
   for (int i=0; i<n; i++) {
     eigval(i) = A(i,i);
   }
