@@ -113,12 +113,18 @@ plt.clf()
 
 
 # Number of iterations
-plt.scatter(df.index ,df['iterations'], marker='x', s=70, color='slateblue')
-# plt.plot(df.index, mean*df.index**2, label='{:.3f}n^2'.format(mean),linestyle='--')
+label_mean = r'${:.3f}N^2$'.format(mean)
+label_five = r'${:.3f}N^2$'.format(5)
+label_three = r'${:.3f}N^2$'.format(3)
+plt.scatter(df.index ,df['iterations'], marker='x', s=70, color='slateblue', label='Iterations c++')
+plt.plot(df.index, mean*df.index**2,linestyle='--', label=label_mean)
+plt.plot(df.index, 3*df.index**2,linestyle='--', label=label_three)
+plt.plot(df.index, 5*mean*df.index**2,linestyle='--', label=label_five)
+
 plt.grid()
 plt.ylabel('Iterations')
-plt.legend(['Iterations c++'])
-# ax = plt.gca()
-# ax.set_yscale('log')
+plt.legend()
+ax = plt.gca()
+ax.set_yscale('log')
 plt.savefig(PLOTDIR+'iterations.png')
 plt.clf()
