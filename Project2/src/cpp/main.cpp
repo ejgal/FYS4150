@@ -33,7 +33,6 @@ void compare_jacobi_armadillo(int n, const char* filename) {
   ofile << timeused << ",";
 
   // Time one run of finding the eigenvalues with armadillo
-
   vec arma_eigval;
   mat arma_eigvec;
 
@@ -49,11 +48,15 @@ void compare_jacobi_armadillo(int n, const char* filename) {
 
 
 int main(int argc, char *argv[]) {
-  int start = atoi(argv[1]);
-  int stop = atoi(argv[2]);
-  int runs = atoi(argv[3]);
-  const char* filename = argv[4];
 
+//  int start = atoi(argv[1]);
+//  int stop = atoi(argv[2]);
+  int start = 5;
+  int stop = 100;
+
+  int runs = atoi(argv[1]);
+  const char* filename = argv[2];
+  vec Ns = {100, 120, 150, 180, 200, 220, 250, 275, 300, 350};
   cout << start << endl;
   cout << stop << endl;
   cout << runs << endl;
@@ -65,12 +68,14 @@ int main(int argc, char *argv[]) {
   ofile.close();
 
   // Run experiment
-  for (int i=start; i<=stop; i++) {
+
+
+  for (int i=0; i<Ns.size() ; i++) {
     for (int j=1; j<=runs; j++) {
-      compare_jacobi_armadillo(i, filename);
+      compare_jacobi_armadillo(Ns(i), filename);
     }
     // Print to keep track of progress
-    cout << "n: " << i << endl;
+    cout << "n: " << Ns(i) << endl;
   }
 
   // Write arguments to file
