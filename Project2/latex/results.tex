@@ -1,18 +1,57 @@
 \section{Results}
 
+The implementation in cython, numba and c++ was run for N values ranging from 5
+to 350. Since the python version was quite slow it was only run with N in the
+range of 5 to 100. All values used are average values over 5 runs.
+
 
 \subsection{Number of iterations}
 
+We will first look into the number of transformations needed to make all off
+diagonal elements smaller than the tolerance level $\epsilon$, in our case
+$\epsilon = 10^{-9}$, and find an estimate as a function of N, with N being the
+dimension of the square matrix we are diagonalizing. In this part we will
+analyze the results from the c++ implementation of Jacobis method, and compare
+our results with results from the literature of between 3N$^2$ - 5N$^2$
+transformations.
+
+(ref compendium p. 217)
+
+To look into the N dependence \cref{fig:iterations_scaled} shows the number of
+transformations scaled by N$^2$. The ratio flattens for N larger than 100. The
+horisontal line shows the mean value of the ratio for N larger than 200. Using
+the calculated mean value a possible equation for transformations as a function
+of N is $\#transformations = 1.56\cdot N^2$. \Cref{fig:iterations} shows the
+actual number of transformations, our estimated relation and the values from the literature.
+This seems to be a
+good fit to the data. Our results shows a faster convergence than the expected
+values, but we are unsure of the tolerance level that was used. If we used a
+lower tolerance our number of transformations would be higher.
+
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.66\textwidth]{../figures/iterations.png}
+  \includegraphics[width=1.0\textwidth]{../figures/iterations_compare_n2.png}
+  \caption{Runs of the Jacobi method implemented in c++. Number of iterations
+  needed to make all offdiagonal elements smaller than 10$^{-9}$ as function of
+  matrix size N. The horisontal line shows the mean value of iterations for
+  N $\geq$ 200.}
+
+  \label{fig:iterations_scaled}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{../figures/iterations.png}
 
   \caption{Runs of the Jacobi method implemented in c++. Number of iterations
-  needed to make all offdiagonal elements smaller than 10$^{-8}$ as function of
-  matrix size n.}
+  needed to make all offdiagonal elements smaller than 10$^{-9}$ as function of
+  matrix size N.}
 
   \label{fig:iterations}
 \end{figure}
+
 
 \subsection{Timing Result}
 
