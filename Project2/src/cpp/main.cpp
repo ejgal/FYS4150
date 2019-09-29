@@ -9,6 +9,9 @@ using namespace std;
 using namespace arma;
 
 void compare_jacobi_armadillo(int n, const char* filename) {
+  /* Run the jacobi algorithm and armadillos eig_symfor a matrix of size nxn and
+  /* write the number of iterations needed and the time used to file */
+
   // Initialize variables
   double h = 1./(n+1);
   double hh = h*h;
@@ -35,11 +38,8 @@ void compare_jacobi_armadillo(int n, const char* filename) {
   // Time one run of finding the eigenvalues with armadillo
   vec arma_eigval;
   mat arma_eigvec;
-
   start = clock();
   eig_sym(arma_eigval, arma_eigvec, A);
-
-  // cx_vec eigval_arma = eig_sym( toeplitz(a, d, n) );
   finish = clock();
   timeused = (double)(finish - start)/(CLOCKS_PER_SEC);
   ofile << timeused << endl;
@@ -48,18 +48,9 @@ void compare_jacobi_armadillo(int n, const char* filename) {
 
 
 int main(int argc, char *argv[]) {
-
-//  int start = atoi(argv[1]);
-//  int stop = atoi(argv[2]);
-  int start = 5;
-  int stop = 100;
-
   int runs = atoi(argv[1]);
   const char* filename = argv[2];
   vec Ns = {100, 120, 150, 180, 200, 220, 250, 275, 300, 350};
-  cout << start << endl;
-  cout << stop << endl;
-  cout << runs << endl;
 
   // Write header line
   ofstream ofile;
@@ -68,8 +59,6 @@ int main(int argc, char *argv[]) {
   ofile.close();
 
   // Run experiment
-
-
   for (int i=0; i<Ns.size() ; i++) {
     for (int j=1; j<=runs; j++) {
       compare_jacobi_armadillo(Ns(i), filename);
@@ -77,11 +66,4 @@ int main(int argc, char *argv[]) {
     // Print to keep track of progress
     cout << "n: " << Ns(i) << endl;
   }
-
-  // Write arguments to file
-  ofile.open("../../data/last_run.txt");
-  ofile << "start: " << start << endl;
-  ofile << "stop: " << stop << endl;
-  ofile << "runs: " << runs << endl;
-  ofile.close();
 }
