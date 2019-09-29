@@ -1,3 +1,0 @@
-start: 5
-stop: 100
-runs: 5
