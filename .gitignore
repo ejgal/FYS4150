@@ -23,6 +23,7 @@ __latexindent_temp.tex
 # python
 **/__pycache__/
 *.pyc
+**/.ipynb_checkpoints/
 
 # C++
 *.out
