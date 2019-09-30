@@ -1,15 +1,16 @@
 \section{Methods}
 
 \subsection*{The Jacobi's Method}
-Considering the one dimensional wave function
+
+The physical problem we will look at is the one dimensional wave function
 \begin{equation}
 \gamma \frac{d^2 u(x)}{dx^2} = -F u(x)
 \end{equation}
-, with u(x) being the vertical displacement of a beam in the y direction.
-x $\in [0, L]$, with L being the length of the beam. $\gamma$ is a material constant,
+with u(x) being the vertical displacement of a beam in the y direction, where
+x $\in [0, L]$, with L is the length of the beam. $\gamma$ is a material constant,
 and F is a force towards the origin being applied at the right hand side of the beam.
-We will use the boundary conditions u(0) = u(L) = 0, meaning the beam doesn't move
-at the end points.
+We will use the boundary conditions u(0) = u(L) = 0, meaning that the beam is
+fixed at the end points.
 
 
 Since we want to solve this equation numerically we scale it.
@@ -30,9 +31,9 @@ $ A \vec{u} = \lambda \vec{u}$
 with A being a tridiagonal matrix with $a = \frac{-1}{h^2}$ on the upper and lower
 diagonal, and $d = \frac{2}{h^2}$ on the diagonal. $\vec{u}^T = [u_1, u_2, ..., u_{n-1}]$
 
-Our equation is now in the form of an eigenvalue problem, which has analytical
-eigenvalues $\lambda_j = d + 2a\cos{(\frac{j\pi}{n+1})}$ for $j \in [1,2,...,n]$
-where n is the size of A. (source?)
+Our equation is now in the form of an eigenvalue problem, which in this case has
+analytical eigenvalues $\lambda_j = d + 2a\cos{(\frac{j\pi}{n+1})}$ for $j \in
+[1,2,...,n]$ where n is the size of A. \cite{lectures}
 
 \subsection{Properties of orthogonal transformations}
 
@@ -74,35 +75,35 @@ After one transformation $R^T A R R^T \vec{x} = B (R^T \vec{x}) = \lambda (R^T
 Performing the transformation results in the following matrix.
 (refer compendium 216)
 
-\begin{align}
+\begin{align*}
   b_{ii} &= a_{ii}, i \neq k, i \neq \\
   b_{ik} &= a_{ik}c - a_{il}s, i \neq k, i \neq \\
   b_{il} &= a_{il}c + a_{ik}s, i \neq k, i \neq \\
   b_{kk} &= a_{kk}c^2 - 2a_{kl}cs + a_{ll}s^2 \\
   b_{ll} &= a_{ll}c^2 + 2a_{kl}cs + a_{kk}s^2 \\
   b_{kl} &= (a_{kk}- a_{ll})cs + a_{kl}(c^2 - s^2)
-\end{align}
+\end{align*}
 
 Since A is symmetric, the orthogonal transformation of A will also be symmetric
 which leads to
-\begin{align}
+\begin{align*}
   b_{ki} &= b_{ik} \\
   b_{li} &= b_{il} \\
   b_{lk} &= b_{lk}
-\end{align}
+\end{align*}
 
 From this we see that the only changes between B and A will be in the columns
 and rows k,l, and we will not have to perform the full matrix multiplication.
 
-By choosing b$_{kl}$ to be zero we get the equation
+Setting b$_{kl}$ equal to zero and defining $\tau = \frac{a_{kk} - a_{ll}}{2a_{kl}}$
+gives
 
-$b_{kl} = (a_{kk}-a_{ll})cs + a_{kl} (c^2 + s^2) = 0$.
+\begin{align*}
+  \tau &= -\frac{cos(2\theta)}{sin(2\theta)} \\
+  &=  \frac{1}{tan(2\theta)}
+\end{align*}
 
-$0 = \frac{a_{kk} - a_{ll}}{2a_{kl}} = \tau = -\frac{cos(2\theta)}{sin(2\theta)} = \frac{1}{tan(2\theta)}$
-
-and
-
-$t^2 + 2t\tau -1 = 0$ with roots $t = -\tau \pm \sqrt{(\tau^2 + 1)}$. We will
+Solving for t leads to $t^2 + 2t\tau -1 = 0$, with roots $t = -\tau \pm \sqrt{(\tau^2 + 1)}$. We will
 use this equation to fix $\theta$ to the angle that eliminates element a$_{kl}$.
 Having fixed the angle we find $c = \frac{1}{\sqrt{(1+t^2)}}$ and $s = tc$, which
 we need to build the transformation matrix.
