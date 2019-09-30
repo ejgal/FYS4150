@@ -50,7 +50,7 @@ plt.savefig(PLOTDIR+'avgspeed.png')
 
 
 
-# Plot speeds of c++, cython and numba for large N
+# Plot speeds of c++, cython and numba for large n
 dfc = pd.read_csv(cp100_350, index_col=0, header=0)
 df1 = pd.read_csv(DATADIR + 'fpython_100_350.dat', index_col=0, header=0)
 df1['c++'] = dfc['jacobi']
@@ -63,7 +63,7 @@ for key in a:
     plt.scatter(key,df1[' cython'][key].mean(), marker ='^',s=70 ,color ='darkviolet')
 plt.legend(('c++', 'cython', 'numba'))
 plt.grid()
-plt.xlabel('N')
+plt.xlabel('n')
 plt.ylabel('Seconds')
 plt.savefig(PLOTDIR+'speedComp_100_350.png')
 
@@ -76,7 +76,7 @@ for key in a:
     plt.scatter(key, df1['rel speed Numba'][key].mean(), marker='+',s=70, color = 'indigo')
     plt.scatter(key,df1['rel speed Cython'][key].mean(), marker ='^',s=70 ,color ='darkviolet')
 plt.legend(('numba', 'cython'))
-plt.xlabel('N')
+plt.xlabel('n')
 plt.ylabel('Relative Speedup compared to c++')
 plt.grid()
 plt.savefig(PLOTDIR+'speedCompC++_100_350.png')
@@ -105,17 +105,17 @@ plt.scatter(df.index ,scaled, marker='x', s=70, color='slateblue', label='c++')
 plt.axhline(mean, label='{:.2f}'.format(mean))
 
 plt.legend()
-plt.xlabel('N')
-plt.ylabel(r'Iterations/N$^2$')
+plt.xlabel('n')
+plt.ylabel(r'Iterations/n$^2$')
 plt.grid()
 plt.savefig(PLOTDIR + 'iterations_compare_n2.png')
 plt.clf()
 
 
 # Number of iterations
-label_mean = r'${:.3f}N^2$'.format(mean)
-label_five = r'${:.3f}N^2$'.format(5)
-label_three = r'${:.3f}N^2$'.format(3)
+label_mean = r'${:.3f}n^2$'.format(mean)
+label_five = r'${:.3f}n^2$'.format(5)
+label_three = r'${:.3f}n^2$'.format(3)
 plt.scatter(df.index ,df['iterations'], marker='x', s=70, color='slateblue', label='Iterations c++')
 plt.plot(df.index, mean*df.index**2,linestyle='--', label=label_mean)
 plt.plot(df.index, 3*df.index**2,linestyle='--', label=label_three)

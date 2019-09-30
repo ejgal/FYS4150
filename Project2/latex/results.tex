@@ -1,11 +1,11 @@
-\section{Results}
+\section*{Results}
 
 The implementation in cython, numba and c++ was run for matrix sizes n ranging from 5
 to 350. Since the python version was quite slow it was only run with n in the
 range of 5 to 100. All values used are average values over 5 runs.
 
 
-\subsection{Number of iterations}
+\subsection*{Number of iterations}
 
 We will first look into the number of transformations needed to make all off
 diagonal elements smaller than the tolerance level $\epsilon$, in our case
@@ -55,7 +55,7 @@ be higher.
 \end{figure}
 
 
-\subsection{Timing Result}
+\subsection*{Timing Results}
 
 \begin{figure}[H]
   \centering
@@ -78,21 +78,3 @@ be higher.
   \caption{Relative speed up compared to c++}
   \label{fig:comp_c++}
 \end{figure}
-
-\subsection{Jacobi method c++ run time vs armadillo}
-May not be relevant!
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.66\textwidth]{../figures/compare_arma_cpp.png}
-
-  \caption{Run time of the Jacobi method implemented in c++ divided by the run time of eigsys
-  from armadillo. Average of three runs for all n.}
-
-  \label{fig:cpp_arma}
-\end{figure}
-
-
-
-
-\subsection{Comparing run times of different implementations of the Jacobi method}
