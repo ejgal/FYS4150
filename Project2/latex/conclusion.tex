@@ -1,1 +1,17 @@
-\section*{Conclusion}
+\section*{Conclusion} 
+We have investigated the performance of Cython and Numba, tools to easily
+optimise python code and compared them with Armadillo. 
+From our result we have shown that it is possible to achieve low-level
+performance with a high-level language. We where able to make our baseline
+python Jacobi's method implementation around 500 times faster through only
+slight modification and even beating our c++ Armadillo implementation. 
+
+Cython and Numba are quite different. With Numba 
+the @jit compiler does all the work for you, which means doing any further
+optimization beyond exploits in the physical problem is difficult. 
+Cython offers the user much more control (and more work), giving 
+much more flexibility in terms of optimizations. This is something we think is
+important to consider when making optimizations. If you have larger and more
+complex program, then you might achieve the best result by using Cython or
+Armadillo. If instead you only need to optimise a small part of the code then
+Numba might be the best choice, offering great performance for little effort. 
