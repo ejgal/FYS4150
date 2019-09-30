@@ -128,21 +128,19 @@ Utilizing this we show that
 meaning the difference in the off(A)$^2$ and off(B)$^2$ is the greatest
 when we choose k and l to correspond with the largest offdiagonal element in A.
 
+Our algorithm is then:
+
+\begin{algorithmic}
+\While{$a_{ij}^2 > \epsilon$}
+    \State calculate: $\tau$, t, s, c
+    \State Perform transformation
+    \State Find largest nondiagonal element
+  \EndWhile
+  \State Read off diagonal elements to find eigenvalues
+\end{algorithmic}
 
 
-
-Algorithm:
-
-while (max nondiagonal squared)$^2$ < $\epsilon$.
-
-
-  calculate: tau,t s, c.
-
-  Perform transformation
-
-  Find largest nondiagonal element
-
-Read off the diagonal elements to find eigenvalues
+Our implementation of the jacobi method can be found at our github \cite{github}.
 
 \subsection*{Experimental setup}
 To have our benchmark consistent every run was conducted using the same pc. We
@@ -152,4 +150,4 @@ ran each implementation was ran five times for different N ranging from 0 to
 implementations. To investigate performance for large N we ran the c++, Numba
 and Cython implementations for N ranging from 100 to 350 and for each N we
 ran the program five times. We only timed the part of the code which calculated
-the eigenvalues.   
+the eigenvalues.
