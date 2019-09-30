@@ -11,15 +11,14 @@ The Numba version did stay constant at around 3.5 times the speed of Armadillo.
 While Cython version show a steady increase in relative speed up of around from
 3 for n = 100 to 5.5 for n = 350. 
 
-
-Surprising to us was that both the Numba and Cython would beat Armadillo by such
+Surprising to us was that both the Numba and Cython beat Armadillo by such
 a large margin. The performance of Numba was especially impressive considering
 that only change we did compared to the baseline python code was adding the
-@jit(nopython =True) deceleration at the top of our functions. This results may
-be because of the high level features that Armadillo offers does compromise some
-performance. This something that would be interesting to investigate further by
-comparing an pure C++ implementation with the Armadillo implementation.
+@jit(nopython=True) deceleration at the top of our functions. This results may
+be consequence of the high level features that Armadillo offers, which could
+compromise some performance. This something that would be interesting to
+investigate further by comparing an pure C++ implementation with the Armadillo
+implementation. 
 
-We did not only evaluate the performance of each version, preserving code
-readability, ease of use and robustness where also considered.  
+
 
