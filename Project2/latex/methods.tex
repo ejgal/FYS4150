@@ -7,20 +7,18 @@ The physical problem we will look at is the one dimensional wave function
 \gamma \frac{d^2 u(x)}{dx^2} = -F u(x)
 \end{equation}
 with u(x) being the vertical displacement of a beam in the y direction, where
-x $\in [0, L]$, with L is the length of the beam. $\gamma$ is a material constant,
+x $\in [0, L]$, with L being the length of the beam. $\gamma$ is a material constant,
 and F is a force towards the origin being applied at the right hand side of the beam.
 We will use the boundary conditions u(0) = u(L) = 0, meaning that the beam is
 fixed at the end points.
 
 
 Since we want to solve this equation numerically we scale it.
-
 Introducing $ \rho = \frac{x}{L} $ limits $\rho$ to $[0, 1]$ and scales the
 equation to
 $$\frac{d^2 u(\rho)}{d\rho^2} = - \frac{FL^2}{\gamma} u(\rho) = -\lambda u(\rho).$$
 
-We discretize $\rho$ on a grid with N+1 points, which
-define the step length as $h = \frac{\rho_N - \rho_0}{N}$ with $\rho_N = 1$ and
+We discretize $\rho$ on a grid with N+1 points, fixing the step length as $h = \frac{\rho_N - \rho_0}{N}$ with $\rho_N = 1$ and
 $\rho_0 = 0$.
 
 Using the three point formula for the second derivative $ u'' = \frac{u(\rho + h) - 2u(\rho) +
@@ -75,9 +73,9 @@ After one transformation $R^T A R R^T \vec{x} = B (R^T \vec{x}) = \lambda (R^T
 Performing the transformation results in the following matrix \cite{lectures}.
 
 \begin{align*}
-  b_{ii} &= a_{ii}, i \neq k, i \neq \\
-  b_{ik} &= a_{ik}c - a_{il}s, i \neq k, i \neq \\
-  b_{il} &= a_{il}c + a_{ik}s, i \neq k, i \neq \\
+  b_{ii} &= a_{ii}, i \neq k, i \neq l\\
+  b_{ik} &= a_{ik}c - a_{il}s, i \neq k, i \neq l\\
+  b_{il} &= a_{il}c + a_{ik}s, i \neq k, i \neq l\\
   b_{kk} &= a_{kk}c^2 - 2a_{kl}cs + a_{ll}s^2 \\
   b_{ll} &= a_{ll}c^2 + 2a_{kl}cs + a_{kk}s^2 \\
   b_{kl} &= (a_{kk}- a_{ll})cs + a_{kl}(c^2 - s^2)
