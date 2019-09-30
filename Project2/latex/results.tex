@@ -12,22 +12,14 @@ diagonal elements smaller than the tolerance level $\epsilon$, in our case
 $\epsilon = 10^{-9}$, and find an estimate as a function of n, with n being the
 dimension of the square matrix we are diagonalizing. In this part we will
 analyze the results from the c++ implementation of Jacobis method, and compare
-our results with results from the literature of between 3n$^2$ - 5n$^2$
+our results with results from the literature of between 3n$^2$ - 5n$^2$ \cite{lectures}
 transformations.
-
-(ref compendium p. 217)
 
 To look into the n dependence \cref{fig:iterations_scaled} shows the number of
 transformations scaled by n$^2$. The ratio flattens for n larger than 100. The
 horisontal line shows the mean value of the ratio for n larger than 200. Using
 the calculated mean value a possible equation for transformations as a function
-of n is $\#transformations = 1.56\cdot n^2$. \Cref{fig:iterations} shows the
-actual number of transformations, our estimated relation and the values from the literature.
-This seems to be a
-good fit to the data. Our results shows a faster convergence than the expected
-values, but we are unsure of the tolerance level that was used. If we used a
-lower tolerance our number of transformations would be higher.
-
+of n is $\#transformations = 1.56\cdot n^2$.
 
 \begin{figure}[H]
   \centering
@@ -39,6 +31,16 @@ lower tolerance our number of transformations would be higher.
 
   \label{fig:iterations_scaled}
 \end{figure}
+
+
+\Cref{fig:iterations} shows the
+actual number of transformations, our estimated relation and the values from the
+literature. This seems to be a good fit to the data. Our results shows a faster
+convergence than the expected values, but we are unsure of the tolerance level
+that was used. If we used a lower tolerance our number of transformations would
+be higher.
+
+
 
 
 \begin{figure}[H]
