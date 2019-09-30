@@ -17,7 +17,6 @@ void compare_jacobi_armadillo(int n, const char* filename) {
   double hh = h*h;
   double a = -1./hh;
   double d = 2./hh;
-  vec eigval = vec(n);
 
   ofstream ofile;
   ofile.open(filename, ios::app); // Open file in append mode
@@ -29,7 +28,7 @@ void compare_jacobi_armadillo(int n, const char* filename) {
   clock_t start, finish;
   start = clock();
   double tolerance = pow(10.0, -9);
-  int iterations = jacobi(n, a, d, eigval, A, tolerance);
+  int iterations = jacobi(n, a, d, A, tolerance);
   finish = clock();
   ofile << n << "," << iterations << ',';
   double timeused = (double) (finish - start)/(CLOCKS_PER_SEC);
