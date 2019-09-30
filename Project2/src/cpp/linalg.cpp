@@ -82,34 +82,34 @@ void rotate(mat &A, int N, int k, int l) {
 }
 
 
-int jacobi(int n, double a, double d, vec &eigval, mat &A, double epsilon) {
+int jacobi(int n, double a, double d, mat &A, double epsilon) {
   unsigned int k=0; unsigned int l=0; double max_offdiag;
   int iterations=0;
-  clock_t start, finish;
   cout << setiosflags(ios::showpoint);
   cout << setprecision(10);
   max_nondiagonal(A, n, k,l);
   max_offdiag = A(k,l);
-  double elapsed_rotate = 0;
-  double elapsed_max = 0;
+  // clock_t start, finish;
+  // double elapsed_rotate = 0;
+  // double elapsed_max = 0;
   while (max_offdiag*max_offdiag  > epsilon) {
-    start = clock();
+    // start = clock();
     rotate(A, n, k, l);
-    finish = clock();
-    elapsed_rotate += (double) (finish - start)/(CLOCKS_PER_SEC);
+    // finish = clock();
+    // elapsed_rotate += (double) (finish - start)/(CLOCKS_PER_SEC);
 
-    start = clock();
+    // start = clock();
     max_nondiagonal(A,n,k,l);
-    finish = clock();
-    elapsed_max += (double) (finish - start)/(CLOCKS_PER_SEC);
+    // finish = clock();
+    // elapsed_max += (double) (finish - start)/(CLOCKS_PER_SEC);
     max_offdiag = A(k,l);
     iterations ++;
   }
-  cout << "Time rotate: " << elapsed_rotate << endl;
-  cout << "Find max: " << elapsed_max << endl;
+  // cout << "Time rotate: " << elapsed_rotate << endl;
+  // cout << "Find max: " << elapsed_max << endl;
 
-  for (int i=0; i<n; i++) {
-    eigval(i) = A(i,i);
-  }
+  // for (int i=0; i<n; i++) {
+  //   eigval(i) = A(i,i);
+  // }
   return iterations;
 }

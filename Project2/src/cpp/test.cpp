@@ -27,7 +27,10 @@ TEST_CASE("Jacobis method gives analytical eigenvalues") {
   vec eigval = vec(n);
   vec analytic = sort(analytic_eigenvalues(n, a, d));
   mat A = toeplitz(a,d,n);
-  jacobi(n, a, d, eigval, A, tol);
+  jacobi(n, a, d, A, tol);
+  for (int i=0; i<n; i++){
+    eigval(i) = A(i,i);
+  }
   eigval = sort(eigval);
   REQUIRE( analytic(0) == Approx(eigval(0)));
   REQUIRE( analytic(1) == Approx(eigval(1)));
@@ -45,7 +48,10 @@ TEST_CASE("Jacobis method == analytic eigenvalues realistic") {
   vec eigval = vec(n);
   vec analytic = sort(analytic_eigenvalues(n, a, d));
   mat A = toeplitz(a,d,n);
-  jacobi(n, a, d, eigval, A, tol);
+  jacobi(n, a, d, A, tol);
+  for( int i=0; i<n; i++){
+    eigval(i) = A(i,i);
+  }
   eigval = sort(eigval);
   for (int i=0; i<n; i++) {
     REQUIRE( analytic(i) == Approx(eigval(i)).epsilon(tol));
