@@ -7,7 +7,7 @@ all: pdf
 present: $(DOC).pdf
 	dspdfviewer $(DOC).pdf
 
-$(DOC).pdf: $(DOC).tex references.bib
+$(DOC).pdf: $(DOC).tex abstract.tex conclusion.tex discussion.tex introduction.tex methods.tex results.tex references.bib
 	pdflatex $(DOC)
 	biber $(DOC)
 	pdflatex $(DOC)
