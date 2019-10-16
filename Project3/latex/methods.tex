@@ -95,10 +95,14 @@ $\frac{1}{N} \sum_{i=1}^{N} \frac{f(\*x_i)}{p(\*x_i)}$, which is still unbiased,
 variance will decrease if $p(\*x)$ is proportional to $f(\*x)$. We would then sample
 more points in the domain where $f(\*x)$ is large than where it is small.
 Our integral in spherical coordinates \cref{eq:int_spherical} have an exponential
-component in the radial domain. A good distribution for that part would then be
+component in the radial domain. A good distribution for that part would be
 the exponential distribution with pdf $p(x) = ae^{-ax}$.
 Setting $a = 4$ leads to cancellation of the exponential part of the integral in
-spherical coordinates \cref{eq:int_spherical}, with new estimator
+spherical coordinates \cref{eq:int_spherical} if we divide by
+$p(r_1,r_2) = 4e^{-4r_1} 4e^{-4r_2}$. The new estimator is then
+\cref{eq:estimator_importance}. The factor $4\pi^4$ is a correction to the estimator due to sampling from the
+uniform distribution with $\theta_1, \theta_2 \in \brak{0, \pi}$ and
+$\phi_1, \phi_2 \in \brak{0, 2\pi}$.
 
 \begin{equation}
   \label{eq:estimator_importance}
@@ -107,7 +111,3 @@ spherical coordinates \cref{eq:int_spherical}, with new estimator
   = \frac{\pi^4}{4N} \sum_{i=1}^{N}
   \frac{r_{1,i}^2 r_{2,i}^2 \sin{\theta_{1,i}} \sin{\theta_{2,i}}}{\abs{r_{12,i}}}
 \end{equation}
-
-The factor $4\pi^4$ is a correction to the estimator due to sampling from the
-uniform distribution with $\theta_1, \theta_2 \in \brak{0, \pi}$ and
-$\phi_1, \phi_2 \in \brak{0, 2\pi}$.
