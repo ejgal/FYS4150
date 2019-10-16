@@ -3,8 +3,6 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from numba import jit, njit, prange
 
-
-
 @jit(nopython=True)
 def estimator_spherical(r1,r2,t1,t2,phi1,phi2):
     """
@@ -67,6 +65,29 @@ def montecarlo_brute(N,a,b):
 
 
 @njit(parallel=True)
+def montecarlo_importance_parallel(N):
+    """
+
+    """
+
+    Sum = 0
+    Sum_squared = 0
+
+    for i in prange(N):
+        r1 = np.random.exponential(scale=1/4.)
+        r2 = np.random.exponential(scale=1/4.)
+        t1 = np.random.uniform(0,np.pi)
+        t2 = np.random.uniform(0,np.pi)
+        phi1 = np.random.uniform(0,2*np.pi)
+        phi2 = np.random.uniform(0,2*np.pi)
+        fx = estimator_spherical(r1,r2,t1,t2,phi1,phi2)
+        Sum += fx
+        Sum_squared += fx**2
+    Sum = Sum/float(N)
+    Sum_squared = Sum_squared/float(N)
+    return Sum, Sum_squared
+
+@jit(nopython=True)
 def montecarlo_importance(N):
     """
 
@@ -93,7 +114,7 @@ def montecarlo_importance(N):
 
 
 
-def print_results(Sum, Sum_squared):
+def print_results(Sum, Sum_squared,N):
     variance = (Sum_squared - (Sum**2))/float(N)
     analytical = 5*np.pi**2/16**2
     error = analytical - Sum
@@ -105,29 +126,3 @@ def print_results(Sum, Sum_squared):
 
 def variance(Sum, Sum_squared, N):
     return (Sum_squared - (Sum**2))/float(N)
-
-
-
-std = []
-error = []
-analytical = 5*np.pi**2/16**2
-
-Ns = [10**n for n in range(3,11)]
-for N in Ns:
-    print(N)
-    s1,s2 = montecarlo_brute(N,-2,2)
-    print_results(s1,s2)
-    std.append(np.sqrt(variance(s1,s2,N)))
-    error.append(analytical - s1)
-    # s1,s2 = montecarlo_importance(N)
-    # print_results(s1,s2)
-print(std)
-plt.plot(Ns, std)
-plt.xscale("log")
-plt.show()
-
-print(error)
-
-plt.plot(Ns, np.abs(error))
-plt.xscale("log")
-plt.show()
