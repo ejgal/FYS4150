@@ -1,6 +1,6 @@
 import numpy as np
 from numba import jit, njit, prange, jitclass, autojit
-from numpy.polynomial.legendre import leggauss 
+from numpy.polynomial.legendre import leggauss
 from scipy.special import roots_laguerre
 from numba import int32, float64, float_, void
 spec = [
@@ -32,7 +32,7 @@ def _run_laguerre(leg,lag,legw,lagw, N):
     leg, wge = leg, legw
     totalSum = 0
     thetaScalem = np.pi/2
-    pScalem = 2*np.pi/2 
+    pScalem = 2*np.pi/2
     for i in prange(N):
         for j in prange(N):
             for k in prange(N):
@@ -57,7 +57,7 @@ def _run_legrende(leg,legw,a,b, N, alpha=2):
     x = leg
     w = legw
     xl = (b+a)*0.5
-    xm = (b-a)*0.5 
+    xm = (b-a)*0.5
     totalSum = 0
     for i in prange(N):
         for j in prange(N):

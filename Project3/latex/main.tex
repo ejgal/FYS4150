@@ -37,6 +37,10 @@
 %Kryss ut ting
 \usepackage[makeroom]{cancel}
 
+
+% Expectation value
+\usepackage{braket}
+
 %Color scheme for listings
 \usepackage{textcomp}
 \definecolor{listinggray}{gray}{0.9}
@@ -62,7 +66,8 @@
 \renewcommand{\dblfloatpagefraction}{0.7}	% require fuller float pages
 % remember to use [htp] or [htpb] for placement
 
-
+%Macro for writing vectors
+\def\*#1{\ensuremath{\mathbf{#1}}}
 
 \newcommand{\uveci}{{\bm{\hat{\textnormal{\bfseries\i}}}}}
 \newcommand{\uvecj}{{\bm{\hat{\textnormal{\bfseries\j}}}}}
@@ -91,6 +96,13 @@
 \includegraphics[height=\paperheight,width=\paperwidth]{FrontpageBlue.png}%
 \vfill
 }}}
+
+% Macros for writing auto-sized paranthesis, brackets and braces
+\newcommand{\para}[1]{\left(#1\right)}
+\newcommand{\brak}[1]{\left[#1\right]}
+\newcommand{\brac}[1]{\left\{#1\right\}}
+
+
 
 \newcommand{\pd}[2][]{\frac{\partial#1}{\partial#2}}
 %Listings configuration
