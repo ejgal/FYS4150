@@ -13,7 +13,7 @@ def f(r1,r2,t1,t2,phi1,phi2):
     return f_value
 
 
-N = 100000
+N = int(10**5)
 
 X = np.zeros(N)
 

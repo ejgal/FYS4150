@@ -109,16 +109,25 @@ def variance(Sum, Sum_squared, N):
 
 
 std = []
+error = []
+analytical = 5*np.pi**2/16**2
 
-Ns = [10**n for n in range(1,8)]
+Ns = [10**n for n in range(3,11)]
 for N in Ns:
     print(N)
     s1,s2 = montecarlo_brute(N,-2,2)
     print_results(s1,s2)
     std.append(np.sqrt(variance(s1,s2,N)))
+    error.append(analytical - s1)
     # s1,s2 = montecarlo_importance(N)
     # print_results(s1,s2)
 print(std)
 plt.plot(Ns, std)
+plt.xscale("log")
+plt.show()
+
+print(error)
+
+plt.plot(Ns, np.abs(error))
 plt.xscale("log")
 plt.show()

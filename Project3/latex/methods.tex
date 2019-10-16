@@ -1,0 +1,113 @@
+\section{Methods}
+
+Integral to solve.
+
+\begin{equation}
+  \label{eq:int}
+  I = \int_{-\infty}^{\infty} d\*r_1 d\*r_2 e^{-4(r_1+r_2)}
+  \frac{1}{\abs{\*r_1 - \*r_2}}
+\end{equation}
+
+\begin{equation}
+  \label{eq:distance}
+r_i = \sqrt{x_i^2 + y_i^2 + z_i^2}
+\end{equation}
+
+
+\subsection{Gaussian Quadrature}
+
+\subsubsection{Legendre polynomials}\label{sec:legendre}
+
+
+\subsubsection{Laguerre polynomials}
+
+
+Integral rewritten to spherical coordinates.
+
+\begin{equation}
+  \label{eq:int_spherical}
+  I_s = \int_{0}^{\infty} \int_{0}^{\infty} \int_{0}^{\pi} \int_{0}^{\pi}
+  \int_{0}^{2\pi} \int_{0}^{2\pi}
+  dr_1 dr_2 d\theta_1 d\theta_2 d\phi_1 d\phi_2
+  r_1^2 r_2^2 \sin{\theta_1} \sin{\theta_2} \frac{e^{-4(r_1 + r_2)}}{r_{12}}
+\end{equation}
+
+\begin{equation}
+  \label{eq:distance_spherical}
+  \frac{1}{r_{12}} = \frac{1}{\sqrt{r_1^2 + r_2^2 - 2r_1r_2 \cos{\beta}}}
+\end{equation}
+
+\begin{equation}
+  \label{eq:cos_beta}
+  \cos{\beta} = \cos{\theta_1} \cos{\theta_2} + \sin{\theta_1} \sin{\theta_2}
+  \cos{\phi_1 -\phi_2}
+\end{equation}
+
+\subsection{Monte-Carlo Integration}
+
+The main concept of Monte Carlo Integration (MCI) is to evaluate the integrand
+at random points in the integration domain.
+
+A crude estimator for the integral $ I = \int_{0}^{1} f(x)dx $ could be $
+\hat{I} = f(x)$, with expectation value $\braket{\hat{I}} = \int_{0}^{1}
+f(x)p(x)dx$. If $p(x)$ is the uniform distribution $p(x) = 1$ for $x \in
+\brak{0,1}$, and $\int_{0}^{1} f(x)p(x) dx = \int_{0}^{1}f(x) dx$. $\hat{I}$ is
+therefore an unbiased estimator for $I$.
+
+A better estimator is $\hat{I}_N = \frac{1}{N}\sum_{i=1}^{N} f(x_i)$. It is also
+unbiased, and can be shown to have variance
+$\sigma_{\hat{I}_N} = \frac{\sigma_{\hat{I}}}{\sqrt{N}}$.
+
+For both the Brute force and importance sampling in several dimensions we will
+assume that $p(\*x) = \prod_{i=1}^{d} p(\*x_i)$, with d the number of dimensions,
+i.e. that the events are independent.
+
+\subsubsection{Brute Force Monte-Carlo}
+
+To estimate integrals over other intervalse we note that the uniform
+distribution on $\brak{a,b}$ has probability density $p(x;a,b) = \frac{1}{b-a}$.
+To keep the estimator unbiased we have to add a factor $(b-a)$, leading to
+$\hat{I}_N = \frac{b-a}{N}\sum_{i=1}^{N}f(x_i)$.
+For an integral of dimension d we get
+
+\begin{equation}
+  \label{eq:estimator_brute}
+  \hat{I}_N
+  = \frac{\prod_{j=1}^{d} b_j - a_j }{N}\sum_{i=1}^{N} f(\*x_i)
+\end{equation}
+with $b_j$ and $a_j$ being the upper and lower limits of the ith integral.
+
+In evaluating \cref{eq:int} we wil use the same limits as in \cref{sec:legendre}
+, so our estimator will be
+
+\begin{equation}
+  \label{eq:estimator_brute_our}
+  \hat{I}_N
+  = \frac{\para{2\lambda}^6}{N} \sum_{i=1}^{N} e^{-4(r_{1,i} + r_{2,i})}
+\end{equation}
+
+\subsubsection{Importance sampling}
+
+To obtain better estimates of the integral we can reduce the variance by
+choosing a better estimator.
+One way of doing this is with importance sampling. If we change our estimator to
+$\frac{1}{N} \sum_{i=1}^{N} \frac{f(\*x_i)}{p(\*x_i)}$, which is still unbiased, the
+variance will decrease if $p(\*x)$ is proportional to $f(\*x)$. We would then sample
+more points in the domain where $f(\*x)$ is large than where it is small.
+Our integral in spherical coordinates \cref{eq:int_spherical} have an exponential
+component in the radial domain. A good distribution for that part would be
+the exponential distribution with pdf $p(x) = ae^{-ax}$.
+Setting $a = 4$ leads to cancellation of the exponential part of the integral in
+spherical coordinates \cref{eq:int_spherical} if we divide by
+$p(r_1,r_2) = 4e^{-4r_1} 4e^{-4r_2}$. The new estimator is then
+\cref{eq:estimator_importance}. The factor $4\pi^4$ is a correction to the estimator due to sampling from the
+uniform distribution with $\theta_1, \theta_2 \in \brak{0, \pi}$ and
+$\phi_1, \phi_2 \in \brak{0, 2\pi}$.
+
+\begin{equation}
+  \label{eq:estimator_importance}
+  \hat{I}_N^p
+  = \frac{4\pi^4}{N} \sum_{i=1}^{N} \frac{f(\*x_i)}{p(r1,r2)}
+  = \frac{\pi^4}{4N} \sum_{i=1}^{N}
+  \frac{r_{1,i}^2 r_{2,i}^2 \sin{\theta_{1,i}} \sin{\theta_{2,i}}}{\abs{r_{12,i}}}
+\end{equation}
