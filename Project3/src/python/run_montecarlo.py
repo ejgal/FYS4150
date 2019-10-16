@@ -50,9 +50,9 @@ if __name__ == '__main__':
         error_brute[i] = analytical - s1
         time_brute[i] = end-start
 
-        # Run monte-carlo with importance sampling (parallellized)
+        # Run monte-carlo with importance sampling (unparallellized)
         start = time.time()
-        s1,s2 = mc.montecarlo_importance_parallel(N)
+        s1,s2 = mc.montecarlo_importance(N)
         end = time.time()
         std_importance[i] = np.sqrt(mc.variance(s1,s2,N))
         error_importance[i] = analytical - s1
