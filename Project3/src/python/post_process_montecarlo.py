@@ -53,17 +53,22 @@ if __name__ == '__main__':
     # Calculate and plot standard deviation / time ratios
     std_time_importance = (df['std_importance']/df['time_importance_pl'])
     std_time_brute = df['std_brute_pl']/df['time_brute_pl']
+    std_time_ratio = std_time_brute/std_time_importance
+    print(std_time_ratio)
     plt.xscale('log')
     plt.yscale('log')
 
     plt.plot(df['N'], std_time_brute, label='std/time brute', marker='o')
     plt.plot(df['N'], std_time_importance, label='std/time importance',marker='s')
+    plt.plot(df['N'], std_time_ratio, label='std/time ratio',marker='x')
     plt.grid()
     plt.xlabel('N')
     plt.ylabel('standard deviation/time')
     plt.legend()
     plt.savefig(FIGDIR+'mc_std_time.png')
     plt.clf()
+
+
 
 
 
@@ -75,12 +80,16 @@ if __name__ == '__main__':
     df['error_importance'] = np.abs(df['error_importance'])
     plt.plot(df['N'],df['error_brute_pl'], label='error_brute', marker='s')
     plt.plot(df['N'],df['error_importance'], label='error_importance', marker='o')
+    plt.plot(df['N'], df['error_brute_pl']/df['error_importance'], label='error brute/error importance', marker='x')
+
     plt.xlabel('N')
     plt.ylabel('Error')
     plt.legend()
     plt.grid()
+
     plt.savefig(FIGDIR+'mc_error.png')
     plt.clf()
+
 
 
     # Plot time ratio parallel unparallel
