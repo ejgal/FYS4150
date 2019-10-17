@@ -1,6 +1,8 @@
 \section{Methods}
 
-Integral to solve.
+The integral we will solve is \cref{eq:int}, where r$_i$ is the distance from
+origo given by \cref{eq:distance}. The integral has an analytical solution of
+$5\pi^2/16^2$, so we will be able to calculate errors.
 
 \begin{equation}
   \label{eq:int}
@@ -13,16 +15,16 @@ Integral to solve.
 r_i = \sqrt{x_i^2 + y_i^2 + z_i^2}
 \end{equation}
 
+\subsection{Transformation to spherical coordinates}
 
-\subsection{Gaussian Quadrature}
-
-\subsubsection{Legendre polynomials}\label{sec:legendre}
-
-
-\subsubsection{Laguerre polynomials}
-
-
-Integral rewritten to spherical coordinates.
+When we use Quassian quadrature with Laguerre polynomials and MCI with importance
+sampling (MCI IS), it is helpful to transform \cref{eq:int} to spherical coordinates.
+Transforming $d\*r_1 = dx_1dy_1dz_1$ to spherical coordinates gives us
+$r_1^2 dr_1 \sin{\theta_1}d\theta_1 d\phi$ with the new limits $r_1 \in [0, \infty)$,
+ $\theta_1 \in [0, 2\pi]$ and $\phi_1 \in [0,\pi]$. The same holds for $d\*r_2$.
+[Refer lectures] shows that the distance between $\*r_1$ and $\*r_2$ is given by
+\cref{eq:distance_spherical}, with $\cos{\beta}$ defined in \cref{eq:cos_beta}.
+This means that the integral in spherical coordinates is \cref{eq:int_spherical}.
 
 \begin{equation}
   \label{eq:int_spherical}
@@ -42,6 +44,15 @@ Integral rewritten to spherical coordinates.
   \cos{\beta} = \cos{\theta_1} \cos{\theta_2} + \sin{\theta_1} \sin{\theta_2}
   \cos{\phi_1 -\phi_2}
 \end{equation}
+
+
+\subsection{Gaussian Quadrature}
+
+\subsubsection{Legendre polynomials}\label{sec:legendre}
+
+
+\subsubsection{Laguerre polynomials}
+
 
 \subsection{Monte-Carlo Integration}
 
@@ -64,7 +75,7 @@ i.e. that the events are independent.
 
 \subsubsection{Brute Force Monte-Carlo}
 
-To estimate integrals over other intervalse we note that the uniform
+To estimate integrals over other intervals we note that the uniform
 distribution on $\brak{a,b}$ has probability density $p(x;a,b) = \frac{1}{b-a}$.
 To keep the estimator unbiased we have to add a factor $(b-a)$, leading to
 $\hat{I}_N = \frac{b-a}{N}\sum_{i=1}^{N}f(x_i)$.

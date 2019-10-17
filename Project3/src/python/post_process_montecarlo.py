@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import argparse
 import numpy as np
 import scipy.stats as st
+import matplotlib as mpl
 
 parser_description = 'Analyze results of monte-carlo experiment.'
 filepath_help = 'Filepath of file to analyze (.csv)'
@@ -30,6 +31,13 @@ def CI(alpha, mean, std):
     L = mean - z*std
     U = mean + z*std
     return L,U
+
+mpl.rc('figure', figsize=[10,6])
+mpl.rc('xtick', labelsize=20)
+mpl.rc('ytick', labelsize=20)
+mpl.rc('legend', fontsize=16)
+mpl.rc('axes', labelsize=20)
+
 
 
 if __name__ == '__main__':
@@ -72,6 +80,21 @@ if __name__ == '__main__':
     plt.legend()
     plt.grid()
     plt.savefig(FIGDIR+'mc_error.png')
+    plt.clf()
+
+
+    # Plot time ratio parallel unparallel
+    time_ratio = df['time_importance']/df['time_importance_pl']
+    plt.xscale('log')
+    plt.plot(df['N'],time_ratio, label='Unparallelized/Parallelized', marker='s')
+    plt.xlabel('N')
+    plt.ylabel('Time ratio')
+    plt.legend()
+    plt.grid()
+    plt.savefig(FIGDIR+'mc_time_ratio.png')
+    # plt.show()
+    plt.clf()
+
 
     # Plot confidence intervals
     # confidence_brute = CI(0.01, df['result_brute_pl'], df['std_brute_pl'])
