@@ -1,30 +1,34 @@
 import numpy as np
-from numba import jit, njit, prange, jitclass, autojit
+from numba import jit, njit, prange
 from numpy.polynomial.legendre import leggauss
 from scipy.special import roots_laguerre
-from numba import int32, float64, float_, void
-spec = [
-    ('N', int32),
-    ('leg', float64[:]),
-    ('lag', float64[:]),
-    ('legw', float64[:]),
-    ('lagw', float64[:]),
 
-]
 
-@jitclass(spec)
 class gQuad(object):
     def __init__(self, leg,lag,legw, lagw):
+        self.totalSum = 0
         self.leg, self.legw = leg, legw
         self.lag, self.lagw = lag, lagw
         self.N = leg.shape[0]
-    def integrate_legrende(self,a,b, alpha=2):
+    def integrate_legrende(self,a,b):
         totSum = _run_legrende(self.leg,self.legw, a, b, self.N)
-        return totSum
+        self.totalSum = totSum
+
 
     def integrate_laguerre(self):
         totSum = _run_laguerre(self.leg,self.lag, self.legw, self.lagw, self.N)
-        return totSum
+        self.totalSum = totSum
+    
+    @property 
+    def getResult(self):
+        return self.totalSum
+
+
+    @property
+    def error(self):
+        analytical = 5*np.pi**2/16**2
+        return analytical - self.totalSum 
+
 
 @njit(parallel=True)
 def _run_laguerre(leg,lag,legw,lagw, N):
@@ -74,7 +78,7 @@ def _run_legrende(leg,legw,a,b, N, alpha=2):
                             if deno > 10**-10:
                                 totalSum += weight*np.exp(exp1+ exp2)/deno
 
-    return totalSum
+    return totalSum*((b-a)*0.5)**6
 
 if __name__ == "__main__":
     leg, legw = leggauss(31)
