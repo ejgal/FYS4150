@@ -32,13 +32,12 @@ if __name__ == '__main__':
     df = pd.read_csv(filename)
     print(df)
 
-    # std_time_importance = (df['std_importance']/df['time_importance'])
-    # std_time_brute = df['std_brute']/df['time_brute']
-    #
-    #
-    # plt.loglog(df['N'], std_time_brute)
-    # plt.loglog(df['N'], std_time_importance)
-    # plt.show()
+    std_time_importance = (df['std_importance']/df['time_importance_parallel'])
+    std_time_brute = df['std_brute']/df['time_brute']
+
+    plt.loglog(df['N'], std_time_brute)
+    plt.loglog(df['N'], std_time_importance)
+    plt.show()
 
     # Skip results for N = 10
     # df = df.loc[1:,:]
