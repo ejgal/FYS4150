@@ -45,15 +45,6 @@ This means that the integral in spherical coordinates is \cref{eq:int_spherical}
   \cos{\phi_1 -\phi_2}
 \end{equation}
 
-
-\subsection{Gaussian Quadrature}
-
-\subsubsection{Legendre polynomials}\label{sec:legendre}
-
-
-\subsubsection{Laguerre polynomials}
-
-
 \subsection{Monte-Carlo Integration}
 
 The main concept of Monte Carlo Integration (MCI) is to evaluate the integrand
@@ -122,3 +113,51 @@ $\phi_1, \phi_2 \in \brak{0, 2\pi}$.
   = \frac{\pi^4}{4N} \sum_{i=1}^{N}
   \frac{r_{1,i}^2 r_{2,i}^2 \sin{\theta_{1,i}} \sin{\theta_{2,i}}}{\abs{r_{12,i}}}
 \end{equation}
+
+
+\subsection{Gaussian Quadrature}
+Any quadrature rule can be seen as the as sum of the function we are  
+integrating evaluated at specified sample points or integration points $x_i$
+multiplied with a weight $w_i$ \cref{eq:quad_sum}.
+\begin{equation}\label{eq:quad_sum}
+  \int_{a}^{b} f(x)dx \approx \sum_{j=1}^{N} f(x_i) w_i
+\end{equation}
+For Gaussian Quadrature (GQ) the
+integration points are given by the roots of an orthogonal polynomial. The
+integration weights are calculated by finding the inverse of a matrix defined by
+the orthogonal polynomial \cref{eq:ort_matrix}.       
+
+\begin{equation}\label{eq:ort_matrix}
+  L = \begin{bmatrix}
+    L_0(x_0) & L_1(x_0) & \dots & L_{N-1}(x_{0}) \\
+    L_0(x_1) & L_1(x_1) & \dots & L_{N-1}(x_{1}) \\
+    \\
+    L_0(x_{n-1}) & L_1(x_{n-1}) & \dots & L_{N-1}(x_{n-1}) 
+  \end{bmatrix}
+\end{equation}
+The different orthogonal polynomial are defined over specific intervals, for
+instance Legendre polynomials are defined for $x \in [-1, 1]$. Legendre
+polynomials can still be used to for solving integrals over with limits other
+than $[-1,1]$ by using transformation of variables. 
+\begin{equation}
+  t = \frac{b-a}{2}x + \frac{b+a}{2}
+\end{equation} 
+Then rewrite integral for an interval $[a,b]$,
+\begin{equation}
+  \int_a^b f(t)dt = \frac{b-a}{2}\int_{-1}^{1} f\left(\frac{b-a}{2}x + \frac{b+a}{2}\right)
+\end{equation} 
+
+An issue with using Legendre polynomials to generate our sample points and
+weight is that the physical problem \cref{eq:int} we are interested in involves an
+integral from $-\infty \to \infty$, which means that we have to make an
+approximation. To avoid having to approximate infinity we can instead solve the
+transformed version of the integral \cref{eq:int_spherical}, by using Laguerre
+polynomial to generate integration points and weights. The Laguerre polynomials
+which are defined in the following way.
+\begin{equation}\label{eq:laguerre}
+  \int_0^{\infty} e^{-\alpha x} f(x)dx \; , \quad \alpha > 0
+\end{equation}
+Something that is important to note about Laguerre polynomials is that
+$e^{-\alpha x}$ is baked into weights which means that we have to divide
+\cref{eq:int_spherical} by $e^{-(r_1 + r_2)}$. 
+
