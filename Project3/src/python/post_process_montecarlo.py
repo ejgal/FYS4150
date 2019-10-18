@@ -114,13 +114,14 @@ if __name__ == '__main__':
     # "3D" plot of std, error and time
     # plt.xscale('log')
     # plt.yscale('log')
-    # ax1 = plt.scatter(df['std_importance'], df['error_importance'],c=df['time_importance_pl'],marker='o', cmap='Oranges')
-    # ax2 = plt.scatter(df['std_brute_pl'], df['error_brute_pl'],c=df['time_brute_pl'],marker='s', cmap='Greens')
+    # ax1 = plt.scatter(df['std_importance'], df['error_importance'],c=np.log10(df['time_importance_pl']),marker='o', cmap='Oranges')
+    # ax2 = plt.scatter(df['std_brute_pl'], df['error_brute_pl'],c=np.log10(df['time_brute_pl']),marker='s', cmap='Greens')
     #
     # plt.xlabel('Standard deviation')
     # plt.ylabel('Error')
     # plt.colorbar(ax1)
     # plt.colorbar(ax2)
+    # plt.savefig(FIGDIR+'std_error_time.png')
     # plt.show()
 
 
