@@ -27,7 +27,7 @@ if __name__ == '__main__':
     N =  args.N
     nstart = args.n
     if nstart != 1:
-        nstart = nstart -1 
+        nstart = nstart -1
     output = args.output
     resultLeg = []
     errorLeg = []
@@ -37,11 +37,13 @@ if __name__ == '__main__':
     timeLag = []
     Ns = []
     for n in range(nstart,N+1):
+        print('Running for N = {}'.format(N))
+
         xleg, wleg = leggauss(n)
         xlag, wlag = roots_laguerre(n)
 
         leQuad = gQuad(xleg,xlag,wleg,wlag)
-        timer = timeit.Timer(lambda: leQuad.integrate_legrende(-2,2))  
+        timer = timeit.Timer(lambda: leQuad.integrate_legrende(-2,2))
         time = timer.timeit(1)
         resultLeg.append(leQuad.getResult)
         errorLeg.append(leQuad.error)
@@ -54,9 +56,9 @@ if __name__ == '__main__':
         timeLag.append(time)
         Ns.append(n)
 
-    
 
-    data = np.array([np.array(resultLeg[1:]), 
+
+    data = np.array([np.array(resultLeg[1:]),
             np.array(resultLag[1:]),np.array(errorLeg[1:]), np.array(errorLag[1:])
             , np.array(timeLeg[1:]), np.array(timeLag[1:])]).transpose()
 
@@ -65,8 +67,3 @@ if __name__ == '__main__':
     df = pd.DataFrame(data=data,index=index, columns=columns)#, columns=columns)
     df.index.name='N'
     df.to_csv(output)
-
-
-
-
-
