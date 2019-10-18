@@ -116,7 +116,7 @@ $\phi_1, \phi_2 \in \brak{0, 2\pi}$.
 
 
 \subsection{Gaussian Quadrature}
-Any quadrature rule can be seen as the as sum of the function we are  
+Any quadrature rule can be seen as the as sum of the function we are
 integrating evaluated at specified sample points or integration points $x_i$
 multiplied with a weight $w_i$ \cref{eq:quad_sum}.
 \begin{equation}\label{eq:quad_sum}
@@ -125,27 +125,27 @@ multiplied with a weight $w_i$ \cref{eq:quad_sum}.
 For Gaussian Quadrature (GQ) the
 integration points are given by the roots of an orthogonal polynomial. The
 integration weights are calculated by finding the inverse of a matrix defined by
-the orthogonal polynomial \cref{eq:ort_matrix}.       
+the orthogonal polynomial \cref{eq:ort_matrix}.
 
 \begin{equation}\label{eq:ort_matrix}
   L = \begin{bmatrix}
     L_0(x_0) & L_1(x_0) & \dots & L_{N-1}(x_{0}) \\
     L_0(x_1) & L_1(x_1) & \dots & L_{N-1}(x_{1}) \\
     \\
-    L_0(x_{n-1}) & L_1(x_{n-1}) & \dots & L_{N-1}(x_{n-1}) 
+    L_0(x_{n-1}) & L_1(x_{n-1}) & \dots & L_{N-1}(x_{n-1})
   \end{bmatrix}
 \end{equation}
 The different orthogonal polynomial are defined over specific intervals, for
 instance Legendre polynomials are defined for $x \in [-1, 1]$. Legendre
 polynomials can still be used to for solving integrals over with limits other
-than $[-1,1]$ by using transformation of variables. 
+than $[-1,1]$ by using transformation of variables.
 \begin{equation}
   t = \frac{b-a}{2}x + \frac{b+a}{2}
-\end{equation} 
+\end{equation}
 Then rewrite integral for an interval $[a,b]$,
 \begin{equation}
   \int_a^b f(t)dt = \frac{b-a}{2}\int_{-1}^{1} f\left(\frac{b-a}{2}x + \frac{b+a}{2}\right)
-\end{equation} 
+\end{equation}
 
 An issue with using Legendre polynomials to generate our sample points and
 weight is that the physical problem \cref{eq:int} we are interested in involves an
@@ -159,5 +159,13 @@ which are defined in the following way.
 \end{equation}
 Something that is important to note about Laguerre polynomials is that
 $e^{-\alpha x}$ is baked into weights which means that we have to divide
-\cref{eq:int_spherical} by $e^{-(r_1 + r_2)}$. 
+\cref{eq:int_spherical} by $e^{-(r_1 + r_2)}$.
 
+
+
+\subsection{Experimental setup}
+
+The code was run on a laptop with eight cores. For the MCI the number of samples
+for each experiment was taken on logarithmic intervals, with 40 different values
+of sample points between 10 and 10$^9$. The QG experiments were run with the number
+of integration points between 2 and 40.
