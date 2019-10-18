@@ -37,7 +37,7 @@ if __name__ == '__main__':
     timeLag = []
     Ns = []
     for n in range(nstart,N+1):
-        print('Running for N = {}'.format(N))
+        print('Running for N = {}'.format(n))
 
         xleg, wleg = leggauss(n)
         xlag, wlag = roots_laguerre(n)
