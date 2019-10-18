@@ -1,6 +1,6 @@
 \section{Methods}
 To be able to calculate the correlation energy, we need to make an ansatz \cref{eq:ansatz} for the
-wave function for the two electrons. 
+wave function for the two electrons.
 \begin{equation}\label{eq:ansatz}
   \Psi(\bvec{r}_2, \bvec{r}_2) = e^{-\alpha(r_1 + r_2)}
 \end{equation}
@@ -25,7 +25,7 @@ Before we move on to describing MCI it is useful to transform our integral to
 spherical coordinates. Why this is useful will be come clear when we discuss
 MCI with importance sampling and GQ with Laguerre polynomials. To give some idea
 as why, notice that our integral runs from $-\infty \to \infty$, this integral is
-not feasible to integrate with out approximating infinity.  
+not feasible to integrate with out approximating infinity.
 
 Transforming $d\*r_1 = dx_1dy_1dz_1$ to spherical coordinates gives us
 $r_1^2 dr_1 \sin{\theta_1}d\theta_1 d\phi$ with the new limits $r_1 \in [0, \infty)$,
@@ -124,7 +124,7 @@ $\phi_1, \phi_2 \in \brak{0, 2\pi}$.
 
 
 \subsection{Gaussian Quadrature}
-Any quadrature rule can be seen as the as sum of the function we are  
+Any quadrature rule can be seen as the as sum of the function we are
 integrating evaluated at specified sample points or integration points $x_i$
 multiplied with a weight $w_i$ \cref{eq:quad_sum}.
 \begin{equation}\label{eq:quad_sum}
@@ -133,31 +133,27 @@ multiplied with a weight $w_i$ \cref{eq:quad_sum}.
 For Gaussian Quadrature (GQ) the
 integration points are given by the roots of an orthogonal polynomial. The
 integration weights are calculated by finding the inverse of a matrix defined by
-the orthogonal polynomial \cref{eq:ort_matrix}.       
+the orthogonal polynomial \cref{eq:ort_matrix}.
 
 \begin{equation}\label{eq:ort_matrix}
   L = \begin{bmatrix}
     L_0(x_0) & L_1(x_0) & \dots & L_{N-1}(x_{0}) \\
     L_0(x_1) & L_1(x_1) & \dots & L_{N-1}(x_{1}) \\
     \\
-    L_0(x_{n-1}) & L_1(x_{n-1}) & \dots & L_{N-1}(x_{n-1}) 
+    L_0(x_{n-1}) & L_1(x_{n-1}) & \dots & L_{N-1}(x_{n-1})
   \end{bmatrix}
 \end{equation}
 The different orthogonal polynomial are defined over specific intervals, for
 instance Legendre polynomials are defined for $x \in [-1, 1]$. Legendre
 polynomials can still be used to for solving integrals over with limits other
-than $[-1,1]$ by using transformation of variables. 
+than $[-1,1]$ by using transformation of variables.
 \begin{equation}
   t = \frac{b-a}{2}x + \frac{b+a}{2}
-\end{equation} 
+\end{equation}
 Then rewrite integral for an interval $[a,b]$,
 \begin{equation}
-  \int_a^b f(t)dt = \frac{b-a}{2}\int_{-1}^{1} f\left(\frac{b-a}{2}x + \frac{b+a}{2}\right)rk investigates two different approachs to evaluating multi dimensional
-  integrals. The first is gaussian quadrature with both Legendre and Laguerre
-  polynomials. The second is Monte-Carlo integration, first taking a brute force
-  approach, and then using importance sampling to decrease the variance.
-  We found that....
-\end{equation} 
+  \int_a^b f(t)dt = \frac{b-a}{2}\int_{-1}^{1} f\left(\frac{b-a}{2}x + \frac{b+a}{2}\right)
+\end{equation}
 
 An issue with using Legendre polynomials to generate our sample points and
 weight is that the physical problem \cref{eq:int} we are interested in involves an
@@ -171,5 +167,13 @@ which are defined in the following way.
 \end{equation}
 Something that is important to note about Laguerre polynomials is that
 $e^{-\alpha x}$ is baked into weights which means that we have to divide
-\cref{eq:int_spherical} by $e^{-(r_1 + r_2)}$. 
+\cref{eq:int_spherical} by $e^{-(r_1 + r_2)}$.
 
+
+
+\subsection{Experimental setup}
+
+The code was run on a laptop with eight cores. For the MCI the number of samples
+for each experiment was taken on logarithmic intervals, with 40 different values
+of sample points between 10 and 10$^9$. The QG experiments were run with the number
+of integration points between 2 and 40.

@@ -1,17 +1,5 @@
 \section{Results}
 
-\subsection{Gaussian Quadrature}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.8\textwidth]{../figures/gauss_error.png}
-  \caption{Absolute value of difference between gaussian quadrature results and analytical
-  solution using Legendre and Laguerre polynomials..}
-
-  \label{fig:gauss_error}
-\end{figure}
-
-
 \subsection{Monte-Carlo integration}
 
 \subsubsection{Error and accuracy}
@@ -62,13 +50,41 @@ a great boost to the run time.
 \end{figure}
 
 
-\subsubsection{Comparison of Gaussian Quadrature and Monte-Carlo Integration}
+\subsection{Gaussian Quadrature}
+
+The error of the GQ methods \cref{fig:gauss_error} shows that GQLeg gives relatively
+low(high) errors when the number of integration points are odd(even). For GQLeg
+the error seems to converge around roughly \num{ 5e-3}, and never reaches the
+desired error of $10^{-3}$. The GQLag do reach the desired error at N = 14 and 15,
+but for higher Ns the error converges to \num{2e-3}, and does not show the oscillatory
+nature of the GQLeg.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{../figures/gauss_error.png}
+  \caption{Absolute value of difference between gaussian quadrature results and analytical
+  solution using Legendre and Laguerre polynomials..}
+
+  \label{fig:gauss_error}
+\end{figure}
+
+
+\subsection{Comparison of Gaussian Quadrature and Monte-Carlo Integration}
+
+To clarify whether running Gaussian Quadrature or Monte-Carlo Integration would
+give the best results for a given run time we made error-runtime plots for all
+of the methods we have used \cref{fig:time_compare}. For MCI low values of runtime
+corresponds to few samples, and for GQ it corresponds to a small number of integration points.
+For the shortest runtimes the results of MCI were a bit all over the place, but
+looking at longer runtimes we see a clear trend of the error decreasing, especially
+for the importance sampling.
+
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{../figures/time_compare.png}
-  \caption{Run time of unparallelized divided by parallelized version
-          of the importance sampling algorithm.}
+  \caption{Absolute values of the error as a function of time for all methods we
+  used to approximate the integral.}
 
   \label{fig:time_compare}
 \end{figure}

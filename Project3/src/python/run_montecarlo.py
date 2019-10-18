@@ -13,27 +13,27 @@ exp_default = 8
 output_help = 'Filepath to output file (.csv)'
 output_default = '../../data/montecarlo.csv'
 
+points_help = 'Number of different sample sizes to run for. '
+points_help += 'Logarithmically spaced between 10 and 10^exp'
+points_default = 20
 
 # Initialize parser
 parser = argparse.ArgumentParser(description=parser_description)
 parser.add_argument('--output', '--o', default=output_default, help=output_help)
-parser.add_argument('--exp', type=int, default=exp_default, help=exp_help)
-
+parser.add_argument('--exp', '--e', type=int, default=exp_default, help=exp_help)
+parser.add_argument('--points', '--p', type=int, default=points_default, help=points_help)
 
 if __name__ == '__main__':
     # Run parser and store input to variables
     args = parser.parse_args()
     exp = args.exp
     output = args.output
+    points = args.points
 
     analytical = 5*np.pi**2/16**2
 
-    # Ns = [10**i for i in range(1,exp+1)]
-    Ns = np.logspace(1,exp,20)
-    # Run for N = 10 twice and discard data of first run to avoid spin up time
-    # to affect timings
-    # Ns.insert(0,10)
-
+    # Set up which sample sizes to run with
+    Ns = np.logspace(1,exp,points)
     runs = len(Ns)
 
     # Arrays for storing experiment data
@@ -70,7 +70,6 @@ if __name__ == '__main__':
         s1,s2 = mc.montecarlo_importance_parallel(N)
         end = time.time()
         time_importance_pl[i] = end-start
-
 
     # Store data to csv file
     data = np.array([result_brute_pl, result_importance, std_brute_pl, std_importance, time_brute_pl, time_importance, time_importance_pl]).transpose()
