@@ -8,7 +8,7 @@
   \caption{Absolute value of difference between gaussian quadrature results and analytical
   solution using Legendre and Laguerre polynomials..}
 
-  \label{fig:mc_error}
+  \label{fig:gauss_error}
 \end{figure}
 
 
@@ -40,7 +40,7 @@ effective for $N \geq 10^5$, outperforming the brute force by roughly a factor
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{../figures/mc_std_time.png}
-  \caption{Standard deviation divided by run time.}
+  \caption{Standard deviation and run time.}
 
   \label{fig:mc_std_time}
 \end{figure}
@@ -59,4 +59,16 @@ a great boost to the run time.
           of the importance sampling algorithm.}
 
   \label{fig:mc_time_ratio}
+\end{figure}
+
+
+\subsubsection{Comparison of Gaussian Quadrature and Monte-Carlo Integration}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{../figures/time_compare.png}
+  \caption{Run time of unparallelized divided by parallelized version
+          of the importance sampling algorithm.}
+
+  \label{fig:time_compare}
 \end{figure}
