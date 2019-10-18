@@ -3,15 +3,13 @@ import matplotlib.pyplot as plt
 import argparse
 import numpy as np
 import scipy.stats as st
-import matplotlib as mpl
+import mpl_settings
 
 parser_description = 'Analyze results of monte-carlo experiment.'
 filepath_help = 'Filepath of file to analyze (.csv)'
 
 DATADIR = '../../data/'
 FIGDIR = '../../figures/'
-
-
 
 # Initialize parser
 parser = argparse.ArgumentParser(description=parser_description)
@@ -32,12 +30,6 @@ def CI(alpha, mean, std):
     U = mean + z*std
     return L,U
 
-mpl.rc('figure', figsize=[10,6])
-mpl.rc('xtick', labelsize=20)
-mpl.rc('ytick', labelsize=20)
-mpl.rc('legend', fontsize=16)
-mpl.rc('axes', labelsize=20)
-
 
 
 if __name__ == '__main__':
@@ -50,7 +42,7 @@ if __name__ == '__main__':
     print(df)
 
 
-    # Calculate and plot standard deviation / time ratios
+    # Calculate and plot standard deviation versus N
     std_time_importance = (df['std_importance']/df['time_importance_pl'])
     std_time_brute = df['std_brute_pl']/df['time_brute_pl']
     std_time_ratio = std_time_brute/std_time_importance
@@ -65,10 +57,23 @@ if __name__ == '__main__':
     plt.xlabel('N')
     plt.ylabel('standard deviation/time')
     plt.legend()
-    plt.savefig(FIGDIR+'mc_std_time.png')
+    plt.savefig(FIGDIR+'mc_std_time_ratio.png')
     plt.clf()
 
 
+    # Plot standard deviation versus N
+    plt.xscale('log')
+    plt.yscale('log')
+
+    plt.plot(df['N'], df['std_importance'], label='Brute', marker='o')
+    plt.plot(df['N'], df['std_brute_pl'], label='Importance',marker='s')
+    plt.plot(df['N'], df['std_brute_pl']/df['std_importance'], label='Brute/Importance',marker='x')
+    plt.grid()
+    plt.xlabel('N')
+    plt.ylabel('standard deviation/time')
+    plt.legend()
+    plt.savefig(FIGDIR+'mc_std_time.png')
+    plt.clf()
 
 
 
@@ -103,6 +108,21 @@ if __name__ == '__main__':
     plt.savefig(FIGDIR+'mc_time_ratio.png')
     # plt.show()
     plt.clf()
+
+
+
+    # "3D" plot of std, error and time
+    # plt.xscale('log')
+    # plt.yscale('log')
+    # ax1 = plt.scatter(df['std_importance'], df['error_importance'],c=np.log10(df['time_importance_pl']),marker='o', cmap='Oranges')
+    # ax2 = plt.scatter(df['std_brute_pl'], df['error_brute_pl'],c=np.log10(df['time_brute_pl']),marker='s', cmap='Greens')
+    #
+    # plt.xlabel('Standard deviation')
+    # plt.ylabel('Error')
+    # plt.colorbar(ax1)
+    # plt.colorbar(ax2)
+    # plt.savefig(FIGDIR+'std_error_time.png')
+    # plt.show()
 
 
     # Plot confidence intervals

@@ -28,11 +28,11 @@ if __name__ == '__main__':
 
     analytical = 5*np.pi**2/16**2
 
-    Ns = [10**i for i in range(1,exp+1)]
-
+    # Ns = [10**i for i in range(1,exp+1)]
+    Ns = np.logspace(1,exp,20)
     # Run for N = 10 twice and discard data of first run to avoid spin up time
     # to affect timings
-    Ns.insert(0,10)
+    # Ns.insert(0,10)
 
     runs = len(Ns)
 
