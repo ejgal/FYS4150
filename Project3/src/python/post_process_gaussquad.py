@@ -13,7 +13,7 @@ FIGDIR = '../../figures/'
 
 # Initialize parser
 parser = argparse.ArgumentParser(description=parser_description)
-parser.add_argument('--input', default=DATADIR+'gauss_2_30.csv',help=filepath_help)
+parser.add_argument('--input', default=DATADIR+'gaussQuad.csv',help=filepath_help)
 
 
 if __name__ == '__main__':
@@ -25,8 +25,8 @@ if __name__ == '__main__':
     df = pd.read_csv(filename)
     print(df)
 
-    # loglog plot of error
-    plt.xscale('log')
+    # Plot of error
+    # plt.xscale('log')
     plt.yscale('log')
     df['error_leg'] = np.abs(df['error_leg'])
     df['error_lag'] = np.abs(df['error_lag'])
@@ -40,4 +40,40 @@ if __name__ == '__main__':
     plt.savefig(FIGDIR+'gauss_error.png')
     plt.clf()
 
-    #
+    # Timings of gauss quadrature
+
+    plt.yscale('log')
+    plt.plot(df['N'],df['time_leg'], label='time legendre', marker='s')
+    plt.plot(df['N'],df['time_lag'], label='time laguerre', marker='o')
+    plt.plot(df['N'], df['time_leg']/df['time_lag'], label='time legendre / time laguerre', marker='x')
+    plt.xlabel('N')
+    plt.ylabel('Time [s]')
+    plt.legend()
+    plt.grid()
+    plt.savefig(FIGDIR+'gauss_time.png')
+    plt.clf()
+
+
+    # Compare error/time ratios of gauss and monte-carlo
+    mc = pd.read_csv(DATADIR+'montecarlo.csv')
+
+    plt.yscale('log')
+    plt.xscale('log')
+    mc['error_importance'] = np.abs(mc['error_importance'])
+    mc['error_brute_pl'] = np.abs(mc['error_brute_pl'])
+    # plt.plot(mc['time_importance_pl'],mc['error_importance']/mc['time_importance_pl'], label='Importance',marker='x')
+    # plt.plot(mc['time_brute_pl'],mc['error_brute_pl']/mc['time_brute_pl'], label='Brute', marker='x')
+    # plt.plot(df['time_leg'], df['error_leg']/df['time_leg'], label='Legendre', marker='s', alpha=0.5)
+    # plt.plot(df['time_lag'], df['error_lag']/df['time_lag'], label='Laguerre', marker='s', alpha=0.5)
+
+    plt.plot(mc['time_importance_pl'],mc['error_importance'], label='Importance',marker='x')
+    plt.plot(mc['time_brute_pl'],mc['error_brute_pl'], label='Brute', marker='x')
+    plt.plot(df['time_leg'], df['error_leg'], label='Legendre', marker='s', alpha=0.5)
+    plt.plot(df['time_lag'], df['error_lag'], label='Laguerre', marker='s', alpha=0.5)
+
+    plt.legend()
+    plt.xlabel('Time [s]')
+    plt.ylabel('Error')
+    plt.grid()
+    plt.savefig(FIGDIR+'time_compare.png')
+    # plt.show()
