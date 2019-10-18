@@ -3,15 +3,13 @@ import matplotlib.pyplot as plt
 import argparse
 import numpy as np
 import scipy.stats as st
-import matplotlib as mpl
+import mpl_settings
 
 parser_description = 'Analyze results of monte-carlo experiment.'
 filepath_help = 'Filepath of file to analyze (.csv)'
 
 DATADIR = '../../data/'
 FIGDIR = '../../figures/'
-
-
 
 # Initialize parser
 parser = argparse.ArgumentParser(description=parser_description)
@@ -31,12 +29,6 @@ def CI(alpha, mean, std):
     L = mean - z*std
     U = mean + z*std
     return L,U
-
-mpl.rc('figure', figsize=[10,6])
-mpl.rc('xtick', labelsize=20)
-mpl.rc('ytick', labelsize=20)
-mpl.rc('legend', fontsize=16)
-mpl.rc('axes', labelsize=20)
 
 
 
