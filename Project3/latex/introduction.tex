@@ -1,30 +1,16 @@
 \section{Introduction}
 
-Many problems in physics involves adding stuff together, usually represented by
-computing the integral of some function. Anyone familiar with physics knows that
-these integrals often does not lend themselves to nice analytical solutions. In
-these cases we have to use a numerical approximation/numerical integration of the integral.  
-There are many procedures or rules we can use to numerically approximate an
-integral. 
-
-When first introduced to numerical integration, one might see the trapezoidal
-rule, the midpoint or the Simpson's rule. These are all examples of
-Newton-Cotes integration formulas. While these kind of methods is easy to
-intuitively understand (in case of the trapezoidal rule the area under the curve
-is approximated by adding together many trapezoids), they are usually not the
-best when it comes to accuracy and efficiency. This is especially true for
-higher dimensional integrals where the Newton-Cotes quadrature becomes highly
-inefficient. 
-
-A better method for solving higher dimensional integrals is Monte Carlo
-Integration (MCI) (named after Monaco's famous casino district) also know as
-Monte Carlo sampling.  
-Our aim is to demonstrate MCI, which we believe will yield
-many rewarding insights into the nature of probability and statistics. Then we
-will demonstrate how to improve the accuracy of  MCI, by
-using a technique called importance sampling. We will evaluate
-performance of MCI by computing the ground state correlation
-energy between two electrons in a helium atom. Finally we will compare the
-performance of MCI with Gaussian quadrature using Legendre and Laguerre
-polynomials.   
-
+Physical system are often too complex to be solved analytically. Due to the
+number physical parameters (degrees of freedom) which can all vary
+independently. To circumvent having to solve for each degree of
+freedom, we can instead randomly sample the behaviour of each parameter
+and then take the average. This kind of statistical approach is knows as Monte Carlo
+Integration (MCI) named after Monaco's famous casino district. 
+  
+Our aim is to demonstrate MCI, which we believe also yields
+a rewarding insight into the nature of probability and statistics.  Then we
+will demonstrate how to improve the accuracy of MCI, by
+using a technique called importance sampling. We will also briefly describe
+Gaussian Quadrature (GQ), which we will compare against MCI. The
+physical problem we will solve using both QG and MCI is the ground state
+correlation energy between two electrons in a helium atom. 
