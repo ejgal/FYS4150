@@ -6,9 +6,13 @@
 
 \Cref{fig:mc_error} shows the absolute value of the difference between the
 calculated value of the integral and the analytical solution with brute force
-and importance sampling. N is the number of samples taken.
-Importance sampling outperformed brute force by close to a factor 10 for $N \geq 10^4$.
-For $N \leq 10^3$ the difference was smaller.
+and importance sampling. N is the number of samples taken. It is worth to notice the sometimes
+large differences in error from one run to the next, due to the stochastic nature of
+MCI. Still the improvement in accuracy when using importance sampling
+is significant especially for larger samples sizes when the standard
+deviation is smaller. Yielding an improvement in the error of a factor 10 or
+more for sample sizes greater than $10^8$.
+
 
 \begin{figure}[H]
   \centering
@@ -19,8 +23,11 @@ For $N \leq 10^3$ the difference was smaller.
   \label{fig:mc_error}
 \end{figure}
 
-To look into the dependence of accuracy on runtime we show \cref{fig:mc_std_time}
-which shows standard deviation divided by run time for several N. Taking account
+
+\Cref{fig:mc_std_time} shows how the standard deviation evolves with increase in
+sample size. For large sample size we see that the standard deviation decreases
+accord to what we expect from the theoretical expression for the standard deviation
+Taking account
 for the run time shows that the importance sampling in this case gets really
 effective for $N \geq 10^5$, outperforming the brute force by roughly a factor
 40.
@@ -36,9 +43,7 @@ effective for $N \geq 10^5$, outperforming the brute force by roughly a factor
 \subsubsection{Parallelization}
 
 The results of parallelizing our code is shown in \cref{fig:mc_time_ratio}, which
-shows that when N is larger than 10000 we acheived a speedup in the order of 5.
-Since the code was run on a laptop with 8 cores this was not optimal, but still
-a great boost to the run time.
+shows that when N is large we achieved a speedup of almost 4.
 
 \begin{figure}[H]
   \centering
