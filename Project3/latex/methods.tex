@@ -92,14 +92,23 @@ To estimate integrals over other intervals we note that the uniform
 distribution on $\brak{a,b}$ has pdf $p(x;a,b) = \frac{1}{b-a}$.
 To keep the estimator unbiased we have to add a factor $(b-a)$, leading to
 $\hat{I}_N = \frac{b-a}{N}\sum_{i=1}^{N}f(x_i)$.
-For an integral of dimension d we get the estimator shown in \cref{eq:estimator_brute}.
+For an integral of dimension d we get the estimator shown in
+\cref{eq:estimator_brute}.
 
 \begin{equation}
   \label{eq:estimator_brute}
   \hat{I}_N
   = \frac{\prod_{j=1}^{d} b_j - a_j }{N}\sum_{i=1}^{N} f(\*x_i)
 \end{equation}
+
 with $b_j$ and $a_j$ being the upper and lower limits of the ith integral.
+
+The standard deviation or the error for any MC estimator goes arcording to 
+
+\begin{equation}\label{eq: std}
+  \sigma \sim \frac{1}{\sqrt{N}}
+\end{equation}
+
 
 In evaluating \cref{eq:int} we wil use the same approximation to infinity
 ($\infty \approx \lambda$) as when integrating using Legendre polynomials. Our
@@ -185,7 +194,7 @@ Then rewrite integral for an interval $[a,b]$,
 \end{equation}
 
 An issue with using Legendre polynomials to generate our sample points and
-weight is that the physical problem \cref{eq:int} that we want solve involves an
+weight, is that the physical problem \cref{eq:int} we want solve involves an
 integral from $-\infty \to \infty$. To decide on a suitable approximation we
 need to find in which region the integrand has the largest contribution. For our
 integrand \cref{eq:int} the exponential terms goes quickly towards zero as we
@@ -197,7 +206,7 @@ transformed version of the integral \cref{eq:int_spherical}, by using Laguerre
 polynomials to generate integration points and weights. The Laguerre polynomials
 which are defined in the following way.
 \begin{equation}\label{eq:laguerre}
-  \int_0^{\infty} e^{-\alpha x} f(x)dx \; , \quad \alpha > 0
+  \int_0^{\infty} e^{-a x} f(x)dx \; , \quad a > 0 
 \end{equation}
 Something that is important to note about Laguerre polynomials is that
 $e^{-\alpha x}$ is baked into weights which means that we have to divide
