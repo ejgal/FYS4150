@@ -10,8 +10,8 @@ and importance sampling. N is the number of samples taken. It is worth to notice
 large differences in error from one run to the next, due to the stochastic nature of
 MCI. Still the improvement in accuracy when using importance sampling
 is significant especially for larger samples sizes when the standard
-deviation is smaller. Yielding an improvement of a factor 10 or more for sample
-sizes greater that $10^8$. 
+deviation is smaller. Yielding an improvement in the error of a factor 10 or
+more for sample sizes greater that $10^8$. 
 
 
 \begin{figure}[H]
@@ -23,8 +23,11 @@ sizes greater that $10^8$.
   \label{fig:mc_error}
 \end{figure}
 
-To look into the dependence of accuracy on runtime we show \cref{fig:mc_std_time}
-which shows standard deviation divided by run time for several N. Taking account
+
+\Cref{fig:mc_std_time} shows how the standard deviation evolves with increase in
+sample size. For large sample size we see that the standard deviation decreases
+accord to what we expect from the theoretical expression for the standard deviation
+Taking account
 for the run time shows that the importance sampling in this case gets really
 effective for $N \geq 10^5$, outperforming the brute force by roughly a factor
 40.
