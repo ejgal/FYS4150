@@ -1,5 +1,5 @@
 \section{Methods}
-To be able to calculate the correlation energy, we need to make an ansatz \cref{eq:ansatz} for the
+To be able to calculate the correlation energy, we need an ansatz \cref{eq:ansatz} for the
 wave function for the two electrons.
 \begin{equation}\label{eq:ansatz}
   \Psi(\bvec{r}_2, \bvec{r}_2) = e^{-\alpha(r_1 + r_2)}
@@ -7,7 +7,7 @@ wave function for the two electrons.
 The integral we need to solve is the quatum
 mechanical expectation value for the correlation energy \cref{eq:int}, where r$_i$ is the distance from the
 origin given by \cref{eq:distance}. Here we have also set $\alpha = 2$. The integral has an analytical solution
-given as $5\pi^2/16^2$, which we will use to evaluate the errors.
+equal to $5\pi^2/16^2$ that we will use to evaluate the errors.
 
 \begin{equation}
   \label{eq:int}
@@ -21,11 +21,11 @@ r_i = \sqrt{x_i^2 + y_i^2 + z_i^2}
 \end{equation}
 
 \subsection{Transformation to spherical coordinates}
-Before we move on to describing MCI it is useful to transform our integral to
+Before we move onto describing MCI it is useful to transform our integral to
 spherical coordinates. Why this is useful will be come clear when we discuss
-MCI with importance sampling and GQ with Laguerre polynomials. To give some idea
-as why, notice that our integral runs from $-\infty \to \infty$, this integral is
-not feasible to integrate with out approximating infinity.
+MCI using importance sampling and GQ using Laguerre polynomials. To give some idea
+as why, notice that our integral \cref{eq:int} runs from $-\infty \to \infty$,
+this integral is not feasible to integrate without making an approximation of infinity.
 
 Transforming $d\*r_1 = dx_1dy_1dz_1$ to spherical coordinates gives us
 $r_1^2 dr_1 \sin{\theta_1}d\theta_1 d\phi$ with the new limits $r_1 \in [0, \infty)$,
@@ -55,16 +55,24 @@ Then the integral in spherical coordinates becomes \cref{eq:int_spherical}.
 
 \subsection{Monte-Carlo Integration}
 
-The main concept of Monte Carlo Integration (MCI) is to evaluate the integrand
-at random points in the integration domain.
+The idea behind Monte Carlo Integration (MCI) is to collect information
+about the integral by evaluating the integrand
+at random points in the integration domain. As we sample more and more points
+the more information we acquire, the more certain we become about our
+estimation, and when $N \to \infty$ our estimation equals the integral.  
+
+where $p(x)$ is the probability density function of the random variable
+
+THIS IS A HUGE MESS NEED FIGURING OUT!
 
 A crude estimator for the integral $ I = \int_{0}^{1} f(x)dx $ could be $
-\hat{I} = f(x)$, with expectation value $\braket{\hat{I}} = \int_{0}^{1}
-f(x)p(x)dx$. If $p(x)$ is the uniform distribution $p(x) = 1$ for $x \in
-\brak{0,1}$, and $\int_{0}^{1} f(x)p(x) dx = \int_{0}^{1}f(x) dx$. $\hat{I}$ is
+\hat{I} = f(X)$, with expectation value $\braket{\hat{I}} = \int_{0}^{1}
+f(X)p(X)_XdX$, where $p(X)_X$ is the probability density function of the random
+variable $X$. If $p_X(X)$ is the uniform distribution $p(X) = 1$ for $x \in
+\brak{0,1}$, and $\int_{0}^{1} f(X)p(X) dX = \int_{0}^{1}f(X) dX$. $\hat{I}$ is
 therefore an unbiased estimator for $I$.
 
-A better estimator is $\hat{I}_N = \frac{1}{N}\sum_{i=1}^{N} f(x_i)$. It is also
+A better estimator is $\hat{I}_N = \frac{1}{N}\sum_{i=1}^{N} f(X_i)$. It is also
 unbiased, and can be shown to have variance
 $\sigma_{\hat{I}_N} = \frac{\sigma_{\hat{I}}}{\sqrt{N}}$.
 
