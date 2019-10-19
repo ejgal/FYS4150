@@ -11,7 +11,7 @@ large differences in error from one run to the next, due to the stochastic natur
 MCI. Still the improvement in accuracy when using importance sampling
 is significant especially for larger samples sizes when the standard
 deviation is smaller. Yielding an improvement in the error of a factor 10 or
-more for sample sizes greater that $10^8$. 
+more for sample sizes greater than $10^8$.
 
 
 \begin{figure}[H]
@@ -43,9 +43,7 @@ effective for $N \geq 10^5$, outperforming the brute force by roughly a factor
 \subsubsection{Parallelization}
 
 The results of parallelizing our code is shown in \cref{fig:mc_time_ratio}, which
-shows that when N is larger than 10000 we acheived a speedup in the order of 5.
-Since the code was run on a laptop with 8 cores this was not optimal, but still
-a great boost to the run time.
+shows that when N is large we achieved a speedup of almost 4.
 
 \begin{figure}[H]
   \centering
