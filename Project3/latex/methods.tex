@@ -59,7 +59,7 @@ The idea behind Monte Carlo Integration (MCI) is to collect information
 about the integral by evaluating the integrand
 at random points in the integration domain. As we sample more and more points
 the more information we acquire, the more certain we become about our
-estimation, and when $N \to \infty$ our estimation equals the integral.  
+estimation, and when $N \to \infty$ our estimation equals the integral.
 
 where $p(x)$ is the probability density function of the random variable
 
@@ -170,7 +170,7 @@ need to find in which region the integrand has the largest contribution. For our
 integrand \cref{eq:int} the exponential terms goes quickly towards zero as we
 move away from the origin. We decided our integrand to be sufficiently close to
 zero for $r \pm 2 $.
-  
+
 To avoid having to approximate infinity we can instead solve the
 transformed version of the integral \cref{eq:int_spherical}, by using Laguerre
 polynomials to generate integration points and weights. The Laguerre polynomials
@@ -186,7 +186,7 @@ $e^{-\alpha x}$ is baked into weights which means that we have to divide
 
 \subsection{Experimental setup}
 
-The code was run on a laptop with eight cores. For the MCI the number of samples
-for each experiment was taken on logarithmic intervals, with 40 different values
-of sample points between 10 and 10$^9$. The QG experiments were run with the number
-of integration points between 2 and 40.
+The code was run on a laptop with Intel Core i5-8250U, with 4 cores. For the MCI
+the number of samples for each experiment was taken on logarithmic intervals,
+with 50 different values of sample points between 10 and 10$^10$. The QG
+experiments were run with the number of integration points between 1 and 50.
