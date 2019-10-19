@@ -6,9 +6,13 @@
 
 \Cref{fig:mc_error} shows the absolute value of the difference between the
 calculated value of the integral and the analytical solution with brute force
-and importance sampling. N is the number of samples taken.
-Importance sampling outperformed brute force by close to a factor 10 for $N \geq 10^4$.
-For $N \leq 10^3$ the difference was smaller.
+and importance sampling. N is the number of samples taken. It is worth to notice the sometimes
+large differences in error from one run to the next, due to the stochastic nature of
+MCI. Still the improvement in accuracy when using importance sampling
+is significant especially for larger samples sizes when the standard
+deviation is smaller. Yielding an improvement of a factor 10 or more for sample
+sizes greater that $10^8$. 
+
 
 \begin{figure}[H]
   \centering
