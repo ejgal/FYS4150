@@ -57,17 +57,20 @@ Then the integral in spherical coordinates becomes \cref{eq:int_spherical}.
 
 The idea behind Monte Carlo Integration (MCI) is to collect information about
 the integral by evaluating the integrand at random points in the integration
-domain. We will use a random number generator (RNG) to select the values where
-we evaluete the function we are integrating. As the sample size is increased
-the more certain we become about our estimation, and when the sample size
+domain. We will use a random number generator (RNG) to sample random points \*X
+in the integration domain and evaluate the integrand at these points. We construct
+estimators that has expectation values equal to the integral.
+As the sample size is increased the more certain we become about our estimation, and when the sample size
 $N \to \infty$ our estimation equals the integral.
 
 THIS IS A HUGE MESS NEED FIGURING OUT!
 
-A crude estimator for the integral $ I = \int_{0}^{1} f(x)dx $ could be $
-\hat{I} = f(X)$, where X is a random variable. It has expectation value
+We start with a simpler example in one dimension.
+A crude estimator for the integral $ I = \int_{0}^{1} f(x)dx $ is
+$\hat{I} = f(X)$, where X is a random number from the uniform distribution between
+0 and 1. The estimator have expectation value
 $\braket{\hat{I}} = \int_{0}^{1} f(x)p(x)dx$, where $p(x)$ is the probability
-density function of the random variable $X$. If $p(x)$ is the uniform distribution $p(x) = 1$ for $x \in
+density function of $X$. If $p(x)$ is the uniform distribution $p(x) = 1$ for $x \in
 \brak{0,1}$, and $\int_{0}^{1} f(x)p(x) dX = \int_{0}^{1}f(x) dx$ = I. $\hat{I}$ is
 therefore an unbiased estimator for $I$.
 
@@ -82,7 +85,7 @@ meaning that the events are independent.
 \subsubsection{Brute Force Monte-Carlo}
 
 To estimate integrals over other intervals we note that the uniform
-distribution on $\brak{a,b}$ has probability density $p(x;a,b) = \frac{1}{b-a}$.
+distribution on $\brak{a,b}$ has probability density function (pdf) $p(x;a,b) = \frac{1}{b-a}$.
 To keep the estimator unbiased we have to add a factor $(b-a)$, leading to
 $\hat{I}_N = \frac{b-a}{N}\sum_{i=1}^{N}f(x_i)$.
 For an integral of dimension d we get
@@ -109,13 +112,14 @@ integrating using Legendre polynomials. Our estimator is then given by
 \subsubsection{Importance sampling}
 
 To obtain better estimates of the integral we can reduce the variance and
-standard deviation by choosing a better estimator.
-One way of doing this is with importance sampling. Instead of sampling X from
-the uniform distribution we will sample from a distribution with probability
-density function proportional to the integrand. We would then evaluate the integrand
-more often where it is large than where it is small. To account for this bias we
-also change our estimator to \cref{eq:new_estimator}, which also have expectation
-value $\int_{-\infty}^{\infty} f(\*x) d\*x$.
+standard deviation by sampling from other distrubutions and using another estimator.
+Instead of sampling X from the uniform distribution we will sample from a
+distribution with pdf proportional to the integrand.
+We would then evaluate the integrand more often where it is large than where it
+is small. To account for this bias we also change our estimator to
+\cref{eq:new_estimator}, which also have expectation value $\int_{-\infty}^{\infty} f(\*x) d\*x$.
+Dividing by the pdf we weigh the parts where the function has large values and were
+X is dense less.
 
 \begin{equation}
   \label{eq:new_estimator}
