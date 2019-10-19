@@ -25,12 +25,12 @@ more for sample sizes greater than $10^8$.
 
 
 \Cref{fig:mc_std_time} shows how the standard deviation evolves with increase in
-sample size. For large sample size we see that the standard deviation decreases
-accord to what we expect from the theoretical expression for the standard deviation
-Taking account
-for the run time shows that the importance sampling in this case gets really
-effective for $N \geq 10^5$, outperforming the brute force by roughly a factor
-40.
+sample size. For large sample sizes we see that the standard deviation decreases
+according to what we would expect from the theoretical expression for the standard
+deviation, to reduce the standard deviation by a factor 10 you have increase the
+sample size by a factor of 100. 
+\Cref{fig:mc_std_time} also show a reduction of the standard deviation by a
+factor of 10 for importance sampling MCI compared to brute force MCI.
 
 \begin{figure}[H]
   \centering
@@ -42,8 +42,9 @@ effective for $N \geq 10^5$, outperforming the brute force by roughly a factor
 
 \subsubsection{Parallelization}
 
-The results of parallelizing our code is shown in \cref{fig:mc_time_ratio}, which
-shows that when N is large we achieved a speedup of almost 4.
+\Cref{fig:mc_time_ratio} highlight the benefit of parallelization, reducing our
+run time by around a factor four. Pretty much would we would expect from the
+specifications of our laptop.     
 
 \begin{figure}[H]
   \centering
