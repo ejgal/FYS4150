@@ -55,40 +55,43 @@ Then the integral in spherical coordinates becomes \cref{eq:int_spherical}.
 
 \subsection{Monte-Carlo Integration}
 
-The idea behind Monte Carlo Integration (MCI) is to collect information about
-the integral by evaluating the integrand at random points in the integration
-domain. We will use a random number generator (RNG) to sample random points \*X
-in the integration domain and evaluate the integrand at these points. We construct
-estimators that has expectation values equal to the integral.
-As the sample size is increased the more certain we become about our estimation, and when the sample size
-$N \to \infty$ our estimation equals the integral.
+The idea behind Monte Carlo Integration (MCI) is to approximate an integral by
+evaluating the integrand at randomly selected points in the integration domain.
+Constructing estimators that have expectation value equal to the integral
+ensures that the variance of our estimations decreases as the sample size increases.
 
-THIS IS A HUGE MESS NEED FIGURING OUT!
-
-We start with a simpler example in one dimension.
-A crude estimator for the integral $ I = \int_{0}^{1} f(x)dx $ is
-$\hat{I} = f(X)$, where X is a random number from the uniform distribution between
-0 and 1. The estimator have expectation value
-$\braket{\hat{I}} = \int_{0}^{1} f(x)p(x)dx$, where $p(x)$ is the probability
-density function of $X$. If $p(x)$ is the uniform distribution $p(x) = 1$ for $x \in
-\brak{0,1}$, and $\int_{0}^{1} f(x)p(x) dX = \int_{0}^{1}f(x) dx$ = I. $\hat{I}$ is
-therefore an unbiased estimator for $I$.
-
-A better estimator is $\hat{I}_N = \frac{1}{N}\sum_{i=1}^{N} f(X_i)$. It is also
-unbiased, and can be shown to have standard deviation
-$\sigma_{\hat{I}_N} = \frac{\sigma_{\hat{I}}}{\sqrt{N}}$.
-
-For both the Brute force and importance sampling in several dimensions we will
+The random points can be selected in many different ways. \cite{needle} throwed
+roughly 30000 needles to approximate $\pi$ and \cite{shotgun} used a shotgun.
+We will use a random number generator (RNG) to select these points.
+For both brute force and importance sampling in several dimensions we will
 assume that $p(\*x) = \prod_{i=1}^{d} p(\*x_i)$, with d the number of dimensions,
-meaning that the events are independent.
+meaning that the sampling of points are independent events.
+
+We first explain the theory for an integral in one dimension, on the interval 0 to 1,
+before generalizing it to other intervals and multi dimensional integrals.
 
 \subsubsection{Brute Force Monte-Carlo}
 
+In the brute force variant of MCI we use the estimator \cref{eq:estimator},
+where the random variable X contains N points sampled from the uniform distribution.
+
+\begin{equation}
+  \label{eq:estimator}
+  \hat{I} = \frac{1}{N}\sum_{i=1}^{N} f(X_i)
+\end{equation}
+
+The expectation value of an estimator is $\braket{\hat{I}} = \int_{0}^{1}
+\hat{I}p(x)dx$. $p(x)$ is the probability density function (pdf) of the random
+variable associated with the estimator. Since $p(x) = 1 $ for $x \in [0,1]$
+$\braket{\hat{I}} = \int_0^1 f(x) dx $, showing that \cref{eq:estimator} is an
+unbiased estimator of the $\int_0^1 f(x) dx$.
+
+
 To estimate integrals over other intervals we note that the uniform
-distribution on $\brak{a,b}$ has probability density function (pdf) $p(x;a,b) = \frac{1}{b-a}$.
+distribution on $\brak{a,b}$ has pdf $p(x;a,b) = \frac{1}{b-a}$.
 To keep the estimator unbiased we have to add a factor $(b-a)$, leading to
 $\hat{I}_N = \frac{b-a}{N}\sum_{i=1}^{N}f(x_i)$.
-For an integral of dimension d we get
+For an integral of dimension d we get the estimator shown in \cref{eq:estimator_brute}.
 
 \begin{equation}
   \label{eq:estimator_brute}
@@ -97,9 +100,9 @@ For an integral of dimension d we get
 \end{equation}
 with $b_j$ and $a_j$ being the upper and lower limits of the ith integral.
 
-In evaluating \cref{eq:int} we wil use the same approximation to infinity ($\infty \approx \lambda$) as when
-integrating using Legendre polynomials. Our estimator is then given by
-\cref{eq:estimator_brute_our}.
+In evaluating \cref{eq:int} we wil use the same approximation to infinity
+($\infty \approx \lambda$) as when integrating using Legendre polynomials. Our
+estimator is then given by \cref{eq:estimator_brute_our}.
 
 \begin{equation}
   \label{eq:estimator_brute_our}
@@ -112,14 +115,14 @@ integrating using Legendre polynomials. Our estimator is then given by
 \subsubsection{Importance sampling}
 
 To obtain better estimates of the integral we can reduce the variance and
-standard deviation by sampling from other distrubutions and using another estimator.
-Instead of sampling X from the uniform distribution we will sample from a
-distribution with pdf proportional to the integrand.
-We would then evaluate the integrand more often where it is large than where it
-is small. To account for this bias we also change our estimator to
-\cref{eq:new_estimator}, which also have expectation value $\int_{-\infty}^{\infty} f(\*x) d\*x$.
-Dividing by the pdf we weigh the parts where the function has large values and were
-X is dense less.
+standard deviation of our results by sampling from other distributions and using
+another estimator. Instead of sampling X from the uniform distribution we will
+sample from a distribution with pdf proportional to the integrand. We would then
+evaluate the integrand more often where it is large than where it is small. To
+account for this bias we also change our estimator to \cref{eq:new_estimator},
+which also have expectation value equal to the integral of $f(x)$.
+By scaling with the pdf we weigh the range with high density X and large
+function values less.
 
 \begin{equation}
   \label{eq:new_estimator}
@@ -136,8 +139,8 @@ rest of the integral we will still sample from the uniform distribution,
 but now with $\theta_1, \theta_2 \in \brak{0, \pi}$ and
 $\phi_1, \phi_2 \in \brak{0, 2\pi}$.
 The new estimator is then
-\cref{eq:estimator_importance}. The factor $4\pi^4$ is a correction to the
-estimator due to sampling from the uniform distribution.
+\cref{eq:estimator_importance}. The factor $4\pi^4$ is a normalization factor due
+to sampling from the uniform distribution on other intervals than $\brak[0,1]$.
 
 \begin{equation}
   \label{eq:estimator_importance}
