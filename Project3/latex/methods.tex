@@ -153,7 +153,7 @@ the orthogonal polynomial \cref{eq:ort_matrix}.
 \end{equation}
 The different orthogonal polynomial are defined over specific intervals, for
 instance Legendre polynomials are defined for $x \in [-1, 1]$. Legendre
-polynomials can still be used to for solving integrals over with limits other
+polynomials can still be used to for solving integrals over other intervals
 than $[-1,1]$ by using transformation of variables.
 \begin{equation}
   t = \frac{b-a}{2}x + \frac{b+a}{2}
@@ -164,11 +164,16 @@ Then rewrite integral for an interval $[a,b]$,
 \end{equation}
 
 An issue with using Legendre polynomials to generate our sample points and
-weight is that the physical problem \cref{eq:int} we are interested in involves an
-integral from $-\infty \to \infty$, which means that we have to make an
-approximation. To avoid having to approximate infinity we can instead solve the
+weight is that the physical problem \cref{eq:int} that we want solve involves an
+integral from $-\infty \to \infty$. To decide on a suitable approximation we
+need to find in which region the integrand has the largest contribution. For our
+integrand \cref{eq:int} the exponential terms goes quickly towards zero as we
+move away from the origin. We decided our integrand to be sufficiently close to
+zero for $r \pm 2 $.
+  
+To avoid having to approximate infinity we can instead solve the
 transformed version of the integral \cref{eq:int_spherical}, by using Laguerre
-polynomial to generate integration points and weights. The Laguerre polynomials
+polynomials to generate integration points and weights. The Laguerre polynomials
 which are defined in the following way.
 \begin{equation}\label{eq:laguerre}
   \int_0^{\infty} e^{-\alpha x} f(x)dx \; , \quad \alpha > 0
