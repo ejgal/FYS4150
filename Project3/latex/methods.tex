@@ -1,12 +1,13 @@
 \section{Methods}
-To be able to calculate the correlation energy, we need an ansatz \cref{eq:ansatz} for the
-wave function for the two electrons.
+To be able to calculate the correlation energy, we need an ansatz
+\cref{eq:ansatz} for the wave function for the two electrons.
 \begin{equation}\label{eq:ansatz}
   \Psi(\bvec{r}_2, \bvec{r}_2) = e^{-\alpha(r_1 + r_2)}
 \end{equation}
-The integral we need to solve is the quatum
-mechanical expectation value for the correlation energy \cref{eq:int}, where r$_i$ is the distance from the
-origin given by \cref{eq:distance}. Here we have also set $\alpha = 2$. The integral has an analytical solution
+The integral we will solve is the quantum
+mechanical expectation value for the correlation energy \cref{eq:int},
+where r$_i$ is the distance from the origin given by \cref{eq:distance}.
+Here we have also set $\alpha = 2$. The integral has an analytical solution
 equal to $5\pi^2/16^2$ that we will use to evaluate the errors.
 
 \begin{equation}
@@ -30,7 +31,7 @@ this integral is not feasible to integrate without making an approximation of in
 Transforming $d\*r_1 = dx_1dy_1dz_1$ to spherical coordinates gives us
 $r_1^2 dr_1 \sin{\theta_1}d\theta_1 d\phi$ with the new limits $r_1 \in [0, \infty)$,
  $\theta_1 \in [0, 2\pi]$ and $\phi_1 \in [0,\pi]$. The same holds for $d\*r_2$.
-[Refer lectures] shows that the distance between $\*r_1$ and $\*r_2$ is given by
+\parencite{lectures} shows that the distance between $\*r_1$ and $\*r_2$ is given by
 \cref{eq:distance_spherical}, with $\cos{\beta}$ defined in \cref{eq:cos_beta}.
 Then the integral in spherical coordinates becomes \cref{eq:int_spherical}.
 
@@ -55,38 +56,43 @@ Then the integral in spherical coordinates becomes \cref{eq:int_spherical}.
 
 \subsection{Monte-Carlo Integration}
 
-The idea behind Monte Carlo Integration (MCI) is to collect information
-about the integral by evaluating the integrand
-at random points in the integration domain. As we sample more and more points
-the more information we acquire, the more certain we become about our
-estimation, and when $N \to \infty$ our estimation equals the integral.  
+The idea behind Monte Carlo Integration (MCI) is to approximate an integral by
+evaluating the integrand at randomly selected points in the integration domain.
+Constructing estimators that have expectation value equal to the integral
+ensures that the variance of our estimations decreases as the sample size increases.
 
-where $p(x)$ is the probability density function of the random variable
-
-THIS IS A HUGE MESS NEED FIGURING OUT!
-
-A crude estimator for the integral $ I = \int_{0}^{1} f(x)dx $ could be $
-\hat{I} = f(X)$, with expectation value $\braket{\hat{I}} = \int_{0}^{1}
-f(X)p(X)_XdX$, where $p(X)_X$ is the probability density function of the random
-variable $X$. If $p_X(X)$ is the uniform distribution $p(X) = 1$ for $x \in
-\brak{0,1}$, and $\int_{0}^{1} f(X)p(X) dX = \int_{0}^{1}f(X) dX$. $\hat{I}$ is
-therefore an unbiased estimator for $I$.
-
-A better estimator is $\hat{I}_N = \frac{1}{N}\sum_{i=1}^{N} f(X_i)$. It is also
-unbiased, and can be shown to have variance
-$\sigma_{\hat{I}_N} = \frac{\sigma_{\hat{I}}}{\sqrt{N}}$.
-
-For both the Brute force and importance sampling in several dimensions we will
+The random points can be selected in many different ways. \cite{needle} throwed
+roughly 30000 needles to approximate $\pi$ and \cite{shotgun} used a shotgun.
+We will use a random number generator (RNG) to select these points.
+For both brute force and importance sampling in several dimensions we will
 assume that $p(\*x) = \prod_{i=1}^{d} p(\*x_i)$, with d the number of dimensions,
-i.e. that the events are independent.
+meaning that the sampling of points are independent events.
+
+We first explain the theory for an integral in one dimension, on the interval 0 to 1,
+before generalizing it to other intervals and multi dimensional integrals.
 
 \subsubsection{Brute Force Monte-Carlo}
 
+In the brute force variant of MCI we use the estimator \cref{eq:estimator},
+where the random variable X contains N points sampled from the uniform distribution.
+
+\begin{equation}
+  \label{eq:estimator}
+  \hat{I} = \frac{1}{N}\sum_{i=1}^{N} f(X_i)
+\end{equation}
+
+The expectation value of an estimator is $\braket{\hat{I}} = \int_{0}^{1}
+\hat{I}p(x)dx$. $p(x)$ is the probability density function (pdf) of the random
+variable associated with the estimator. Since $p(x) = 1 $ for $x \in [0,1]$
+$\braket{\hat{I}} = \int_0^1 f(x) dx $, showing that \cref{eq:estimator} is an
+unbiased estimator of the $\int_0^1 f(x) dx$.
+
+
 To estimate integrals over other intervals we note that the uniform
-distribution on $\brak{a,b}$ has probability density $p(x;a,b) = \frac{1}{b-a}$.
+distribution on $\brak{a,b}$ has pdf $p(x;a,b) = \frac{1}{b-a}$.
 To keep the estimator unbiased we have to add a factor $(b-a)$, leading to
 $\hat{I}_N = \frac{b-a}{N}\sum_{i=1}^{N}f(x_i)$.
-For an integral of dimension d we get
+For an integral of dimension d we get the estimator shown in \cref{eq:estimator_brute}.
 
 \begin{equation}
   \label{eq:estimator_brute}
@@ -95,8 +101,9 @@ For an integral of dimension d we get
 \end{equation}
 with $b_j$ and $a_j$ being the upper and lower limits of the ith integral.
 
-In evaluating \cref{eq:int} we wil use the same limits as in \cref{sec:legendre}
-, so our estimator will be
+In evaluating \cref{eq:int} we wil use the same approximation to infinity
+($\infty \approx \lambda$) as when integrating using Legendre polynomials. Our
+estimator is then given by \cref{eq:estimator_brute_our}.
 
 \begin{equation}
   \label{eq:estimator_brute_our}
@@ -104,23 +111,37 @@ In evaluating \cref{eq:int} we wil use the same limits as in \cref{sec:legendre}
   = \frac{\para{2\lambda}^6}{N} \sum_{i=1}^{N} e^{-4(r_{1,i} + r_{2,i})}
 \end{equation}
 
+
+
 \subsubsection{Importance sampling}
 
-To obtain better estimates of the integral we can reduce the variance by
-choosing a better estimator.
-One way of doing this is with importance sampling. If we change our estimator to
-$\frac{1}{N} \sum_{i=1}^{N} \frac{f(\*x_i)}{p(\*x_i)}$, which is still unbiased, the
-variance will decrease if $p(\*x)$ is proportional to $f(\*x)$. We would then sample
-more points in the domain where $f(\*x)$ is large than where it is small.
-Our integral in spherical coordinates \cref{eq:int_spherical} have an exponential
-component in the radial domain. A good distribution for that part would be
-the exponential distribution with pdf $p(x) = ae^{-ax}$.
-Setting $a = 4$ leads to cancellation of the exponential part of the integral in
-spherical coordinates \cref{eq:int_spherical} if we divide by
-$p(r_1,r_2) = 4e^{-4r_1} 4e^{-4r_2}$. The new estimator is then
-\cref{eq:estimator_importance}. The factor $4\pi^4$ is a correction to the estimator due to sampling from the
-uniform distribution with $\theta_1, \theta_2 \in \brak{0, \pi}$ and
+To obtain better estimates of the integral we can reduce the variance and
+standard deviation of our results by sampling from other distributions and using
+another estimator. Instead of sampling X from the uniform distribution we will
+sample from a distribution with pdf proportional to the integrand. We would then
+evaluate the integrand more often where it is large than where it is small. To
+account for this bias we also change our estimator to \cref{eq:new_estimator},
+which also have expectation value equal to the integral of $f(x)$.
+By scaling with the pdf we weigh the range with high density X and large
+function values less.
+
+\begin{equation}
+  \label{eq:new_estimator}
+  \frac{1}{N} \sum_{i=1}^{N} \frac{f(\*x_i)}{p(\*x_i)}
+\end{equation}
+
+
+Since our integral in spherical coordinates \cref{eq:int_spherical} have an exponential
+component in the radial domain we will sample $r_1$ and $r_2$ from the exponential distribution
+($p(r) = ae^{-ar}$). Setting a = 4 gives
+$p(r_1, r_2) = p(r_1) \cdot p(r_2) = p(r_1,r_2) = 4e^{-4r_1} 4e^{-4r_2}$.
+This leads to cancellation of the exponential part of the integral. For the
+rest of the integral we will still sample from the uniform distribution,
+but now with $\theta_1, \theta_2 \in \brak{0, \pi}$ and
 $\phi_1, \phi_2 \in \brak{0, 2\pi}$.
+The new estimator is then
+\cref{eq:estimator_importance}. The factor $4\pi^4$ is a normalization factor due
+to sampling from the uniform distribution on other intervals than $\brak[0,1]$.
 
 \begin{equation}
   \label{eq:estimator_importance}
@@ -170,7 +191,7 @@ need to find in which region the integrand has the largest contribution. For our
 integrand \cref{eq:int} the exponential terms goes quickly towards zero as we
 move away from the origin. We decided our integrand to be sufficiently close to
 zero for $r \pm 2 $.
-  
+
 To avoid having to approximate infinity we can instead solve the
 transformed version of the integral \cref{eq:int_spherical}, by using Laguerre
 polynomials to generate integration points and weights. The Laguerre polynomials
@@ -186,7 +207,9 @@ $e^{-\alpha x}$ is baked into weights which means that we have to divide
 
 \subsection{Experimental setup}
 
-The code was run on a laptop with eight cores (4 cores with hyper threadings). For the MCI the number of samples
-for each experiment was taken on logarithmic intervals, with 40 different values
-of sample points between 10 and 10$^9$. The QG experiments were run with the number
-of integration points between 2 and 40.
+The code was run on a laptop with the Intel Core i5-8250U, with eight cores
+(4 physical cores with hyper threading). For MCI
+the number of samples for each experiment was taken on logarithmic intervals,
+with 50 different values of sample points between 10 and 10$^{10}$. The QG
+experiments were run with the number of integration points between 1 and 50.
+The implementation of MCI and GQ can be found at our github \parencite{github}.

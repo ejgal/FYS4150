@@ -11,7 +11,7 @@ large differences in error from one run to the next, due to the stochastic natur
 MCI. Still the improvement in accuracy when using importance sampling
 is significant especially for larger samples sizes when the standard
 deviation is smaller. Yielding an improvement in the error of a factor 10 or
-more for sample sizes greater that $10^8$. 
+more for sample sizes greater than $10^8$.
 
 
 \begin{figure}[H]
@@ -35,7 +35,7 @@ factor of 10 for importance sampling MCI compared to brute force MCI.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{../figures/mc_std_time.png}
-  \caption{Standard deviation and run time.}
+  \caption{Standard deviation versus run time of MCI experiments.}
 
   \label{fig:mc_std_time}
 \end{figure}
@@ -49,8 +49,8 @@ specifications of our laptop.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{../figures/mc_time_ratio.png}
-  \caption{Run time of unparallelized divided by parallelized version
-          of the importance sampling algorithm.}
+  \caption{Run time of MCI using importance sampling. Timing of unparallelized
+  version divided by run time of the parallelized version.}
 
   \label{fig:mc_time_ratio}
 \end{figure}
