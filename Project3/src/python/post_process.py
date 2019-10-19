@@ -62,6 +62,7 @@ if __name__ == '__main__':
     gauss['error_lag'] = np.abs(gauss['error_lag'])
     gauss['error_leg'] = np.abs(gauss['error_leg'])
 
+
     #### Monte-Carlo results
 
     # Loglog standard deviation
@@ -77,7 +78,7 @@ if __name__ == '__main__':
 
     # Loglog plot of error
     error_ratio = mc['error_brute_pl']/mc['error_importance']
-    ys = [mc['error_brute_pl'],mc['error_importance'],error_ratio]
+    ys = [mc['error_importance'],mc['error_brute_pl'],error_ratio]
     ylabel = 'Error'
     file = 'mc_error.png'
     plot(x,ys,labels,markers,xlabel,ylabel,file)
