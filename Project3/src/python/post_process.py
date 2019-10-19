@@ -2,7 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import argparse
 import numpy as np
-import scipy.stats as st
 import matplotlib as mpl
 
 # Figure settings
@@ -97,6 +96,7 @@ if __name__ == '__main__':
     # "3D" plot of std, error and time
     plt.xscale('log')
     plt.yscale('log')
+    plt.grid()
     ax1 = plt.scatter(mc['std_importance'], mc['error_importance'],c=np.log10(mc['time_importance_pl']),marker='o', cmap='Oranges')
     ax2 = plt.scatter(mc['std_brute_pl'], mc['error_brute_pl'],c=np.log10(mc['time_brute_pl']),marker='s', cmap='Greens')
     plt.xlabel('Standard deviation')
