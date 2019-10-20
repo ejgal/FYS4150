@@ -31,7 +31,7 @@ this integral is not feasible to integrate without making an approximation of in
 Transforming $d\*r_1 = dx_1dy_1dz_1$ to spherical coordinates gives us
 $r_1^2 dr_1 \sin{\theta_1}d\theta_1 d\phi$ with the new limits $r_1 \in [0, \infty)$,
  $\theta_1 \in [0, 2\pi]$ and $\phi_1 \in [0,\pi]$. The same holds for $d\*r_2$.
-\parencite{lectures} shows that the distance between $\*r_1$ and $\*r_2$ is given by
+In \cite{lectures} it is shown that the distance between $\*r_1$ and $\*r_2$ is given by
 \cref{eq:distance_spherical}, with $\cos{\beta}$ defined in \cref{eq:cos_beta}.
 Then the integral in spherical coordinates becomes \cref{eq:int_spherical}.
 
@@ -85,7 +85,8 @@ The expectation value of an estimator is $\braket{\hat{I}} = \int_{0}^{1}
 \hat{I}p(x)dx$. $p(x)$ is the probability density function (pdf) of the random
 variable associated with the estimator. Since $p(x) = 1 $ for $x \in [0,1]$
 $\braket{\hat{I}} = \int_0^1 f(x) dx $, showing that \cref{eq:estimator} is an
-unbiased estimator of the $\int_0^1 f(x) dx$.
+unbiased estimator of the $\int_0^1 f(x) dx$. The fact that our estimator is
+unbiased ensures that our estimator will converge to our integral. 
 
 
 To estimate integrals over other intervals we note that the uniform
@@ -103,14 +104,14 @@ For an integral of dimension d we get the estimator shown in
 
 with $b_j$ and $a_j$ being the upper and lower limits of the ith integral.
 
-The standard deviation or the error for any MC estimator goes arcording to 
+The standard deviation or the error for any MC estimator goes according to \cref{eq: std}
 
 \begin{equation}\label{eq: std}
   \sigma \sim \frac{1}{\sqrt{N}}
 \end{equation}
 
 
-In evaluating \cref{eq:int} we wil use the same approximation to infinity
+In evaluating \cref{eq:int} we will use the same approximation to infinity
 ($\infty \approx \lambda$) as when integrating using Legendre polynomials. Our
 estimator is then given by \cref{eq:estimator_brute_our}.
 
@@ -150,7 +151,7 @@ but now with $\theta_1, \theta_2 \in \brak{0, \pi}$ and
 $\phi_1, \phi_2 \in \brak{0, 2\pi}$.
 The new estimator is then
 \cref{eq:estimator_importance}. The factor $4\pi^4$ is a normalization factor due
-to sampling from the uniform distribution on other intervals than $\brak[0,1]$.
+to sampling from the uniform distribution on other intervals than $\brak{0,1}$.
 
 \begin{equation}
   \label{eq:estimator_importance}
@@ -184,8 +185,8 @@ the orthogonal polynomial \cref{eq:ort_matrix}.
 The different orthogonal polynomial are defined over specific intervals, for
 instance Legendre polynomials are defined for $x \in [-1, 1]$. Legendre
 polynomials can still be used to for solving integrals over other intervals
-than $[-1,1]$ by using transformation of variables.
-\begin{equation}
+than $[-1,1]$ by using transformation of variables \cref{eq: var_trans}.
+\begin{equation}\label{eq: var_trans}
   t = \frac{b-a}{2}x + \frac{b+a}{2}
 \end{equation}
 Then rewrite integral for an interval $[a,b]$,
@@ -196,7 +197,7 @@ Then rewrite integral for an interval $[a,b]$,
 An issue with using Legendre polynomials to generate our sample points and
 weight, is that the physical problem \cref{eq:int} we want solve involves an
 integral from $-\infty \to \infty$. To decide on a suitable approximation we
-need to find in which region the integrand has the largest contribution. For our
+need to determine region the integrand has the largest contribution. For our
 integrand \cref{eq:int} the exponential terms goes quickly towards zero as we
 move away from the origin. We decided our integrand to be sufficiently close to
 zero for $r \pm 2 $.
@@ -210,7 +211,9 @@ which are defined in the following way.
 \end{equation}
 Something that is important to note about Laguerre polynomials is that
 $e^{-\alpha x}$ is baked into weights which means that we have to divide
-\cref{eq:int_spherical} by $e^{-(r_1 + r_2)}$.
+\cref{eq:int_spherical} by $e^{-(r_1 + r_2)}$. Then we will use Laguerre
+polynomials when integrating in the radial domain and use Legendre polynomials
+when integrating $\theta$ and $\phi$.
 
 
 
@@ -221,4 +224,5 @@ The code was run on a laptop with the Intel Core i5-8250U, with eight cores
 the number of samples for each experiment was taken on logarithmic intervals,
 with 50 different values of sample points between 10 and 10$^{10}$. The QG
 experiments were run with the number of integration points between 1 and 50.
-The implementation of MCI and GQ can be found at our github \parencite{github}.
+The source code for our implementation of MCI and GQ can be found at our GitHub 
+\footnote{\url{https://github.com/Ovewh/Computilus/master/Project3}}.
