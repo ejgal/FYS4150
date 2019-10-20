@@ -1,18 +1,19 @@
 \section{Introduction}
 
-Physical systems are often too complex to be solved analytically due to the
-number of physical parameters (degrees of freedom) which can all vary
+Physical systems are often too complex to be solved analytically due to having
+too many physical parameters (degrees of freedom) which can all vary
 independently. To circumvent having to solve for each degree of
 freedom, we can instead randomly sample the behaviour of each parameter
-and take the average. This kind of statistical approach is knows as Monte Carlo
-Integration (MCI) named after Monaco's famous casino district.
+and take the average. This kind of statistical approach is known as Monte Carlo
+Integration (MCI).
 
 Our aim is to demonstrate MCI, which we believe also yields
 a rewarding insight into probability and statistics.  Then we
 will demonstrate how to improve the accuracy of MCI, by
 using a technique called importance sampling. We will also briefly describe
 Gaussian Quadrature (GQ) which we will compare against MCI. The
-physical problem we will solve using both QG and MCI is to find the ground state
-correlation energy between two electrons in a helium atom. To be clear this work
+physical problem we will look at is the ground state
+correlation energy between two electrons in a helium atom. We compute the
+correlation energy both using GQ and MCI. To be clear this work
 will not go into any quantum mechanical details and we will treat this purely
 as a mathematical problem.

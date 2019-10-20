@@ -27,7 +27,7 @@ more for sample sizes greater than $10^8$.
 \Cref{fig:mc_std_time} shows how the standard deviation evolves with increase in
 sample size. For large sample sizes we see that the standard deviation decreases
 according to what we would expect from the theoretical expression for the standard
-deviation, to reduce the standard deviation by a factor 10 you have increase the
+deviation \cref{eq: std}, to reduce the standard deviation by a factor 10 you have increase the
 sample size by a factor of 100. 
 \Cref{fig:mc_std_time} also show a reduction of the standard deviation by a
 factor of 10 for importance sampling MCI compared to brute force MCI.
@@ -42,8 +42,9 @@ factor of 10 for importance sampling MCI compared to brute force MCI.
 
 \subsubsection{Parallelization}
 
-\Cref{fig:mc_time_ratio} highlight the benefit of parallelization, reducing our
-run time by around a factor 4. Which is more or less what we would expect
+\Cref{fig:mc_time_ratio} highlight the benefit of parallelization, showing a
+reduction in run time by around a factor 4. 
+Which is more or less what we would expect
 by the specifications of our laptop.     
 
 \begin{figure}[H]
@@ -77,7 +78,7 @@ nature of the GQLeg.
 
 \subsection{Comparison of Gaussian Quadrature and Monte-Carlo Integration}
 
-To clarify whether running Gaussian Quadrature or Monte-Carlo Integration would
+To decide whether running Gaussian Quadrature or Monte-Carlo Integration would
 give the best results for a given run time we made error-runtime plots for all
 of the methods we have used \cref{fig:time_compare}. For MCI low values of runtime
 corresponds to few samples, and for GQ it corresponds to a small number of integration points.
