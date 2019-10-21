@@ -1,1 +1,25 @@
 \section{Conclusion}
+In this study we have evaluated Monte Carlo Integration (MCI) for solving
+physical complex problems with many degrees of freedom. We calculated the ground state correlation energy between two electrons in a helium
+atom, which we implemented using two different MCI approaches, brute force MCI
+and importance sampling MCI. Then we also made two implementations using
+Gaussian Quadrature, a very different method, to compare against MCI. 
+
+The results are divided into three parts: Firstly we looked at the reduction of
+standard deviation for MCI with importance sampling compared to the brute force
+approach. We observed that importance sampling MCI yielded a reduction in
+standard deviation of a factor 10 or 
+more for samples sizes greater than \num{1e8}. Secondly we compared the
+two different GQ implementations (GQ Legendre and GQ Laguerre) and how the error
+evolved with increased CPU time. Showing that GQ implementations did not benefit
+significantly from more CPU time. Laguerre GQ actually yielded the lowest error 
+for N between 14-15. Finally we did a comparison of all of our four
+implementations where we looked at the error versus CPU time. Where
+importance sampling MCI more or less made a clean sweep of the other
+implementations, beating the second best, brute force MCI by more a factor of
+[NEED A NUMBER] for longer runs. 
+
+Lastly we want to point out that the physical problem we chose in our study was
+not really fair towards GQ because of it's complexity and for a less
+complex problem GQ might significantly outperform MCI.
+ 
