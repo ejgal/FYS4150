@@ -8,6 +8,7 @@ combining Legendre- and Laguerre polynomials. We also parallelized the code.
 We did an extensive analysis of the error,
 CPU time and scalability of the different approaches. The result of our
 analysis showed that we achieved a close to optimal speedup for MCI with
-importance sampling. For runtimes larger than 1 second MCI with importance
-sampling had an error that was between 6.6 and 4000 times smaller than the
-GQ method.
+importance sampling. For runtimes larger than 10 seconds MCI with importance
+sampling had an error that was between 10 and 383 times smaller than the
+GQ Laguerre. Importance sampling MCI had also on average 57 times lower error
+that brute force MCI. 
