@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib as mpl
 
 # Figure settings
+mpl.rc('savefig', dpi=300)
 mpl.rc('figure', figsize=[10,6])
 mpl.rc('xtick', labelsize=20)
 mpl.rc('ytick', labelsize=20)
