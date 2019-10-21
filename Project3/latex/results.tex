@@ -10,15 +10,16 @@ and importance sampling. N is the number of samples taken. It is worth to notice
 large differences in error from one run to the next, due to the stochastic nature of
 MCI. Still the improvement in accuracy when using importance sampling
 is significant especially for larger samples sizes when the standard
-deviation is smaller. Yielding an improvement in the error of a factor 10 or
-more for sample sizes greater than $10^8$.
+deviation is smaller. The mean of the reduction in error using importance sampling
+was a 57 times reduction.
 
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{../figures/mc_error.png}
   \caption{Absolute value of difference between Monte-Carlo results and analytical
-  solution using brute force and importance sampling.}
+  solution using brute force and importance sampling. Also shows ratio of error
+  and the mean of the error ratio.}
 
   \label{fig:mc_error}
 \end{figure}
