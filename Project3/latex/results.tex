@@ -28,7 +28,7 @@ more for sample sizes greater than $10^8$.
 sample size. For large sample sizes we see that the standard deviation decreases
 according to what we would expect from the theoretical expression for the standard
 deviation \cref{eq: std}, to reduce the standard deviation by a factor 10 you have increase the
-sample size by a factor of 100. 
+sample size by a factor of 100.
 \Cref{fig:mc_std_time} also show a reduction of the standard deviation by a
 factor of 10 for importance sampling MCI compared to brute force MCI.
 
@@ -43,9 +43,9 @@ factor of 10 for importance sampling MCI compared to brute force MCI.
 \subsubsection{Parallelization}
 
 \Cref{fig:mc_time_ratio} highlight the benefit of parallelization, showing a
-reduction in run time by around a factor 4. 
+reduction in run time by around a factor 4.
 Which is more or less what we would expect
-by the specifications of our laptop.     
+by the specifications of our laptop.
 
 \begin{figure}[H]
   \centering
@@ -59,18 +59,18 @@ by the specifications of our laptop.
 
 \subsection{Gaussian Quadrature}
 
-The error of the GQ methods \cref{fig:gauss_error} shows that GQLeg gives relatively
-low(high) errors when the number of integration points are odd(even). For GQLeg
-the error seems to converge around roughly \num{ 5e-3}, and never reaches the
-desired error of $10^{-3}$. The GQLag do reach the desired error at N = 14 and 15,
-but for higher Ns the error converges to \num{2e-3}, and does not show the oscillatory
+The error of the GQ methods \cref{fig:gauss_error} shows that GQLeg gives
+relatively low(high) errors when the number of integration points are odd(even).
+For GQLeg the error seems to converge around roughly \num{ 3e-3}. The GQLag do
+gives the smallest errors at N = 14 and 15, but for higher Ns the error
+increases and seem to converge to \num{2e-3}, and does not show the oscillatory
 nature of the GQLeg.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{../figures/gauss_error.png}
   \caption{Absolute value of difference between gaussian quadrature results and analytical
-  solution using Legendre and Laguerre polynomials..}
+  solution using Legendre and Laguerre polynomials.}
 
   \label{fig:gauss_error}
 \end{figure}
@@ -91,7 +91,8 @@ for the importance sampling.
   \centering
   \includegraphics[width=0.8\textwidth]{../figures/time_compare.png}
   \caption{Absolute values of the error as a function of time for all methods we
-  used to approximate the integral.}
+  used to approximate the integral. All of the timings are taken from parallelized
+  versions of the code.}
 
   \label{fig:time_compare}
 \end{figure}

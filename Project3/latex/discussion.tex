@@ -1,20 +1,24 @@
 \section{Discussion}
 The result from our analysis clearly favours MCI, particularly when
 given more CPU time. The GQ approach did not benefit significantly with
-increased 
-CPU time after a certain point, the sweet spot for GQ Laguerre being 14
+increased
+CPU time after a certain point, the sweet spot for GQ Laguerre being 14 and 15
 integration points. Regardless we would not disregard using GQ, since the
 accuracy of the method is very much dependent on the problem being evaluated.
 In comparison MCI would behave more or less the same regardless of the physical
-problem, since the standard deviation would still follow \cref{eq: std}. 
+problem, since the standard deviation would still follow \cref{eq: std}.
 
-Still we think this experiment did provide some insight into the kind situations where
+Still we think this experiment did provide some insight into the kind of
+situations where
 these two very different approaches would be best suited. For instance if the
 physical problem has many degrees of freedom $\nu \ge 6 $, then MCI would most
 definitely yield better result. On the other hand, if the problem is less complex,
-then GQ might yield very satisfactory results with very little computational cost.  
+then GQ might yield very satisfactory results with very little computational cost.
 
 Another point to be made based on our results is the potential huge benefits
-from parallelization depending on how many cpu cores at your disposal. Combine
-this with current increase and availability of multicore processors, making a
-even stronger case for MCI. 
+from parallelization depending on how many cpu cores at your disposal. Combining
+this with current increase and availability of multicore processors, makes a
+even stronger case for MCI.
+Then there is also the future prospect of quantum
+computers, where quantum MCI can yield a quadratic improvement in error with
+the same sample size \parencite{doi:10.1098/rspa.2015.0301}.
