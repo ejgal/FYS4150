@@ -61,7 +61,7 @@ evaluating the integrand at randomly selected points in the integration domain.
 Constructing estimators that have expectation value equal to the integral
 ensures that the variance of our estimations decreases as the sample size increases.
 
-The random points can be selected in many different ways. \cite{needle} throwed
+The random points can be selected in many different ways. \cite{needle} threw
 roughly 30000 needles to approximate $\pi$ and \cite{shotgun} used a shotgun.
 We will use a random number generator (RNG) to select these points.
 For both brute force and importance sampling in several dimensions we will
@@ -86,7 +86,7 @@ The expectation value of an estimator is $\braket{\hat{I}} = \int_{0}^{1}
 variable associated with the estimator. Since $p(x) = 1 $ for $x \in [0,1]$
 $\braket{\hat{I}} = \int_0^1 f(x) dx $, showing that \cref{eq:estimator} is an
 unbiased estimator of the $\int_0^1 f(x) dx$. The fact that our estimator is
-unbiased ensures that our estimator will converge to our integral. 
+unbiased ensures that our estimator will converge to our integral.
 
 
 To estimate integrals over other intervals we note that the uniform
@@ -156,7 +156,7 @@ to sampling from the uniform distribution on other intervals than $\brak{0,1}$.
 \begin{equation}
   \label{eq:estimator_importance}
   \hat{I}_N^p
-  = \frac{4\pi^4}{N} \sum_{i=1}^{N} \frac{f(\*x_i)}{p(r1,r2)}
+  = \frac{4\pi^4}{N} \sum_{i=1}^{N} \frac{f(\*x_i)}{p(r_{1,i},r_{2,i})}
   = \frac{\pi^4}{4N} \sum_{i=1}^{N}
   \frac{r_{1,i}^2 r_{2,i}^2 \sin{\theta_{1,i}} \sin{\theta_{2,i}}}{\abs{r_{12,i}}}
 \end{equation}
@@ -207,7 +207,7 @@ transformed version of the integral \cref{eq:int_spherical}, by using Laguerre
 polynomials to generate integration points and weights. The Laguerre polynomials
 which are defined in the following way.
 \begin{equation}\label{eq:laguerre}
-  \int_0^{\infty} e^{-a x} f(x)dx \; , \quad a > 0 
+  \int_0^{\infty} e^{-a x} f(x)dx \; , \quad a > 0
 \end{equation}
 Something that is important to note about Laguerre polynomials is that
 $e^{-\alpha x}$ is baked into weights which means that we have to divide
@@ -224,5 +224,5 @@ The code was run on a laptop with the Intel Core i5-8250U, with eight cores
 the number of samples for each experiment was taken on logarithmic intervals,
 with 50 different values of sample points between 10 and 10$^{10}$. The QG
 experiments were run with the number of integration points between 1 and 50.
-The source code for our implementation of MCI and GQ can be found at our GitHub 
+The source code for our implementation of MCI and GQ can be found at our GitHub
 \footnote{\url{https://github.com/Ovewh/Computilus/master/Project3}}.
