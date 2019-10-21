@@ -204,13 +204,15 @@ zero for $r \pm 2 $.
 
 To avoid having to approximate infinity we can instead solve the
 transformed version of the integral \cref{eq:int_spherical}, by using Laguerre
-polynomials to generate integration points and weights. The Laguerre polynomials
-which are defined in the following way.
+polynomials to generate integration points and weights. The weight function
+when using
+Laguerre polynomials is defined in the following way \cref{eq:laguerre}.
 \begin{equation}\label{eq:laguerre}
-  \int_0^{\infty} e^{-a x} f(x)dx \; , \quad a > 0
+ x^{\alpha} e^{-x} \; , \quad 0 \le x \le \infty
 \end{equation}
-Something that is important to note about Laguerre polynomials is that
-$e^{-\alpha x}$ is baked into weights which means that we have to divide
+Something that is important to note about Laguerre polynomials is that (for
+$\alpha = 0$)
+a factor $e^{- x}$ is baked into weights and we have to divide
 \cref{eq:int_spherical} by $e^{-(r_1 + r_2)}$. Then we will use Laguerre
 polynomials when integrating in the radial domain and use Legendre polynomials
 when integrating $\theta$ and $\phi$.
