@@ -6,6 +6,7 @@ from numba import jit, njit, prange
 @jit(nopython=True)
 def estimator_spherical(r1,r2,t1,t2,phi1,phi2):
     """
+    Monte carlo estimator for integral in spherical coordinates.
     """
 
     function_value = 0
@@ -21,6 +22,10 @@ def estimator_spherical(r1,r2,t1,t2,phi1,phi2):
 
 @jit(nopython=True)
 def estimator(x1,x2,y1,y2,z1,z2):
+    """
+    Monte carlo estimator for integral in cartesian coordinates.
+    """
+
     function_value = 0
     r1 = np.sqrt(x1**2+y1**2+z1**2)
     r2 = np.sqrt(x2**2+y2**2+z2**2)
@@ -37,7 +42,12 @@ def estimator(x1,x2,y1,y2,z1,z2):
 @njit(parallel=True)
 def montecarlo_brute(N,a,b):
     """
+    Brute force monte carlo integration for six dimensional integral.
+    Assumes all dimensions have the same limits a and b.
 
+    N - Number of samples
+    a - lower limit of integral
+    b - upper limit of integral
     """
     Sum = 0
     Sum_squared = 0
@@ -67,7 +77,10 @@ def montecarlo_brute(N,a,b):
 @njit(parallel=True)
 def montecarlo_importance_parallel(N):
     """
+    Parallelized version of monte carlo integration
+    with importance sampling.
 
+    N - number of samples
     """
 
     Sum = 0
@@ -90,7 +103,10 @@ def montecarlo_importance_parallel(N):
 @jit(nopython=True)
 def montecarlo_importance(N):
     """
+    Unparallelized version of monte carlo integration with
+    importance sampling.
 
+    N - Number of samples.
     """
 
     Sum = 0
@@ -115,6 +131,9 @@ def montecarlo_importance(N):
 
 
 def print_results(Sum, Sum_squared,N):
+    """
+    Prints result of monte carlo experiment.
+    """
     variance = (Sum_squared - (Sum**2))/float(N)
     analytical = 5*np.pi**2/16**2
     error = analytical - Sum
