@@ -9,6 +9,7 @@ mpl.rc('savefig', dpi=300)
 mpl.rc('figure', figsize=[10,6])
 mpl.rc('xtick', labelsize=20)
 mpl.rc('ytick', labelsize=20)
+mpl.rc('ytick', right=True)
 mpl.rc('legend', fontsize=16)
 mpl.rc('axes', labelsize=20)
 
@@ -63,7 +64,6 @@ if __name__ == '__main__':
     gauss['error_lag'] = np.abs(gauss['error_lag'])
     gauss['error_leg'] = np.abs(gauss['error_leg'])
 
-
     #### Monte-Carlo results
 
     # Loglog standard deviation
@@ -79,10 +79,16 @@ if __name__ == '__main__':
 
     # Loglog plot of error
     error_ratio = mc['error_brute_pl']/mc['error_importance']
+    #print(error_ratio.rolling(3).mean())
+
+
     ys = [mc['error_importance'],mc['error_brute_pl'],error_ratio]
     ylabel = 'Error'
     file = 'mc_error.png'
+    mean_error = error_ratio.mean()
+    plt.axhline(mean_error, label='Mean error ratio: {:.2f}'.format(mean_error), linestyle='--')
     plot(x,ys,labels,markers,xlabel,ylabel,file)
+
 
     # Plot time ratio parallel unparallel
     time_ratio = mc['time_importance']/mc['time_importance_pl']
@@ -145,3 +151,21 @@ if __name__ == '__main__':
     plt.ylabel('Error')
     plt.grid()
     plt.savefig(FIGDIR+'time_compare.png')
+
+
+    # Interpolate GQLag and importance sampling errors to compare
+
+    gauss_lag = gauss['error_lag']
+    gauss_lag.index = gauss['time_lag']
+    importance = mc['error_importance']
+    importance.index = mc['time_importance_pl']
+    importance = importance.groupby(importance.index).first()
+    df = pd.DataFrame({"error_lag":gauss_lag,"error_importance":importance})
+    upper = gauss_lag.index.values[-1]
+    lower = gauss_lag.index.values[1]
+    interpol = df.interpolate(method='linear')
+    y = interpol['error_lag']/interpol['error_importance']
+    rolmean = y[lower:upper].rolling(3).mean()
+    # Print min and max values for runs taking more than 10 seconds.
+    print(rolmean[10:].max())
+    print(rolmean[10:].min())

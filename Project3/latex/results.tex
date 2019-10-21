@@ -10,15 +10,16 @@ and importance sampling. N is the number of samples taken. It is worth to notice
 large differences in error from one run to the next, due to the stochastic nature of
 MCI. Still the improvement in accuracy when using importance sampling
 is significant especially for larger samples sizes when the standard
-deviation is smaller. Yielding an improvement in the error of a factor 10 or
-more for sample sizes greater than $10^8$.
+deviation is smaller. The mean of the error ratios between brute force and
+importance sampling was 57.
 
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{../figures/mc_error.png}
   \caption{Absolute value of difference between Monte-Carlo results and analytical
-  solution using brute force and importance sampling.}
+  solution using brute force and importance sampling. Also shows ratio of error
+  and the mean of the error ratio.}
 
   \label{fig:mc_error}
 \end{figure}
@@ -61,8 +62,9 @@ by the specifications of our laptop.
 
 The error of the GQ methods \cref{fig:gauss_error} shows that GQLeg gives
 relatively low(high) errors when the number of integration points are odd(even).
-For GQLeg the error seems to converge around roughly \num{ 3e-3}. The GQLag do
-gives the smallest errors at N = 14 and 15, but for higher Ns the error
+For GQLeg the error seems to converge around roughly \num{ 3e-3}. The GQLag shows
+a huge decrease in the error with between 1 and 15 integration points, with
+the smallest errors at N = 14 and 15. For higher Ns the error
 increases and seem to converge to \num{2e-3}, and does not show the oscillatory
 nature of the GQLeg.
 
@@ -86,6 +88,10 @@ For the shortest runtimes the results of MCI were a bit all over the place, but
 looking at longer runtimes we see a clear trend of the error decreasing, especially
 for the importance sampling.
 
+We also did a linear interpolation of the error-runtime results in the range
+where we had results for both importance sampling and QGLag. Taking the rolling
+mean of three and three values for the error ratio of GQLag and importance sampling
+gave, for runtimes larger than 10 seconds, ratios between 20 and 383.
 
 \begin{figure}[H]
   \centering
