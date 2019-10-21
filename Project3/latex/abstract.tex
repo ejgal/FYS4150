@@ -4,6 +4,10 @@ problems with many degrees of freedom. The physical problem in question is
 the ground state correlation energy between two electrons in a helium atom,
 which we solved using four different approaches, "brute force" MCI, MCI with
 importance sampling, Gaussian Quadrature (GQ) with Legendre polynomials and GQ
-combining Legendre- and Laguerre polynomials. We did an extensive analysis of the error,
+combining Legendre- and Laguerre polynomials. We also parallelized the code.
+We did an extensive analysis of the error,
 CPU time and scalability of the different approaches. The result of our
-analysis showed that... 
+analysis showed that we achieved a close to optimal speedup for MCI with
+importance sampling. For runtimes larger than 1 second MCI with importance
+sampling had an error that was between 6.6 and 4000 times smaller than the
+GQ method.
