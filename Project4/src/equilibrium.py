@@ -26,13 +26,12 @@ for T, marker in zip([1., 2.4], ['s','o']):
         print('T: {}, cycle: {}/{}'.format(T, int(cycles[i]), cycles[-1]))
         E[i], E2[i],M[i], M2[i], accepted[i] = ising(L,cycles[i],T)
 
+    ax1.plot(cycles, (E2 - E**2)/cycles, label='T={}'.format(T))
     E = np.abs(E)/L**2
     M = np.abs(M)/L**2
 
-    ax1.plot(cycles, E, marker=marker, linestyle='--', label=r'|E|/L$^2$, T={}'.format(T))
+    # ax1.plot(cycles, E, marker=marker, linestyle='--', label=r'|E|/L$^2$, T={}'.format(T))
     plt.xlabel('Monte-Carlo cycles')
-    # plt.show()
-
     ax3.plot(cycles, accepted/cycles[i], label='accepted states, T={}'.format(T))
 
     ax2.plot(cycles, M, marker=marker, linestyle='--', label='|M|/L$^2$, T={}'.format(T))

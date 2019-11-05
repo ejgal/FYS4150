@@ -5,10 +5,9 @@ from numba import jit, prange
 
 
 @jit(nopython=True)
-def ising(L,N,T):
+def ising(L,N,T, delay=0):
     B = 1./T
     J = 1
-
     # Energy differences
     Edict = {}
     for energy in [-8,-4,0,4,8]:
@@ -54,11 +53,12 @@ def ising(L,N,T):
 
             if r <= p:
                 grid[x,y] *= -1
-                energy += -2*deltaE
-                energy2 += energy**2
-                magnet += 2*grid[x,y]
-                magnet2 += magnet**2
-                accepted += 1
+                if k >= delay:
+                    energy += -2*deltaE
+                    energy2 += energy**2
+                    magnet += 2*grid[x,y]
+                    magnet2 += magnet**2
+                    accepted += 1
                 continue
 
             # Not necessary?
@@ -69,7 +69,17 @@ def ising(L,N,T):
                 energy2 += energy**2
                 continue
 
-    N = float(N)
+    N = float(N-delay)
     return energy/(N), energy2/(N), magnet/N, magnet2/N, accepted
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
+
+    L = 20
+    N = 5
+    T = np.linspace(1.75,2,N)
+    cycles = 10000
+    for i in range(N):
+        print(i)
+        E,E2,M,M2,d = ising(L, cycles, 1., 1000)
+        plt.scatter(T[i],M)
+    plt.show()
