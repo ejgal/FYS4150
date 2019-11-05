@@ -1,73 +1,106 @@
 import numpy as np
-import numpy.random as random
 import matplotlib.pyplot as plt
 import seaborn as sns
 from numba import jit, prange
 
+
+@jit(nopython=True)
 def ising(L,N,T):
     B = 1./T
     J = 1
 
     # Energy differences
     Edict = {}
-    for E in [-8*J,-4*J,0,4*J,8*J]:
-        Edict[E] = np.exp(-B*E)
-    # print(Edict)
+    for energy in [-8,-4,0,4,8]:
+        Edict[energy] = np.exp(-B*energy)
+    init_e = 0
+    init_m = 0
 
     # Initialize grid with random configuration
     grid = np.zeros(shape=(L,L))
-    grid = np.ones(shape=(L,L))
-    # for i in range(0, L):
-    #     for j in range(0, L):
-    #         # Switch to better random number generator
-    #         r = random.uniform()
-    #         if r < 0.5:
-    #             lattice[i,j] = 1
-    #         else:
-    #             lattice[i,j] = -1
+    for x in range(0, L):
+        for y in range(0, L):
+            r = np.random.uniform(0,1)
+            if r < 0.5:
+                grid[x,y] = 1
+            else:
+                grid[x,y] = -1
+    # Initialize energy and magnetization
+    for x in range(0, L):
+        for y in range(0, L):
+            init_e += 1./2 *grid[x,y] * (grid[(x+1)%L,y] + grid[(x-1)%L,y] + grid[x,(y+1)%L] + grid[x,(y-1)%L])
+            init_m += grid[x,y]
+    init_grid = grid
+    # print('Initial energy: {}'.format(init_e))
+    # print('Initial magnetization: {}'.format(init_m))
     # plt.ion()
     # plt.show()
+    energy = init_e
+    energy2 = init_e**2
+    magnet = init_m
+    magnet2 = magnet**2
     for k in prange(0,N):
-        # sns.heatmap(lattice, vmin=-1, vmax=1, cmap='Blues')
+        # sns.heatmap(grid, vmin=-1, vmax=1, cmap='Blues')
         # plt.pause(0.001)
         # plt.clf()
         # print(k)
         for i in prange(0,L**2):
-            print(random.uniform()*(L-1))
-            x,y = int(random.uniform()*(L)), int(random.uniform()*(L))
-            print(x,y)
-            # print('x+1: {},y+1: {}'.format(x+1,y+1))
-
-            # if x+1 >= L:
-            #     x = 0
-            #     # print('x+1 >= L')
-            # elif x == 0:
-            #     x = L-2
-            #     # print(x)
-            #     # print('x-1 <0')
-            # elif y+1 >= L:
-            #     # print('y+1>L')
-            #     y = 0
-            # elif y == 0:
-            #     y = L-2
-            # # print('x+1: {},y+1: {}'.format(x+1,y+1))
-            # if cx == 0 and cy == L-1:
-                # print(2*(-lattice[cx,cy])*(lattice[x+1,y] + lattice[x-1,y] + lattice[x,y+1] + lattice[x,y-1]))
+            x,y = int(np.random.uniform(0,1)*(L)), int(np.random.uniform(0,1)*(L))
             sk = grid[(x+1)%L,y] + grid[(x-1)%L,y] + grid[x,(y+1)%L] + grid[x,(y-1)%L]
-            Ediff = 2*(-grid[x,y]*sk)
-            Ed = Edict[Ediff]
-            p = np.exp(-Ed/T)
-            r = random.uniform()
-            if Ed < 0:
-                lattice[x,y] *=-1
-                E += Ed
-            elif r < p:
-                lattice[x,y] *= -1
-                E += Ed
+            Ediff = 2*(grid[x,y]*sk)
+            deltaE = Edict[int(Ediff)]
+            p = deltaE
+            r = np.random.uniform(0,1)
 
-    return E/(L**2*N)
+            if r <= p:
+                grid[x,y] *= -1
+                energy += -2*deltaE
+                energy2 += energy**2
+                magnet += 2*grid[x,y]
+                magnet2 += magnet**2
+                continue
+
+            # Not necessary?
+            if Ediff <= 0:
+                print('Ediff')
+                grid[x,y] *=-1
+                energy += 2*deltaE
+                energy2 += energy**2
+                continue
+
+    N = float(N)
+    return energy/(N), energy2/(N), magnet/N, magnet2/N
 
 if __name__ == '__main__':
-    for i in range(0,10):
-        print(ising(4,100,1))
-        print(ising(4,100,1))
+
+    # Initialize values
+    # Switch to loading these with argparser
+    L = 20
+    Tstart = 1
+    Tend = 3
+    dT = 0.01
+    cycles = 1000
+
+    N = (Tend-Tstart)/(dT)
+    N = int(N)
+    T = np.linspace(Tstart, Tend, N)
+    E,E2,M,M2 = np.zeros(N), np.zeros(N), np.zeros(N), np.zeros(N)
+
+    for i in range(0,N):
+        print('Run {}/{}'.format(i,N))
+        E[i], E2[i],M[i], M2[i] = (ising(L,cycles,T[i]))
+        if i % 10 == 0:
+            print('Energy per spin: {}'.format(E[i]/L**2))
+            print('Magnetization per spin: {}'.format(M[i]/L**2))
+            print('Energy variance: {}'.format((E2[i] - E[i]**2)/(cycles*L**2)))
+            print('Magnetization variance: {}'.format((M2[i] - M[i]**2)/(cycles*L**2)))
+
+    # E = E/L**2
+    plt.plot(T,E/L**2)
+    plt.show()
+    plt.plot(T, (E2 - E**2)/(cycles*L**2))
+    plt.show()
+    plt.plot(T,M)
+    plt.show()
+    plt.plot(T, (M2 - M**2)/(cycles*L**2))
+    plt.show()
