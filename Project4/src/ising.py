@@ -15,7 +15,7 @@ def ising(L,N,T):
         Edict[energy] = np.exp(-B*energy)
     init_e = 0
     init_m = 0
-
+    accepted = 0
     # Initialize grid with random configuration
     grid = np.zeros(shape=(L,L))
     for x in range(0, L):
@@ -58,6 +58,7 @@ def ising(L,N,T):
                 energy2 += energy**2
                 magnet += 2*grid[x,y]
                 magnet2 += magnet**2
+                accepted += 1
                 continue
 
             # Not necessary?
@@ -69,38 +70,6 @@ def ising(L,N,T):
                 continue
 
     N = float(N)
-    return energy/(N), energy2/(N), magnet/N, magnet2/N
+    return energy/(N), energy2/(N), magnet/N, magnet2/N, accepted
 
-if __name__ == '__main__':
-
-    # Initialize values
-    # Switch to loading these with argparser
-    L = 20
-    Tstart = 1
-    Tend = 3
-    dT = 0.01
-    cycles = 1000
-
-    N = (Tend-Tstart)/(dT)
-    N = int(N)
-    T = np.linspace(Tstart, Tend, N)
-    E,E2,M,M2 = np.zeros(N), np.zeros(N), np.zeros(N), np.zeros(N)
-
-    for i in range(0,N):
-        print('Run {}/{}'.format(i,N))
-        E[i], E2[i],M[i], M2[i] = (ising(L,cycles,T[i]))
-        if i % 10 == 0:
-            print('Energy per spin: {}'.format(E[i]/L**2))
-            print('Magnetization per spin: {}'.format(M[i]/L**2))
-            print('Energy variance: {}'.format((E2[i] - E[i]**2)/(cycles*L**2)))
-            print('Magnetization variance: {}'.format((M2[i] - M[i]**2)/(cycles*L**2)))
-
-    # E = E/L**2
-    plt.plot(T,E/L**2)
-    plt.show()
-    plt.plot(T, (E2 - E**2)/(cycles*L**2))
-    plt.show()
-    plt.plot(T,M)
-    plt.show()
-    plt.plot(T, (M2 - M**2)/(cycles*L**2))
-    plt.show()
+# if __name__ == '__main__':
