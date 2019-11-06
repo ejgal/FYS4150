@@ -33,9 +33,9 @@ if __name__ == '__main__':
     ax3 = fig3.gca()
     Tstart = 2.1
     Tend = 2.3
-    dT = 0.001
+    dT = 0.005
     N = int((Tend-Tstart)/(dT))
-    cycles = 10000
+    cycles = 5000
     L = np.array([40])
     lenL = len(L)
     L = np.array(L)
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     E, E2, M, M2 = phase_transitions(L, lenL, T, N, delay=int(cycles/10))
     end = time.time()
     for i in range(lenL):
-        ax3.plot(T,(M2[i,:] - M[i,:]**2)/float(cycles), marker='o',linestyle='--',label='L={}'.format(L[i]))
+        ax3.plot(T,(M2[i,:] - M[i,:]**2)/float(cycles), marker='o',linestyle=' ',label='L={}'.format(L[i]))
     ax3.legend()
 
     E = np.abs(E)
@@ -59,8 +59,8 @@ if __name__ == '__main__':
     np.save('E.np', E)
     np.save('M.np', M)
     for i in range(lenL):
-        ax1.plot(T,E[i,:], marker='o',linestyle='--',label='L={}'.format(L[i]))
-        ax2.plot(T,M[i,:], marker='o',linestyle='--',label='L={}'.format(L[i]))
+        ax1.plot(T,E[i,:], marker='x',linestyle=' ',label='L={}'.format(L[i]))
+        ax2.plot(T,M[i,:], marker='x',linestyle=' ',label='L={}'.format(L[i]))
 
     ax1.legend()
     ax1.set_ylabel('Energy')

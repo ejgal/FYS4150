@@ -37,7 +37,7 @@ def test_expected_magnetization():
 
 
 def test_variance_energy():
-    T = 1
+    T = 2.9
     analytic = a.variance_energy(T)
     states = a.produce_states()
     calculated = 0
@@ -45,7 +45,7 @@ def test_variance_energy():
         energy = a.energy(state)
         prob = a.probability(T,state)
         calculated += energy**2*prob - (energy*prob)**2
-    assert analytic == approx(calculated)
+    assert analytic == approx(calculated/(4./0.001987))
 
 def test_variance_magnetization():
     T = 1
@@ -56,4 +56,4 @@ def test_variance_magnetization():
         magnetization = a.magnetization(state)
         prob = a.probability(T,state)
         calculated += magnetization**2*prob - (magnetization*prob)**2
-    assert analytic == approx(calculated)
+    assert analytic == approx(calculated/16.)
