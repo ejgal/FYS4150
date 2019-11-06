@@ -17,7 +17,7 @@ def phase_transitions(L,lenL,T,lenT, delay=0):
     accepted = 0
     for i in prange(lenT):
         for j in prange(lenL):
-            E[j,i], E2[j,i],M[j,i], M2[j,i], accepted = ising(L[j],cycles,T[i], delay=delay)
+            E[j,i], E2[j,i],M[j,i], M2[j,i],Mabs, accepted = ising(L[j],cycles,T[i], delay=delay)
             E[j,i] = E[j,i]/L[j]**2
             M[j,i] = M[j,i]/L[j]**2
             E2[j,i] = E2[j,i]/L[j]**2
