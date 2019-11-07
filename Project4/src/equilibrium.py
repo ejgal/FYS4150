@@ -19,13 +19,13 @@ ax1 = fig1.gca(xscale='log')#,yscale='log')
 ax2 = fig2.gca(xscale='log')#,yscale='log')
 ax3 = fig3.gca(xscale='log')#, yscale='log')
 
-for T, marker in zip([1., 2.4], ['s','o']):
+for T, marker in zip([1., 2.4] , ['s','o']):
 
-    E,E2,M,M2, accepted = np.zeros(N), np.zeros(N), np.zeros(N), np.zeros(N), np.zeros(N)
+    E,E2,M,M2, Mabs, accepted = np.zeros(N), np.zeros(N), np.zeros(N), np.zeros(N), np.zeros(N), np.zeros(N)
     for i in range(0,len(cycles)):
         print('T: {}, cycle: {}/{}'.format(T, int(cycles[i]), cycles[-1]))
-        E[i], E2[i],M[i], M2[i], Mabs, accepted[i] = ising(L,cycles[i],T)
-
+        values, accepted[i] = ising(L,cycles[i],T)
+        expect = expectation_values(values, cycles[i],L)
     spins = L**2
     Emean = E/(cycles*spins)
     E2mean = E2/(cycles*spins)
