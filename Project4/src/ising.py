@@ -82,26 +82,25 @@ def ising(L,N,T,ordered=0,delay=0):
         # End grid loop
     # End Monte Carlo loop
 
-    N = float(N-delay)
     return np.array([energy, energy2, magnet, magnet2, magnet_abs]), accepted
 
 
 @jit(nopython=True)
-def expectation_values(values,N,L,T):
+def expectation_values(values,N,L,T, delay=0):
     """
     Calculates various expectation values.
     """
 
     [E,E2,M,M2,Mabs] = values
     spins = L**2
-    N = float(N)
+    N = float(N - delay)
     Emean = E/(N*spins)
     E2mean = E2/(N*spins)
     Mmean = M/(N*spins)
     M2mean = M2/(N*spins)
     Mabsmean = Mabs/(N*spins)
     cv = (E2mean - Emean**2)/(spins*T**2)
-    suscept = (M2mean - Mmean**2)/(spins*T)
+    suscept = (M2mean - Mabsmean**2)/(spins*T)
     return np.array([Emean/spins, Mmean/spins, Mabsmean/spins, cv, suscept])
 
 
@@ -110,7 +109,7 @@ def write_header(filename):
         file.write('T,spins,cycles,ordered,delay,E,M,Mabs,cv,suscept,accepted\n')
 
 
-def write_run(filename, expect, T,N,L,ordered,cycles,delay,accepted):
+def write_run(filename, expect, T,L,ordered,cycles,delay,accepted):
     E,M,Mabs,cv,suscept = expect
     str = '{},{},{},{},{}'.format(T,L**2,cycles,ordered,delay)
     str += ',{},{},{},{},{},{}\n'.format(E,M,Mabs,cv,suscept, accepted)
@@ -121,9 +120,9 @@ def write_run(filename, expect, T,N,L,ordered,cycles,delay,accepted):
 
 if __name__ == '__main__':
 
-    L = 2
+    L = 20
     T = 1.
-    N = 1000000
+    N = 10000
     spins = L**2
     delay = 0
     ordered = 0
@@ -133,4 +132,4 @@ if __name__ == '__main__':
         values, accepted = ising(L, N, T, ordered=ordered,delay=delay)
         # print(expectation_values(values,N,L), accepted)
         expect = expectation_values(values, N,L,T)
-        write_run(filename, expect, T,N,L,ordered,N,delay,accepted)
+        write_run(filename, expect, T,L,ordered,N,delay,accepted)
