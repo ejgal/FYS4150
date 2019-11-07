@@ -1,11 +1,23 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 from numba import jit, prange
 
 
 @jit(nopython=True)
 def ising(L,N,T,ordered=0,delay=0):
+    """
+    Run ising model for a LxL grid.
+
+    L - Number of spins in each directino
+    N - Number of Monte Carlo cycles
+    T - Temperature
+    delay - Number of MC cycles to run before collecting data
+    ordered - Initial condition of spins
+        1 - all spins up
+        0 - random spins
+       -1 - all spins down
+    """
+
     B = 1./T
     J = 1
 
@@ -81,7 +93,6 @@ def ising(L,N,T,ordered=0,delay=0):
 
         # End grid loop
     # End Monte Carlo loop
-
     return np.array([energy, energy2, magnet, magnet2, magnet_abs]), accepted
 
 
@@ -105,11 +116,17 @@ def expectation_values(values,N,L,T, delay=0):
 
 
 def write_header(filename):
+    """
+    Write header for output file
+    """
     with open(filename, 'w') as file:
         file.write('T,spins,cycles,ordered,delay,E,M,Mabs,cv,suscept,accepted\n')
 
 
 def write_run(filename, expect, T,L,ordered,cycles,delay,accepted):
+    """
+    Append data for one run to file.
+    """
     E,M,Mabs,cv,suscept = expect
     str = '{},{},{},{},{}'.format(T,L**2,cycles,ordered,delay)
     str += ',{},{},{},{},{},{}\n'.format(E,M,Mabs,cv,suscept, accepted)
