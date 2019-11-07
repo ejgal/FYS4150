@@ -7,7 +7,16 @@ import time
 
 
 @njit(parallel=True)
-def phase_transitions(L,lenL,T,lenT, filename,ordered,delay=0):
+def phase_transitions(L,lenL,T,lenT,ordered,delay=0):
+    """
+    Run ising model for all combinations temperature and grid width.
+
+    L    - Grid widths
+    lenL - Number of widths
+    T    - Temperatures
+    lenT - Number of temperatures
+    ordered, delay as in ising
+    """
     E = np.zeros(shape=(lenL,lenT))
     M = np.zeros(shape=(lenL,lenT))
     Mabs = np.zeros(shape=(lenL,lenT))
@@ -28,6 +37,7 @@ def phase_transitions(L,lenL,T,lenT, filename,ordered,delay=0):
 
     return E,M,Mabs,cv,suscept,accepted
 
+
 if __name__ == '__main__':
 
     filename = '../data/test_parallel.csv'
@@ -44,10 +54,7 @@ if __name__ == '__main__':
     T = np.linspace(Tstart, Tend, N)
     lenT = N
 
-    print('#T={}'.format(N))
-
-    E,M,Mabs,cv,suscept,accepted = phase_transitions(L,lenL, T,lenT, filename, ordered=ordered,delay=delay)
-
+    E,M,Mabs,cv,suscept,accepted = phase_transitions(L,lenL, T,lenT, ordered=ordered,delay=delay)
     write_header(filename)
     for i in range(lenT):
         for j in range(lenL):
