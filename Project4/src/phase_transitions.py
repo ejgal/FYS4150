@@ -43,12 +43,12 @@ if __name__ == '__main__':
     args = phase_parser().parse_args()
     output = args.output
     estimate = args.estimate
-    Tstart = args.Tstart
-    Tstop = args.Tstop
-    dT = args.dT
-    delay = args.delay
-    ordered = args.ordered
-    cycles = args.cycles
+    Tstart = float(args.Tstart)
+    Tstop = float(args.Tstop)
+    dT = float(args.dT)
+    delay = int(args.delay)
+    ordered = int(args.ordered)
+    cycles = float(args.cycles)
 
     # Estimate run time
     if estimate:
