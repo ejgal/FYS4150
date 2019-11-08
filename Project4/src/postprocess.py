@@ -1,10 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from plot import *
 
-FIGDIR = '../figures/'
-DATADIR = '../data/'
+from settings import *
+from parser import post_parser
 
 def plot_equilibrium(datafile):
     df = pd.read_csv(datafile)
@@ -17,6 +16,7 @@ def plot_equilibrium(datafile):
         df.loc[df['T']==1.0].plot('cycles',col, ax=ax1,logx=True,label='|{}|, T=1.0'.format(col))
         df.loc[df['T']==2.4].plot('cycles',col, ax=ax2, logx=True,label='|{}|, T=2.4'.format(col))
         plt.savefig(FIGDIR + 'equilibrium_{}'.format(col))
+        plt.clf()
 
 def plot_phase(datafile):
     df = pd.read_csv(datafile)
@@ -24,10 +24,16 @@ def plot_phase(datafile):
         fig, ax = plt.subplots(1)
         for L in [40,60,80,100]:
             spins = L**2
-            df.loc[df['spins']==spins].plot('T',col, ax=ax,linestyle='--',label='L={}'.format(L),marker='s')
-        plt.savefig(FIGDIR + 'phase_{}_{}.png'.format(col, L))
-
+            label = 'L={}'.format(L)
+            df.loc[df['spins']==spins].plot('T',col, ax=ax,linestyle=' ',markersize=1,marker='o',label=label)
+        ax.legend()
+        plt.savefig(FIGDIR + 'phase_{}.png'.format(col))
+        plt.clf()
 
 if __name__ == '__main__':
-    plot_phase(DATADIR + 'longrun.csv')
-    plot_equilibrium(DATADIR + 'equilibrium.csv')
+    args = post_parser().parse_args()
+    equi = args.equi
+    phase = args.phase
+
+    plot_phase(DATADIR + phase)
+    plot_equilibrium(DATADIR + equi)
