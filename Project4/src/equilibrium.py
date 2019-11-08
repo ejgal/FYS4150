@@ -22,13 +22,15 @@ points_help = 'Number of different sample sizes to run for. '
 points_help += 'Logarithmically spaced between 10 and 10^exp'
 points_def = 30
 
+ordered_help = 'Initial spin direction. 1 = up, -1 = down, 0 = random.'
+oredered_def = 0
 
 # Initialize parser
 parser = argparse.ArgumentParser(description=parser_description)
 parser.add_argument('--output', '--o', default=output_def, help=output_help)
 parser.add_argument('--exp', '--e', default=exp_def, help=exp_help)
 parser.add_argument('--points', '--p', default=points_def,help=points_help)
-
+parser.add_argument('--ordered', default=ordered_def, help=ordered_help)
 
 
 
@@ -38,12 +40,12 @@ if __name__ == '__main__':
     exp = args.exp
     output = args.output
     points = args.points
+    ordered = args.ordered
 
     L = 20
-    N = 30
+    N = points
     cycles = np.logspace(2,6,N)
     delay = 0
-    ordered = 0
 
     write_header(filename)
     for T in [1., 2.4]:
