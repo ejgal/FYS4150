@@ -4,7 +4,7 @@ from numba import jit,njit, prange
 from settings import *
 from ising import ising,write_header,write_run,expectation_values
 from parser import phase_parser
-
+from timing import estimate_time
 
 @njit(parallel=True)
 def phase_transitions(L,lenL,T,lenT,ordered,delay=0):
@@ -42,6 +42,7 @@ if __name__ == '__main__':
 
     args = phase_parser().parse_args()
     output = args.output
+    estimate = args.estimate
     Tstart = args.Tstart
     Tstop = args.Tstop
     dT = args.dT
@@ -49,13 +50,21 @@ if __name__ == '__main__':
     ordered = args.ordered
     cycles = args.cycles
 
-    lenT = int((Tstop-Tstart)/(dT))
+    # Estimate run time
+    if estimate:
+        estimate_time(Tstart,Tstop,dT,cycles)
+
+        run = input("Continue with full run? (y/n):\n")
+        if run != 'y':
+            print('Exiting.')
+            exit()
 
     # Grid sizes
     L = np.array([40,60,80,100])
     lenL = len(L)
     L = np.array(L)
-    T = np.linspace(Tstart, Tend, lenT)
+    lenT = int((Tstop-Tstart)/(dT))
+    T = np.linspace(Tstart, Tstop, lenT)
 
     # Write to output file before running experiment
     write_header(output)
