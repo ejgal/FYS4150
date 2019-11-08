@@ -23,7 +23,7 @@ points_help += 'Logarithmically spaced between 10 and 10^exp'
 points_def = 30
 
 ordered_help = 'Initial spin direction. 1 = up, -1 = down, 0 = random.'
-oredered_def = 0
+ordered_def = 0
 
 # Initialize parser
 parser = argparse.ArgumentParser(description=parser_description)
