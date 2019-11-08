@@ -1,9 +1,9 @@
-from plot import *
-from ising import ising,write_header,write_run,expectation_values
 import numpy as np
 from numba import jit,njit, prange
-import time
 
+from settings import *
+from ising import ising,write_header,write_run,expectation_values
+from parser import phase_parser
 
 
 @njit(parallel=True)
@@ -40,22 +40,28 @@ def phase_transitions(L,lenL,T,lenT,ordered,delay=0):
 
 if __name__ == '__main__':
 
-    filename = '../data/test_parallel.csv'
-    Tstart = 1.5
-    Tend = 3.0
-    dT = 0.1
-    N = int((Tend-Tstart)/(dT))
-    cycles = 500000
-    ordered = 0
-    delay = 400000
-    L = np.array([20])
+    args = phase_parser().parse_args()
+    output = args.output
+    Tstart = args.Tstart
+    Tstop = args.Tstop
+    dT = args.dT
+    delay = args.delay
+    ordered = args.ordered
+    cycles = args.cycles
+
+    lenT = int((Tstop-Tstart)/(dT))
+
+    # Grid sizes
+    L = np.array([40,60,80,100])
     lenL = len(L)
     L = np.array(L)
-    T = np.linspace(Tstart, Tend, N)
-    lenT = N
+    T = np.linspace(Tstart, Tend, lenT)
 
+    # Write to output file before running experiment
+    write_header(output)
     E,M,Mabs,cv,suscept,accepted = phase_transitions(L,lenL, T,lenT, ordered=ordered,delay=delay)
-    write_header(filename)
+
+    # Write results to file
     for i in range(lenT):
         for j in range(lenL):
             expect = np.array([E[j,i],M[j,i],Mabs[j,i],cv[j,i],suscept[j,i]])
