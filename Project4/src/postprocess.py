@@ -1,26 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-import argparse
 
-from plot import *
-
-FIGDIR = '../figures/'
-DATADIR = '../data/'
-
-
-parser_description = 'Plot results.'
-equi_help = 'Filepath of equilibrium results.'
-equi_def = DATADIR + 'equilibrium.csv'
-
-phase_help = 'Filepath of phase transition results.'
-phase_def = DATADIR + 'phase.csv'
-
-parser = argparse.ArgumentParser(description=parser_description,formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('--equi',help=equi_help, default=equi_def)
-parser.add_argument('--phase', help=phase_help, default=phase_def)
-
-
+from settings import *
+from parser import post_parser
 
 def plot_equilibrium(datafile):
     df = pd.read_csv(datafile)
@@ -48,7 +31,7 @@ def plot_phase(datafile):
         plt.clf()
 
 if __name__ == '__main__':
-    args = parser.parse_args()
+    args = post_parser().parse_args()
     equi = args.equi
     phase = args.phase
 

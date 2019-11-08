@@ -1,7 +1,12 @@
 import matplotlib.pyplot as plt
+
+# Directory settings
+DATADIR = '../data/'
+FIGDIR = '../figures/'
+
+# Plot settings
 colwidth = 418.25368
 width = colwidth / 72.27
-# width = 3.487
 height = width / 1.618
 figsize = [width, height]
 fontsize = 10

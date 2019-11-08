@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from numba import jit, prange
 
 
@@ -137,6 +136,7 @@ def write_run(filename, expect, T,L,ordered,cycles,delay,accepted):
 
 if __name__ == '__main__':
 
+    # Run ising model and write to temperature
     L = 20
     T = 1.
     N = 10000
@@ -145,8 +145,6 @@ if __name__ == '__main__':
     ordered = 0
     filename='../data/testfile.csv'
     write_header(filename)
-    for i in range(0,1):
-        values, accepted = ising(L, N, T, ordered=ordered,delay=delay)
-        # print(expectation_values(values,N,L), accepted)
-        expect = expectation_values(values, N,L,T)
-        write_run(filename, expect, T,L,ordered,N,delay,accepted)
+    values, accepted = ising(L, N, T, ordered=ordered,delay=delay)
+    expect = expectation_values(values, N,L,T)
+    write_run(filename, expect, T,L,ordered,N,delay,accepted)
