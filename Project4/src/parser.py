@@ -62,11 +62,15 @@ def phase_parser():
     cycles_help = 'Total number of MC cycles.'
     cycles_def = 500000
 
+    estimate_help = 'Estimate run time before running.'
+    estimate_def = False
+
     parser.add_argument('--Tstart', default=Tstart_def, help=Tstart_help)
     parser.add_argument('--Tstop', default=Tstop_def,help=Tstop_help)
     parser.add_argument('--dT', default=dT_def, help=dT_help)
     parser.add_argument('--delay', default=delay_def, help=delay_help)
     parser.add_argument('--cycles', default=cycles_def, help=cycles_help)
+    parser.add_argument('--estimate', default=estimate_def,help=estimate_help)
     return parser
 
 def post_parser():
@@ -89,3 +93,4 @@ if __name__ == '__main__':
 
     # Example of loading arguments
     args = phase_parser().parse_args()
+    
