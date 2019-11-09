@@ -44,6 +44,11 @@ if __name__ == '__main__':
     phase = args.phase
 
 
+    df = pd.read_csv(equi)
+    df['ratio'] = df['accepted']/(df['']*df['cycles'])
+    # df1 = df.loc[df['T']==1.0]
+    plt.show()
+
     # Plot equilibrium tests
     df = pd.read_csv(equi)
     df['E'] = np.abs(df['E'])
