@@ -2,7 +2,7 @@ import numpy as np
 from numba import jit, prange
 
 
-# @jit(nopython=True)
+@jit(nopython=True)
 def ising(L,N,T,ordered=0,delay=0,distribution=False):
     """
     Run ising model for a LxL grid.

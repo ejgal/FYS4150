@@ -6,7 +6,7 @@ from ising import ising,write_header,write_run,expectation_values
 from parser import phase_parser
 from timing import estimate_time
 
-# @njit(parallel=True)
+@njit(parallel=True)
 def phase_transitions(L,lenL,T,lenT,ordered,delay=0):
     """
     Run ising model for all combinations temperature and grid width.
