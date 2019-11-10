@@ -3,7 +3,7 @@ from numba import jit, prange
 
 
 @jit(nopython=True)
-def ising(L,N,T,ordered=0,delay=0):
+def ising(L,N,T,ordered=0,delay=0,distribution=False):
     """
     Run ising model for a LxL grid.
 
@@ -19,6 +19,8 @@ def ising(L,N,T,ordered=0,delay=0):
 
     B = 1./T
     J = 1
+
+    dist = np.zeros(int(N))
 
     # Energy differences
     Edict = {}
@@ -89,10 +91,11 @@ def ising(L,N,T,ordered=0,delay=0):
                 magnet += M
                 magnet2 += M**2
                 magnet_abs += np.abs(M)
-
+                if distribution:
+                    dist[k] = E
         # End grid loop
     # End Monte Carlo loop
-    return np.array([energy, energy2, magnet, magnet2, magnet_abs]), accepted
+    return np.array([energy, energy2, magnet, magnet2, magnet_abs]), accepted, dist
 
 
 @jit(nopython=True)

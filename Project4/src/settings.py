@@ -9,11 +9,13 @@ colwidth = 418.25368
 width = colwidth / 72.27
 height = width / 1.618
 figsize = [width, height]
-fontsize = 10
+fontsize = 16
+ticksize = 10
 plt.rc('font', family='serif', serif='Times')
+plt.rc('figure', autolayout=True)
 plt.rc('text', usetex=True)
-plt.rc('xtick', labelsize=fontsize)
-plt.rc('ytick', labelsize=fontsize)
+plt.rc('xtick', labelsize=ticksize)
+plt.rc('ytick', labelsize=ticksize)
 plt.rc('axes', labelsize=fontsize)
 plt.rc('figure', figsize=[width, height])
 plt.rc('figure', dpi=900)
