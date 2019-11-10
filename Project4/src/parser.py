@@ -86,9 +86,17 @@ def post_parser():
     phase_help = 'Filepath of phase transition results.'
     phase_def = DATADIR + 'phase.csv'
 
+    distfile_help = 'Filepath of distribution.'
+    distdata_help = 'Filepath of distribution results.'
+    distfile_def = DATADIR + 'dist_dist.csv'
+    distdata_def = DATADIR + 'dist_20.csv'
+
     parser = ap.ArgumentParser(description=desc,formatter_class=adhf)
     parser.add_argument('--equi',help=equi_help, default=equi_def)
     parser.add_argument('--phase', help=phase_help, default=phase_def)
+    parser.add_argument('--distfile', help=distfile_help, default=distfile_def)
+    parser.add_argument('--distdata', help=distdata_help, default=distdata_def)
+
     return parser
 
 if __name__ == '__main__':
