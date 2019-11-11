@@ -21,15 +21,15 @@ def magnetization(state):
 def probability(T,state):
     E = energy(state)
     B = 1/T
-    return np.exp(-1*B * E)/z(T)
+    return np.exp(-B * E)/z(T)
 
 def susceptibility(T):
     B = 1/T
-    return np.abs(32*np.exp(-8*B*J) + 8)/(z(T)*T)
+    return variance_magnetization(T)/T
 
 def cv(T):
     B = 1/T
-    return variance_energy(T**2)
+    return variance_energy(T)/T**2
 
 
 # Tested
@@ -40,13 +40,12 @@ def z(T):
 def variance_energy(T):
     B = 1/T
     zt = z(T)
-    return 64*(np.exp(8*B) + np.exp(-8*B))/zt - (-16*np.exp(8*B) + np.exp(-8*B))/zt**2
-
+    return 256/zt* np.cosh(8*B) - 1024/zt**2 * np.sinh(8*B)**2
 
 def variance_magnetization(T):
     B = 1/T
     zt = z(T)
-    return (32*np.exp(8*B) + 32)/zt - (8*(2+np.exp(8*B)))/zt**2
+    return 32/zt * (np.exp(8*B) + 1) - (8/zt)**2 *(np.exp(16*B) + 4*np.exp(8*B) + 4)
 
 
 def expected_magnetization(T):
@@ -55,7 +54,7 @@ def expected_magnetization(T):
 
 def expected_energy(T):
     B = 1/T
-    return (-16*(np.exp(8*B) + np.exp(-8*B)))/z(T)
+    return 16*(-np.exp(8*B) + np.exp(-8*B))/z(T)
 
 
 def produce_states():
@@ -75,7 +74,6 @@ def produce_states():
 
 
 if __name__ == '__main__':
-
 
     states = produce_states()
 
