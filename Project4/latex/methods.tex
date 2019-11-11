@@ -49,7 +49,7 @@ Present results of following calculations, but move to appendix.
   \braket{E} &= \sum_{i=1}^{N} E_i P_i \\
              &= \brak{2 \cdot -8 \exp(8\beta) + 2\cdot 8 \exp(-8\beta)} / z \\
              &= \frac{16}{z} ( \exp(-8\beta) - \exp(8\beta))
-             &= \frac{32}{z} \sinh(8\beta)
+             &= -\frac{32}{z} \sinh(8\beta)
 \end{align}
 
 
@@ -68,7 +68,7 @@ Present results of following calculations, but move to appendix.
 \begin{align}
   \braket{M} &= \sum_{i=1}^{N} \abs{M_i} P_i \\
              &= \brak{2\cdot 4 \exp(8\beta ) + 8 \cdot 2 \exp(0)} / z \\
-             &= \frac{8}{z} \para{ 1 - 2\exp(8\beta) }
+             &= \frac{8}{z} \para{ \exp(8\beta) + 2}
 \end{align}
 
 
@@ -79,10 +79,14 @@ Present results of following calculations, but move to appendix.
 \end{align}
 
 \begin{align}
-  \braket{M}^2 &= \frac{8}{z}^2 \para{ 1 - 2\exp(8\beta) }^2 \\
-               &= \frac{64}{z^2} \para{ 1 - 4\exp(8\beta) + 4\exp(16\beta) }
+  \braket{M}^2 &= \frac{8}{z}^2 \para{ 1 + 2\exp(8\beta) }^2 \\
+               &= \frac{64}{z^2} \para{ \exp(16\beta) + 4\exp(8\beta) +  4}
 \end{align}
 
+
+% \begin{equation}
+%
+% \end{equation}
 
 % \begin{align}
 %   \sigma_{E}^2 &= \braket{E^2} - \braket{E}^2 \\
@@ -95,3 +99,13 @@ Present results of following calculations, but move to appendix.
 %   \sigma_{M}^2 &= \braket{M^2} - \braket{M}^2 \\
 %                &=  \frac{32}{z} \brak{ \exp(8\beta) + 1 } - \frac{64}{z^2} \para{ 1 - 4\exp(8\beta) + 4\exp(16\beta) }
 % \end{align}
+
+\subsection{Model testing}
+
+Implementation of tests (test_analytic.py, test_ising.py) showed that the
+analytical solutions was correct when comparing against a brute force method
+where we created all the possible states. Testing the ising model against the
+analytical solutions for a 2x2 grid showed that we could consistently achieve a
+relative error of 0.001 with only 100000 Monte Carlo cycles (MCC) for the energy
+and magnetization. For the heat capacity and susceptibility we had to increase
+the MCC to 5 millions and the relative error tolerance to 0.05.
