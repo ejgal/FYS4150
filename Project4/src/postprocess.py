@@ -8,9 +8,6 @@ from parser import post_parser
 def plot_equilibrium(datafile):
     df = pd.read_csv(datafile)
 
-    # Calculate ratio of accepted configurations
-    df['ratio'] = df['accepted']/(df['spins']*df['cycles'])
-
     # Plot equilibrium tests
     df = pd.read_csv(equi)
     df['E'] = np.abs(df['E'])
@@ -55,6 +52,21 @@ def plot_phase(datafile):
         plt.savefig(FIGDIR + 'phase_{}.png'.format(col))
         plt.clf()
 
+def plot_accepted(datafile):
+    df = pd.read_csv(datafile)
+    df['ratio'] = df['accepted']/(df['spins']*df['cycles'])
+    fig, ax = plt.subplots(1)
+    df.loc[(df['T']==1.0) & (df['ordered']==0)].plot('cycles','ratio',ax=ax,label='T=1.0')
+    df.loc[(df['T']==2.4) & (df['ordered']==0)].plot('cycles','ratio',ax=ax,label='T=2.4')
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.grid()
+    plt.legend()
+    plt.ylabel('Accepted / (spins $\cdot$ cycles)')
+    plt.savefig(FIGDIR + 'accepted.png')
+    plt.clf()
+
+
 if __name__ == '__main__':
     args = post_parser().parse_args()
     equi = args.equi
@@ -62,6 +74,7 @@ if __name__ == '__main__':
     distfile = args.distfile
     datafile = args.distdata
 
+    plot_accepted(equi)
     plot_distribution(distfile, datafile)
     plot_equilibrium(equi)
-    plot_phase(DATADIR + phase)
+    plot_phase(phase)
