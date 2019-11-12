@@ -17,13 +17,15 @@ def plot_equilibrium(datafile):
         for T in [1.0,2.4]:
             lb = 'T={}'.format(T)
             for axis, ordered in zip(ax, [1,-1,0]):
-                df.loc[(df['T']==T) & (df['ordered']==ordered)].plot('cycles',col, ax=axis,linestyle='--', label=lb,logx=True)
-                axis.set_ylabel('{} - ordered={}'.format(col,ordered))
+                sel = df.loc[(df['T']==T) & (df['ordered']==ordered)]
+                sel.plot('cycles',col, ax=axis,linestyle='--', label=lb,logx=True)
+                axis.set_ylabel(r'$\vert${}$\vert$ ord={}'.format(col,ordered))
         plt.savefig(FIGDIR + 'equilibrium_{}.png'.format(col))
         plt.clf()
 
 def plot_distribution(distfile, datafile):
     dist = pd.read_csv(distfile,index_col=0)
+    dist = dist/400.
     data = pd.read_csv(datafile)
     data['T'] = data['T'].round(2)
     data.index = data['T']
@@ -31,7 +33,7 @@ def plot_distribution(distfile, datafile):
     num_bins = int(1+3.3*np.log(len(dist)))
 
     for T in columns:
-        label = 'T={} ,cv={:.2f}'.format(T,data.loc[float(T),'cv'])
+        label = 'T={} C$_v$={:.2f}'.format(T,data.loc[float(T),'cv'])
         dist[T].hist(density=True, bins=num_bins,label=label, alpha=0.8)
     plt.legend()
     plt.ylabel('Probability density')
