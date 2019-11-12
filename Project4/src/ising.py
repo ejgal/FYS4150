@@ -117,7 +117,6 @@ def expectation_values(values,N,L,T, delay=0):
     [E, E2, M, M2, Mabs] = values
     spins = L**2
     N = float(N - delay)
-    print(N)
     Emean = E/(N*spins)
     E2mean = E2/(N*spins)
     Mmean = M/(N*spins)

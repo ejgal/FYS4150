@@ -44,7 +44,7 @@ def estimate_time(Tstart,Tstop,dT,cycles,cores=4,freq=3200,):
     duration = deadline - now
     hours = duration.days*60 + duration.seconds/(60*60)
     print('Hours until project deadline: {:.2f}'.format(hours))
-    
+
 
 
 
