@@ -64,14 +64,14 @@ def ising(L,N,T,ordered=0,delay=0,distribution=False):
     magnet_abs = 0
 
     # Monte Carlo loop
-    for k in prange(0,N):
+    for k in prange(0, N):
         # Grid loop
-        for i in prange(0,L**2):
+        for i in prange(0, L**2):
             # Randomly proposed spin to flip
-            x,y = int(np.random.uniform(0,1)*(L)), int(np.random.uniform(0,1)*(L))
+            x, y = int(np.random.uniform(0, 1)*(L)), int(np.random.uniform(0, 1)*(L))
 
             # Sum of surrounding spins
-            sk = grid[(x+1)%L,y] + grid[(x-1)%L,y] + grid[x,(y+1)%L] + grid[x,(y-1)%L]
+            sk = grid[(x+1)%L, y] + grid[(x-1)%L, y] + grid[x, (y+1)%L] + grid[x, (y-1)%L]
             Ediff = 2*(grid[x,y]*sk)
             deltaE = Edict[int(Ediff)]
             r = np.random.uniform(0,1)
@@ -101,12 +101,23 @@ def ising(L,N,T,ordered=0,delay=0,distribution=False):
 @jit(nopython=True)
 def expectation_values(values,N,L,T, delay=0):
     """
-    Calculates various expectation values.
+    Calculates various expectation values per spin.
+
+    Args:
+        values: Array - energy, energy2, magnet, magnet2, magnet_abs
+        N: MC cycles
+        L: Grid size
+        T: Temperature
+        delay: Number of MC cycles that was run before collecting values
+
+    Returns:
+        Numpy array containing <E>, <M>, <|M|>, cv, susceptibility.
     """
 
-    [E,E2,M,M2,Mabs] = values
+    [E, E2, M, M2, Mabs] = values
     spins = L**2
     N = float(N - delay)
+    print(N)
     Emean = E/(N*spins)
     E2mean = E2/(N*spins)
     Mmean = M/(N*spins)
@@ -139,11 +150,10 @@ def write_run(filename, expect, T,L,ordered,cycles,delay,accepted):
 
 if __name__ == '__main__':
 
-    # Run ising model and write to temperature
+    # Run ising model and write to file
     L = 20
     T = 1.
     N = 10000
-    spins = L**2
     delay = 0
     ordered = 0
     filename='../data/testfile.csv'

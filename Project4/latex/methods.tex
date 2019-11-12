@@ -3,4 +3,51 @@
 
 \subsection{Analytic solutions}
 
-\csvautotabular{../data/analytic.csv}
+For a 2x2 grid it is doable to find analytical solution for the values of
+interest that we can use to compare the results of the numerical approximations.
+We start by calculating the energy for a given configuration.
+
+\begin{align*}
+  E_i &= -J \sum_{<k,l>} s_k s_l = -\frac{1}{2}J \sum_{i} \sum_{nn} s_i s_{nn} \\
+      &= -\frac{1}{2} J \brak{2 s_1 (s_2 + s_3) + 2s_2(s_1 + s_4) + 2s_3(s_4 + s_1) + 2s_4 (s_2 + s_3)}\\
+      &= -J\brak{ 2(s_4 + s_1)(s_2 + s_3)} \\
+      &= -2J\brak{(s_4 + s_1)(s_2+s_3)}
+\end{align*}
+
+To calculate the expectation values we need to know the possible energies and
+magnetizations. The script analytic.py \parencite{github} generates all the
+possible states and lists the values we need as shown in \cref{tab:analytic}.
+
+\begin{table}[htp]
+  \centering
+  \csvautotabular{../data/analytic.csv}
+  \caption{Analytical values for a 2x2 grid.}
+  \label{tab:analytic}
+\end{table}
+
+The probability of a given configuration is given by \cref{eq:prob}, with
+the z being a normalization factor to ensure the sum of probabilities are one,
+known as the partition function, given in \cref{eq:partition}.
+
+
+\begin{equation}
+  \label{eq:prob}
+  P_i = \frac{\exp(-\beta E_i)}{z}
+\end{equation}
+
+\begin{equation}
+  \label{eq:partition}
+  z = \sum_{i}^{N} \exp(-\beta E_i) = \exp(8\beta) + 12 + 2\exp(-8\beta)
+\end{equation}
+
+\subsection{Model testing}
+
+Implementation of tests (test\_analytic.py, test\_ising.py) showed that the
+analytical solutions was correct down to an absolute error of \num{1e-12}  when
+comparing against a brute force method where we created all the possible
+microstates.
+Testing the ising model against the analytical solutions for a 2x2 grid showed
+that we could consistently achieve a relative error of 0.001 with only 100000
+Monte Carlo cycles (MCC) for the energy and magnetization. For the heat capacity
+and susceptibility we had to increase the MCC to 5 millions and the relative
+error tolerance to 0.05.
