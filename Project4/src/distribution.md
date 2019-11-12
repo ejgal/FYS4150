@@ -22,7 +22,23 @@ import numpy as np
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
-%matplotlib inline
+%matplotlib notebook
+```
+
+```python
+# Extract critical temperature
+
+L = 100
+spins = L**2
+df = pd.read_csv('../data/longrun3.csv')
+sel = df.loc[df['spins']==spins]
+largest = sel.nlargest(10,'cv')
+display(largest)
+# display(sel['cv'].max())
+# sel.loc[sel['cv']==sel['cv'].max()]
+largest.plot('T','cv', linestyle=' ', marker='s')
+# T = np.linspace(1,2.4,100)
+# plt.plot(T,np.abs((T-2.269))**(-7/4))
 ```
 
 ```python

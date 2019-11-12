@@ -7,7 +7,7 @@ from parser import phase_parser
 from timing import estimate_time
 
 @njit(parallel=True)
-def phase_transitions(L,lenL,T,lenT,ordered,delay=0):
+def phase_transitions(L,lenL,T,lenT,cycles,ordered,delay=0):
     """
     Run ising model for all combinations temperature and grid width.
 
@@ -25,7 +25,7 @@ def phase_transitions(L,lenL,T,lenT,ordered,delay=0):
     accepted = np.zeros(shape=(lenL,lenT))
 
     for i in prange(lenT):
-        for j in prange(lenL):
+        for j in range(lenL):
             values, acc,d = ising(L[j],cycles,T[i], ordered=ordered,delay=delay)
             expect = expectation_values(values, cycles,L[j],T[i], delay)
             E[j,i] = expect[0]
@@ -68,7 +68,7 @@ if __name__ == '__main__':
 
     # Write to output file before running experiment
     write_header(output)
-    E,M,Mabs,cv,suscept,accepted = phase_transitions(L,lenL, T,lenT, ordered=ordered,delay=delay)
+    E,M,Mabs,cv,suscept,accepted = phase_transitions(L,lenL, T,lenT, cycles,ordered,delay=delay)
 
     # Write results to file
     for i in range(lenT):
