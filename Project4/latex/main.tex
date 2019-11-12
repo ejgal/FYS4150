@@ -26,6 +26,7 @@
 \usepackage{booktabs}
 % Nicer default font (+ math font) than Computer Modern for most use cases
 \usepackage{mathpazo}
+\usepackage[toc,page]{appendix}
 
 %Cite stuff
 % References like (author, year)
@@ -169,5 +170,9 @@
 \newpage
 \nocite{github}
 \printbibliography
+
+\newpage
+\subfile{appendices.tex}
+
 
 \end{document}

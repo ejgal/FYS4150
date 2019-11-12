@@ -8,7 +8,7 @@ interest that we can use to compare the results of the numerical approximations.
 We start by calculating the energy for a given configuration.
 
 \begin{align*}
-  E_i &= -J \sum_{<k,l>} s_k s_l = -\frac{1}{2}J \sum_{i} \sum_{n,n} s_i s_{nn} \\
+  E_i &= -J \sum_{<k,l>} s_k s_l = -\frac{1}{2}J \sum_{i} \sum_{nn} s_i s_{nn} \\
       &= -\frac{1}{2} J \brak{2 s_1 (s_2 + s_3) + 2s_2(s_1 + s_4) + 2s_3(s_4 + s_1) + 2s_4 (s_2 + s_3)}\\
       &= -J\brak{ 2(s_4 + s_1)(s_2 + s_3)} \\
       &= -2J\brak{(s_4 + s_1)(s_2+s_3)}
@@ -31,8 +31,8 @@ known as the partition function, given in \cref{eq:partition}.
 
 
 \begin{equation}
-  P_i = \frac{\exp(-\beta E_i)}{z}
   \label{eq:prob}
+  P_i = \frac{\exp(-\beta E_i)}{z}
 \end{equation}
 
 \begin{equation}
@@ -40,72 +40,14 @@ known as the partition function, given in \cref{eq:partition}.
   z = \sum_{i}^{N} \exp(-\beta E_i) = \exp(8\beta) + 12 + 2\exp(-8\beta)
 \end{equation}
 
-
-
-Present results of following calculations, but move to appendix.
-\newpage
-
-\begin{align}
-  \braket{E} &= \sum_{i=1}^{N} E_i P_i \\
-             &= \brak{2 \cdot -8 \exp(8\beta) + 2\cdot 8 \exp(-8\beta)} / z \\
-             &= \frac{16}{z} ( \exp(-8\beta) - \exp(8\beta))
-             &= -\frac{32}{z} \sinh(8\beta)
-\end{align}
-
-
-\begin{align}
-  \braket{E^2} &= \sum_{i=1}^{N} E_i^2 P_i \\
-                &= \brak{ 2 (-8)^2\exp(8\beta) + 2 (8)^2\exp(-8\beta) } /z \\
-                &= \frac{128}{z}\brak{ \exp(8 \beta) + \exp(-8\beta)}
-                &= \frac{256}{z} \cosh(8\beta)
-\end{align}
-
-\begin{align}
-  \braket{E}^2 &= (\frac{16}{z})^2 ( \exp(-16\beta) + \exp(16\beta) - 2)
-               &= \frac{32^2}{z^2} \sinh(8\beta)^2
-\end{align}
-
-\begin{align}
-  \braket{M} &= \sum_{i=1}^{N} \abs{M_i} P_i \\
-             &= \brak{2\cdot 4 \exp(8\beta ) + 8 \cdot 2 \exp(0)} / z \\
-             &= \frac{8}{z} \para{ \exp(8\beta) + 2}
-\end{align}
-
-
-\begin{align}
-  \braket{M^2} &= \sum_{i=1}^{N} \abs{M_i}^2 P_i \\
-               &= \brak{2 (4)^2 \exp(8\beta) + 8 (2)^2} / z \\
-               &= \frac{32}{z} \brak{ \exp(8\beta) + 1 }
-\end{align}
-
-\begin{align}
-  \braket{M}^2 &= \frac{8}{z}^2 \para{ 1 + 2\exp(8\beta) }^2 \\
-               &= \frac{64}{z^2} \para{ \exp(16\beta) + 4\exp(8\beta) +  4}
-\end{align}
-
-
-% \begin{equation}
-%
-% \end{equation}
-
-% \begin{align}
-%   \sigma_{E}^2 &= \braket{E^2} - \braket{E}^2 \\
-%                &= \frac{128}{z}\brak{ \exp(16 \beta) + \exp(-16\beta)} - \frac{16}{z}^2 ( \exp(-16\beta) + \exp(16\beta) - 2)
-% \end{align}
-%
-%
-%
-% \begin{align}
-%   \sigma_{M}^2 &= \braket{M^2} - \braket{M}^2 \\
-%                &=  \frac{32}{z} \brak{ \exp(8\beta) + 1 } - \frac{64}{z^2} \para{ 1 - 4\exp(8\beta) + 4\exp(16\beta) }
-% \end{align}
-
 \subsection{Model testing}
 
-Implementation of tests (test_analytic.py, test_ising.py) showed that the
-analytical solutions was correct when comparing against a brute force method
-where we created all the possible states. Testing the ising model against the
-analytical solutions for a 2x2 grid showed that we could consistently achieve a
-relative error of 0.001 with only 100000 Monte Carlo cycles (MCC) for the energy
-and magnetization. For the heat capacity and susceptibility we had to increase
-the MCC to 5 millions and the relative error tolerance to 0.05.
+Implementation of tests (test\_analytic.py, test\_ising.py) showed that the
+analytical solutions was correct down to an absolute error of \num{1e-12}  when
+comparing against a brute force method where we created all the possible
+microstates.
+Testing the ising model against the analytical solutions for a 2x2 grid showed
+that we could consistently achieve a relative error of 0.001 with only 100000
+Monte Carlo cycles (MCC) for the energy and magnetization. For the heat capacity
+and susceptibility we had to increase the MCC to 5 millions and the relative
+error tolerance to 0.05.
