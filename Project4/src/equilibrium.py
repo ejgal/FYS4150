@@ -26,6 +26,6 @@ if __name__ == '__main__':
         for ordered in [-1,0,1]:
             for i in range(0,len(cycles)):
                 print('T: {}, cycle: {}/{}'.format(T, int(cycles[i]), cycles[-1]))
-                values, accepted,d = ising(L,int(cycles[i]),T, delay=0, ordered=0)
+                values, accepted,d = ising(L,int(cycles[i]),T, delay=0, ordered=ordered)
                 expect = expectation_values(values, cycles[i],L,T)
                 write_run(output, expect, T,L,ordered,cycles[i],delay,accepted)
