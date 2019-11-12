@@ -81,10 +81,10 @@ def post_parser():
     """
     desc = 'Plot results.'
     equi_help = 'Filepath of equilibrium results.'
-    equi_def = DATADIR + 'equilibrium.csv'
+    equi_def = DATADIR + 'equi_long2.csv'
 
     phase_help = 'Filepath of phase transition results.'
-    phase_def = DATADIR + 'phase.csv'
+    phase_def = DATADIR + 'longrun2.csv'
 
     distfile_help = 'Filepath of distribution.'
     distdata_help = 'Filepath of distribution results.'
