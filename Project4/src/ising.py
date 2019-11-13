@@ -123,7 +123,7 @@ def expectation_values(values,N,L,T, delay=0):
     M2mean = M2/(N*spins)
     Mabsmean = Mabs/(N*spins)
     cv = (E2mean - Emean**2)/(spins*T**2)
-    suscept = (M2mean - Mabsmean**2)/(spins*T)
+    suscept = (Mabsmean - Mabsmean**2)/(spins*T)
     return np.array([Emean/spins, Mmean/spins, Mabsmean/spins, cv, suscept])
 
 
