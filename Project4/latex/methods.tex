@@ -62,6 +62,50 @@ known as the partition function, given in \cref{eq:partition}.
   z = \sum_{i}^{N} \exp(-\beta E_i) = \exp(8\beta) + 12 + 2\exp(-8\beta)
 \end{equation}
 
+
+
+
+\subsection{Equilibrium}
+
+When we do the production runs we want to start calculating expectation values
+when the system has reached equilibrium, or the most likely state. A crude
+method for estimating this delay value (\# of MC cycles) is to plot energy and
+magnetization against MC cycles. We did this for T $\in \brak{1.0,2.4}$ for both
+ordered (all spins pointing up) and unordered initial states. From
+\cref{fig:equi_E} and \cref{fig:equi_M} it is clear that the system takes longer
+to reach the most likely state when the initial state is unordered. The
+magnetisation seems to take longer to stabilize than the energy. At around 7500
+cycles all values seem to be stable, showing small oscillations. Since we will
+be running several hundred thousands MC cycles we played it safe and set the
+delay parameter to 50000 in the production runs.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{../figures/equilibrium_E.png}
+  \caption{Absolute values of energy for different MC cycles.
+  ord refers to the initial configuration of spins. 1=up, 0=random.}
+  \label{fig:equi_E}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{../figures/equilibrium_Mabs.png}
+  \caption{Absolute values of magnetization for different MC cycles.
+  ord refers to the initial configuration of spins. 1=up, 0=random.}
+  \label{fig:equi_M}
+\end{figure}
+
+
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../figures/accepted.png}
+  \caption{Accepted configurations scaled with number of spins and MC cycles.}
+  \label{fig:accepted}
+\end{figure}
+
 \subsection{Model testing}
 
 Implementation of tests (test\_analytic.py, test\_ising.py) showed that the
@@ -81,11 +125,12 @@ For the production runs (phase\_transitions.py) we parallelized the code with
 numba using $@njit(parallel=True)$. We found it easiest to run calculations for
 each temperature in parallel, instead of parallelizing the ising model itself.
 An unfortunate side effect of this was that we were not able to write to file
-after each run of the ising model, so if our run did not finish for some reason
-we would lose all the results.
-We also added a script (timings.py) that estimates the time to run phase\_transitions.py
-with the given parameters so we did not start too long runs.
+after each run of the ising model, so if our run did not finish we would lose
+all the results. We also added a script (timings.py) that estimates the time to
+run phase\_transitions.py with the given parameters so we did not start too time
+consuming runs.
 
 Timings with and without parallelization for small grid sizes showed a speedup
 of roughly 3.4 on a laptop with 4 physical cores. The suboptimal speedup might
-be related to creation of and writing to the 2d arrays for storing results.
+be related to creation of and writing to the 2d arrays for storing results,
+but we did not look deeper into this.

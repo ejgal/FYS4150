@@ -31,16 +31,17 @@ def plot_equilibrium(datafile):
 
 def plot_distribution(distfile, datafile):
     dist = pd.read_csv(distfile,index_col=0)
-    dist = dist/400.
+    # dist = dist/400.
     data = pd.read_csv(datafile)
     data['T'] = data['T'].round(2)
     data.index = data['T']
     columns = dist.columns[0::3]
     num_bins = int(1+3.3*np.log(len(dist)))
-
+    # num_bins = int((dist.max() - dist.min()).max()/(0.04))
+    print(num_bins)
     for T in columns:
-        label = 'T={} C$_v$={:.2f}'.format(T,data.loc[float(T),'cv'])
-        dist[T].hist(density=True, bins=num_bins,label=label, alpha=0.8)
+        label = 'T={} $\sigma_E^2$={:.2f}'.format(T,data.loc[float(T),'cv']*float(T)**2)
+        dist[T].hist(density=True,bins=64,label=label, alpha=0.8)
     plt.legend()
     plt.grid(False)
     plt.ylabel('Probability density')
