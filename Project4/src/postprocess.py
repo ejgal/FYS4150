@@ -73,6 +73,7 @@ def plot_accepted(datafile):
     # plt.yscale('log')
     plt.grid()
     plt.legend()
+    plt.yscale('log')
     plt.ylabel('Accepted / (spins $\cdot$ cycles)')
     plt.savefig(FIGDIR + 'accepted.png')
     plt.clf()
