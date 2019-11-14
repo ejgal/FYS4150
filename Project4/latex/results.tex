@@ -22,20 +22,52 @@ spread out.
 
 \subsection{Phase transitions}
 
+T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and L $\in \brak{40,60,80,100}$,
+\num{1e6} MC cycles,
+showed (\cref{fig:phase_E,fig:phase_Mabs,fig:phase_cv,fig:phase_suscept})
+indications of a phase transition for T $\in \brak{2.2,2.35}$. The simulations
+with higher grid size exhibits sharper changes, meaning that they capture
+the phase transition better.
 
+To find the critical temperature we did a run in the interesting interval with a
+smaller dT (\num{5e-4}). We fitted fourth order polynomials to $C_v$ and found
+the critical temperature for each grid size (Tc$_{L}$) (See
+critical\_temperature.py) \footnote{We also tried to find the T$c$(L) by two
+other methods. 1. Selecting the 3-5 largest points. 2. Taking a rolling mean
+with a window of 3-5. This gave similar results for T$_C(L=\infty)$, but was
+more cumbersome to implement.}. Using the finite size scaling relation
+\cref{eq:scaling} with $\nu$ = 1, we found the parameter a by doing a linear
+regression with the four different T$_c$(L).
+
+ \begin{equation}
+   \label{eq:scaling}
+   T_C(L=\infty) = T_C(L) - aL^{-1/\nu}
+ \end{equation}
+
+ This gave us the results (with a 99\% confidence) of $Tc=2.26709 \pm 0.00237$.
+ Comparing with the analytical solution gave us the relative error
+ \cref{eq:analytical} $\epsilon_r = 0.00092$ with the 99\% confidence interval
+ $\brak{0.00012,0.00197}$.
+
+\begin{equation}
+  \label{eq:analytical}
+  T_C(L=\infty) = \frac{2}{\ln(1 + \sqrt2)} \approx 2.269
+\end{equation}
 
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../figures/phase_E.png}
-  \caption{$\Delta$ T=0.05}
+  \caption{Mean energy. Some small differences between grid sizes. Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
+  \num{1e6} MC cycles}
   \label{fig:phase_E}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../figures/phase_Mabs.png}
-  \caption{}
+  \caption{Mean magnetisation.  Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
+  \num{1e6} MC cycles}
   \label{fig:phase_Mabs}
 \end{figure}
 
@@ -44,7 +76,8 @@ spread out.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../figures/phase_cv.png}
-  \caption{}
+  \caption{Heat capacity. Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
+  \num{1e6} MC cycles}
   \label{fig:phase_cv}
 \end{figure}
 
@@ -52,6 +85,7 @@ spread out.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../figures/phase_suscept.png}
-  \caption{}
+  \caption{Susceptibility. Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
+  \num{1e6} MC cycles}
   \label{fig:phase_suscept}
 \end{figure}

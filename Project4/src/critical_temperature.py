@@ -14,6 +14,8 @@ def crit_temp_poly(datafile,n=4):
     Tc = []
     Tmin = df['T'].min()
     Tmax = df['T'].max()
+    print(Tmin)
+    print(Tmax)
     T = np.linspace(Tmin,Tmax,1000)
     for L in [40,60,80,100]:
         print('L: {}'.format(L))
@@ -34,7 +36,7 @@ if __name__ == '__main__':
     values = np.array([Tc,L]).transpose()
     df = pd.DataFrame(values,columns=['Tc','L'])
     # Inverse L -> Critical temperature at intercept
-    df['L'] = 1/df['L']
+    df['L'] = -1/df['L']
 
     # Fit line
     fit = smf.ols(formula='Tc ~ L', data=df).fit()
@@ -51,3 +53,8 @@ if __name__ == '__main__':
     print(r'$Tc={:.5f} \pm {:.5f}$'.format(T, width))
     print('Tc in [{:.5f},{:.5f}]'.format(T-width, T+width))
     print('Analytical: {:.5f}'.format(analytic))
+    rel_err = np.abs(analytic-T)/analytic
+    upper_rel = np.abs(T-width -analytic)/analytic
+    lower_rel = np.abs(T + width - analytic)/analytic
+    print('relative error: {:.5f}'.format(rel_err))
+    print('relative error in [{:.5f},{:.5f}]'.format(lower_rel,upper_rel))
