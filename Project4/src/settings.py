@@ -1,4 +1,10 @@
 import matplotlib.pyplot as plt
+import numpy as np
+
+# Analytical value for critical temperature
+analytic = 2/np.log(1+np.sqrt(2))
+
+
 
 # Directory settings
 DATADIR = '../data/'
