@@ -1,1 +1,10 @@
 \section{Discussion}
+
+The values for the confidence intervals around the T$_c$(L=$\infty$) assumes
+that the values for T$_c$(L) are certain. This is not correct, since we
+introduce uncertainties when running the simulations and by the method we use to
+estimate T$_c$(L). We tried two other methods for estimating the temperature
+that showed the highest critical temperature. 1. Selecting the 3-5 largest
+points. 2. Taking a rolling mean with a window of 3-5. This gave similar results
+for T$_c$(L) and T$_C(L=\infty)$, but was more cumbersome to implement than
+fitting the polynomial.

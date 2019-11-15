@@ -1,6 +1,6 @@
 \section{Methods}
 
-The 
+The
 
 Conceptually these systems are quite simple to model,
 consisting of binary spins which can either have the value 1 (up) or -1 (down).
@@ -9,13 +9,13 @@ spins in our system. We evolve our system by randomly selecting spins and
 changing their values if it is energetically favourable for the system. To not
 have our system being stuck in the ground state (lowest energy state) we will randomly flip some spins
 anyway even if it is not energetically favourable, this behaviour is actually
-something for real systems to. 
+something for real systems to.
 \subsection{Ising model}
 The Ising model, without an external magnetic field, is given by
 \cref{eq:ising}, where $E_i$ is the energy of a given microstate s$_k$ and s$_l$ takes values of $\pm 1$, O is the
 number of spins, J is a coupling constant corresponding to the strength of the
 interaction between the neighbouring spins and $<kl>$ means that we sum over
-nearest neighbour only. 
+nearest neighbour only.
 
 \begin{equation}\label{eq:ising}
   E_i = -J\sum_{<kl>}^{O} s_k s_l
@@ -33,7 +33,7 @@ is given by the Boltzmann distribution \cref{eq:Boltzmann}
   P_i(\beta) = \frac{e^{-\beta E_i}}{Z}
 \end{equation}
 
-$\beta$ is the inverse temperature times the Boltzmann constant 
+$\beta$ is the inverse temperature times the Boltzmann constant
 ($\beta = 1/k_b*T $),  $E_i$ is the energy of a microstate and $Z$
 \cref{eq:partFunc} is the partition function for the canonical ensemble.
 
@@ -42,10 +42,10 @@ $\beta$ is the inverse temperature times the Boltzmann constant
 \end{equation}
 
 The properties which we are interested in, the ,energy $\braket{E}$, heat
-capacity $C_v$,magnetisation $\braket{M}$ and the susceptibility $\chi$ are then given 
-by the following expressions. 
+capacity $C_v$,magnetisation $\braket{M}$ and the susceptibility $\chi$ are then given
+by the following expressions.
 \begin{eqnarray}
-  \braket{E} = \frac{1}{Z} \sum_{i=1}^N E_i e^{\beta E_i} \\ 
+  \braket{E} = \frac{1}{Z} \sum_{i=1}^N E_i e^{\beta E_i} \\
   C_v = \frac{1}{k_B T^2}\left(\braket{E^2} - \braket{E}^2 \right) \\
   \braket{M} = \frac{1}{Z} \sum_{i=1}^{N} M e^{-\beta E_i} \\
   \chi = \frac{1}{k_b T}\left(\braket{M^2}- \braket{M}^2\right)
@@ -74,7 +74,19 @@ algorithm .
 After we have setup the initial microstate, the first step in devising our stochastic Ising model would be to setup our
 Monte Carlo sampler or random walk. The random walk will random select spins in
 our lattice. For each of the randomly selected spins we calculate the energy and
+<<<<<<< HEAD
+then make a proposal about whether to flip the orientation of the spin. We can
+pre calculate the energy for a given temperature energy since for the Ising
+model the energy difference can only take on five different values \cref{eq:deltaE}.
+\begin{equation}\label{eq:deltaE}
+  \Delta E = -8J, \; -4J, \; 0, \; 4J, \; 8J
+\end{equation}
+This is quite straight forward to verify by using \cref{eq:ising} to calculate
+the energy of the original spins configuration and the new proposed
+configuration and then calculating the difference.
+=======
 then make a proposal about whether to flip the orientation of the spin. 
+>>>>>>> master
 
 We will
 accept the proposal if flipping the spin results in lowering the energy of the
@@ -109,7 +121,12 @@ state and then finding the difference. Pre calculating the energy saves us a lot
 of CPU cycles as we do not need to calculate an exponential each time we propose
 a new state. Metropolis tweak to our proposal acceptance rule
 encapsulates the eternal struggle between two fundamental principles of our
+<<<<<<< HEAD
+universe, energy minimization and entropy maximization.
+
+=======
 universe, energy minimization and entropy maximization. This 
+>>>>>>> master
 
 
 
@@ -120,7 +137,7 @@ have infinite number of microstates. Still for a small lattice 2x2, which only
 has 16 microstates it is
 feasible to find analytic solutions for the values of
 interest. Comparing with the analytical expressions will be useful test of our
-numerical estimates. 
+numerical estimates.
 
 We start by calculating the energy for a given microstate.
 
@@ -132,7 +149,7 @@ We start by calculating the energy for a given microstate.
 \end{align*}
 
 To calculate the expectation values we need to know the possible energies and
-magnetizations. The script analytic.py \parencite{github} generates all the
+magnetizations. The script analytic.py \footnote{\url{https://github.com/Ovewh/Computilus/tree/master/Project4}}  generates all the
 possible states and lists the values we need as shown in \cref{tab:analytic}.
 
 \begin{table}[htp]

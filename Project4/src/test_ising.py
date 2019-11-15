@@ -12,7 +12,7 @@ def test_ising_EM():
     """
     L = 2
     spins = L**2
-    cycles = 100000
+    cycles = 1e5
     tol = 0.001
     delay = 0
     T=1
@@ -38,10 +38,10 @@ def test_ising_cv_suscept():
     """
     L = 2
     spins = L**2
-    cycles = 5000000
-    tol = 0.05
+    cycles = 5e6
+    tol = 0.01
     delay = 0
-    T=1
+    T=1.0
     for i in range(0,10):
         values,acc,d = ising(L,cycles,T, delay)
         expect = expectation_values(values, cycles,L,T, delay)
@@ -54,18 +54,18 @@ def test_ising_cv_suscept():
         assert cv == approx(expect[3], rel=tol)
         assert suscept == approx(expect[4], rel=tol)
 
+
 def test_jit():
     """
     Check that ising with and without numba gives close to the same
     values. Uses rel=0.001 since we did not want to clutter the ising
     function more by having an option to set a seed in the RNG.
-    Does not test the magnetization since it has very high variance.
     """
-
+    tol = 0.001
     nojit,a,d = ising.py_func(2,100000,1)
     jit,a,d = ising(2,100000,1)
     for value1, value2 in zip(nojit[[0,1,3,4]], jit[[0,1,3,4]]):
-        assert value1 == approx(value2, rel=0.001)
+        assert value1 == approx(value2, rel=tol)
 
 if __name__ == '__main__':
     test_jit()

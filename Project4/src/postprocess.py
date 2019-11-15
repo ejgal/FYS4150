@@ -5,6 +5,35 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 from settings import *
 from parser import post_parser
+import analytic as a
+
+def plot_relative_error(datafile,T = 1.0,L=2,window=1,ordered=0):
+    df = pd.read_csv(datafile)
+    cv = a.cv(T)/L**2
+    E = a.expected_energy(T)/L**2
+    Mabs = a.expected_magnetization(T)/L**2
+    suscept = a.susceptibility(T)/L**2
+
+
+    sel = df.loc[(df['T'] == T) & (df['ordered']==ordered)]
+    sel['relcv'] = np.abs(sel['cv'] - cv)/np.abs(cv)
+    sel['relE'] = np.abs(sel['E'] - E)/np.abs(E)
+    sel['relMabs'] = np.abs(sel['Mabs'] - Mabs)/np.abs(Mabs)
+    sel['relsuscept'] = np.abs(sel['suscept'] - suscept)/np.abs(suscept)
+
+    fig, ax = plt.subplots(1)
+    ax.tick_params(left=True,right=True,which='both')
+    ax.tick_params(labelleft =True, labelright=True)
+    cols = ['relE','relcv','relMabs','relsuscept']
+
+    for col in cols:
+        sel.rolling(window).mean().plot('cycles',col,linestyle='-',logx=True,logy=True, ax=ax)
+    ax.set_ylabel('Relative error')
+    ax.set_xlabel('Monte Carlo cycles')
+    plt.grid()
+    plt.title('ordered: {} T: {}'.format(ordered, T))
+    plt.savefig(FIGDIR + 'relative_error_order{}_T{}.png'.format(ordered,int(T)))
+
 
 def plot_equilibrium(datafile):
     df = pd.read_csv(datafile)
@@ -56,9 +85,10 @@ def plot_phase(datafile):
         for L in [40,60,80,100]:
             spins = L**2
             label = 'L={}'.format(L)
-            df.loc[df['spins']==spins].plot('T',col, ax=ax,linestyle='-',markersize=1.5,marker='o',label=label)
+            df.loc[df['spins']==spins].plot('T',col, ax=ax,linestyle=' ',markersize=1.5,marker='s',label=label)
         ax.legend()
         ax.set_ylabel(ylabel)
+        plt.grid()
         plt.savefig(FIGDIR + 'phase_{}.png'.format(col))
         plt.clf()
 
@@ -85,6 +115,14 @@ if __name__ == '__main__':
     phase = args.phase
     distfile = args.distfile
     datafile = args.distdata
+
+    file = '../data/equi_L2_large_7.csv'
+    win = 5
+    plot_relative_error(file,T=1.0,window=win)
+    plot_relative_error(file,T=1.0,window=win,ordered=1)
+    plot_relative_error(file,T=2.4,window=win)
+    plot_relative_error(file,T=2.4,window=win,ordered=1)
+
 
     plot_equilibrium(equi)
     plot_accepted(equi)
