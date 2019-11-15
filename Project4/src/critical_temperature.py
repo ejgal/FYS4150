@@ -56,5 +56,8 @@ if __name__ == '__main__':
     rel_err = np.abs(analytic-T)/analytic
     upper_rel = np.abs(T-width -analytic)/analytic
     lower_rel = np.abs(T + width - analytic)/analytic
-    print('relative error: {:.5f}'.format(rel_err))
-    print('relative error in [{:.5f},{:.5f}]'.format(lower_rel,upper_rel))
+    print('relative error: {:.3e}'.format(rel_err))
+    print('relative error in [{:.3e},{:.3e}]'.format(lower_rel,upper_rel))
+    print('Absolute error: {}'.format(np.abs(analytic - T)))
+    print('CI abs err: {:.3e}'.format(np.abs(analytic - (T - width))))
+    print('CI abs err: {:.3e}'.format(np.abs(analytic - (T + width))))
