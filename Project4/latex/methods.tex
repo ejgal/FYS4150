@@ -54,9 +54,9 @@ by the following expressions.
 The variance of the energy and magnetisation is defined as the following.
 \begin{eqnarray}
   \sigma_E^{2} = \left(\braket{E^2} - \braket{E}^2 \right) = \frac{1}{Z}
-  \sum_{i=1}^N E_i e^{\beta E_i^2} - \left(\frac{1}{Z} \sum_{i=1}^N E_i e^{\beta
+  \sum_{i=1}^N E_i^2 e^{\beta E_i} - \left(\frac{1}{Z} \sum_{i=1}^N E_i e^{\beta
   E_i}\right)^2  \\
-  \sigma_M^{2} = \frac{1}{Z} \sum_{i=1}^{N} M^2 e^{-\beta E_i}  - \left(\frac{1}{Z} \sum_{i=1}^{N} M e^{-\beta E_i}  \right)^2
+  \sigma_M^{2} = \left(\braket{M^2}- \braket{M}^2\right) = \frac{1}{Z} \sum_{i=1}^{N} M_i^2 e^{-\beta E_i}  - \left(\frac{1}{Z} \sum_{i=1}^{N} M e^{-\beta E_i}  \right)^2
 \end{eqnarray}
 
 
@@ -71,21 +71,31 @@ partition function. To achieve this end we will apply three famous concepts in
 stochastic modeling, Monte Carlo sampling, Markov chains, and the Metropolis
 algorithm .
 
-After we have setup the inital microstate, the first step in devising our stochastic Ising model would be to setup the
+After we have setup the initial microstate, the first step in devising our stochastic Ising model would be to setup our
 Monte Carlo sampler or random walk. The random walk will random select spins in
 our lattice. For each of the randomly selected spins we calculate the energy and
-then make a proposal about whether to flip the orientation of the spin.
-\textbf{Write Something about pre-
-calculating the energy} We will
-accept the proposal if flipping the spin results in a lower energy for the
-system. Still we there is an issue with only accepting proposals that lowers the
-energy, which is that after some steps we would start refusing every subsequent
-proposals. Since all of the proposed moved would result in a higher energy. This
-would eventually lead to us getting stuck in the lowest energy state. To avoid
-getting stuck we would need to also accept some proposals which results in
-a higher energy of the system. This is where the Metropolis
-algorithm comes to our rescue. Which also include a probability of flipping
-the orientation of the spin anyway.
+then make a proposal about whether to flip the orientation of the spin. We can
+pre calculate the energy for a given temperature energy since for the Ising
+model the energy difference can only take on five different values \cref{eq:deltaE}.
+\begin{equation}\label{eq:deltaE}
+  \Delta E = -8J, \; -4J, \; 0, \; 4J, \; 8J
+\end{equation}
+This is quite straight forward to verify by using \cref{eq:ising} to calculate
+the energy of the original spins configuration and the new proposed
+configuration and then calculating the difference.  
+
+We will
+accept the proposal if flipping the spin results in lowering the energy of the
+system. Still we there is an issue with only accepting the proposals that lowers
+the energy, which is that after some steps we would start refusing every
+subsequent proposals. Since all of the proposed moved would result in a higher
+energy. This would eventually lead to us getting stuck in the lowest energy
+state. To avoid getting stuck we would need to also accept some proposals which
+results in a higher energy of the system. This is where the Metropolis
+algorithm comes to our rescue, where also include a probability of flipping
+the orientation of the spin anyway. This tweak to our proposal acceptance rule
+encapsulates the eternal struggle between two fundamental principles of our
+universe, energy minimization and entropy maximization.  
 
 
 \
