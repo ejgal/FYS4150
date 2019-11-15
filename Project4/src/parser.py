@@ -37,6 +37,10 @@ def equi_parser():
     points_help += 'Logarithmically spaced between 10 and 10^exp'
     points_def = 30
 
+    L_help = 'Grid size'
+    L_def = 20
+
+    parser.add_argument('--L', default=L_def, help=L_help)
     parser.add_argument('--exp', '--e', default=exp_def, help=exp_help)
     parser.add_argument('--points', '--p', default=points_def,help=points_help)
     return parser
