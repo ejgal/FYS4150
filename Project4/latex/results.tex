@@ -37,7 +37,8 @@ other methods. 1. Selecting the 3-5 largest points. 2. Taking a rolling mean
 with a window of 3-5. This gave similar results for T$_C(L=\infty)$, but was
 more cumbersome to implement.}. Using the finite size scaling relation
 \cref{eq:scaling} with $\nu$ = 1, we found the parameter a by doing a linear
-regression with the four different T$_c$(L).
+regression with the four different T$_c$(L), and extracting the intercept.
+
 
  \begin{equation}
    \label{eq:scaling}
@@ -55,37 +56,79 @@ regression with the four different T$_c$(L).
 \end{equation}
 
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{../figures/phase_E.png}
-  \caption{Mean energy. Some small differences between grid sizes. Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
-  \num{1e6} MC cycles}
-  \label{fig:phase_E}
+\begin{figure}[ht]
+  \begin{subfigure}[t]{.5\textwidth} % top align
+    \centering
+    % include first image
+    \includegraphics[width=\linewidth]{../figures/phase_E.png}
+    \caption{Put your sub-caption here
+    Put your sub-caption here
+    Put your sub-caption here
+    Put your sub-caption here}
+    \label{fig:sub-first}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{.5\textwidth}
+    \centering
+    % include second image
+    \includegraphics[width=\linewidth]{../figures/phase_Mabs.png}
+    \caption{Put your sub-caption here}
+    \label{fig:sub-second}
+  \end{subfigure}
+  \hfill
+  \newline
+  \begin{subfigure}[t]{.5\textwidth}
+    \centering
+    % include second image
+    \includegraphics[width=\linewidth]{../figures/phase_cv.png}
+    \caption{Put your sub-caption here}
+    \label{fig:sub-second}
+  \end{subfigure}
+  \begin{subfigure}[t]{.5\textwidth}
+    \centering
+    % include second image
+    \includegraphics[width=\linewidth]{../figures/phase_suscept.png}
+    \caption{Put your sub-caption here}
+    \label{fig:sub-second}
+  \end{subfigure}
+\caption{Runs with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
+\num{1e6} MC cycles}
+\label{fig:fig}
 \end{figure}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{../figures/phase_Mabs.png}
-  \caption{Mean magnetisation.  Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
-  \num{1e6} MC cycles}
-  \label{fig:phase_Mabs}
-\end{figure}
 
 
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{../figures/phase_cv.png}
-  \caption{Heat capacity. Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
-  \num{1e6} MC cycles}
-  \label{fig:phase_cv}
-\end{figure}
-
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{../figures/phase_suscept.png}
-  \caption{Susceptibility. Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
-  \num{1e6} MC cycles}
-  \label{fig:phase_suscept}
-\end{figure}
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=\textwidth]{../figures/phase_E.png}
+%   \caption{Mean energy. Some small differences between grid sizes. Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
+%   \num{1e6} MC cycles}
+%   \label{fig:phase_E}
+% \end{figure}
+%
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=\textwidth]{../figures/phase_Mabs.png}
+%   \caption{Mean magnetisation.  Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
+%   \num{1e6} MC cycles}
+%   \label{fig:phase_Mabs}
+% \end{figure}
+%
+%
+%
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=\textwidth]{../figures/phase_cv.png}
+%   \caption{Heat capacity. Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
+%   \num{1e6} MC cycles}
+%   \label{fig:phase_cv}
+% \end{figure}
+%
+%
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=\textwidth]{../figures/phase_suscept.png}
+%   \caption{Susceptibility. Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
+%   \num{1e6} MC cycles}
+%   \label{fig:phase_suscept}
+% \end{figure}

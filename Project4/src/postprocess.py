@@ -56,9 +56,10 @@ def plot_phase(datafile):
         for L in [40,60,80,100]:
             spins = L**2
             label = 'L={}'.format(L)
-            df.loc[df['spins']==spins].plot('T',col, ax=ax,linestyle='-',markersize=1.5,marker='o',label=label)
+            df.loc[df['spins']==spins].plot('T',col, ax=ax,linestyle=' ',markersize=1.5,marker='s',label=label)
         ax.legend()
         ax.set_ylabel(ylabel)
+        plt.grid()
         plt.savefig(FIGDIR + 'phase_{}.png'.format(col))
         plt.clf()
 
