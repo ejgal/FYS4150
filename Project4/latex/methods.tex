@@ -211,56 +211,55 @@ delay parameter to 50000 in the production runs.
   \label{fig:accepted}
 \end{figure}
 
-\subsection{Model testing}
+\subsection{Model testing and error analysis}
 
 Implementation of tests (test\_analytic.py, test\_ising.py) showed that the
 analytical solutions was correct down to an absolute error of \num{1e-12}  when
 comparing against a brute force method where we created all the possible
 microstates.
+
+Change this section to say something about the new error plots \cref{fig:error_L2}
+
 Testing the ising model against the analytical solutions for a 2x2 grid showed
 that we could consistently achieve a relative error of 0.001 with only 100000
 Monte Carlo cycles (MCC) for the energy and magnetization. For the heat capacity
 and susceptibility we had to increase the MCC to 5 millions and the relative
 error tolerance to 0.05.
 
-\begin{figure}[ht]
-  \begin{subfigure}[t]{.5\textwidth} % top align
+\begin{figure}[htp]
+  \begin{subfigure}[t]{.5\textwidth}
     \centering
-    % include first image
     \includegraphics[width=\linewidth]{../figures/relative_error_order0_T1.png}
-    \caption{Put your sub-caption here
-    Put your sub-caption here
-    Put your sub-caption here
-    Put your sub-caption here}
+    \caption{}
     \label{fig:sub-first}
   \end{subfigure}
   \hfill
   \begin{subfigure}[t]{.5\textwidth}
     \centering
-    % include second image
     \includegraphics[width=\linewidth]{../figures/relative_error_order1_T1.png}
-    \caption{Put your sub-caption here}
+    \caption{}
     \label{fig:sub-second}
   \end{subfigure}
   \hfill
   \newline
   \begin{subfigure}[t]{.5\textwidth}
     \centering
-    % include second image
     \includegraphics[width=\linewidth]{../figures/relative_error_order0_T2.png}
-    \caption{Put your sub-caption here}
+    \caption{}
     \label{fig:sub-second}
   \end{subfigure}
   \begin{subfigure}[t]{.5\textwidth}
     \centering
-    % include second image
     \includegraphics[width=\linewidth]{../figures/relative_error_order1_T2.png}
-    \caption{Put your sub-caption here}
+    \caption{}
     \label{fig:sub-second}
   \end{subfigure}
-\caption{Runs with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
-\num{1e6} MC cycles}
-\label{fig:phase}
+\caption{Relative error vs MC cycles for L=2 for two different temperatures. Ordered
+refers to the inital spin configuration, with 1 meaning all spins pointing up and
+0 meaning a random configuration. Plots are smoothed by taking a
+rolling mean with window size 5. The relative error decreases roughly as
+$\sqrt{MC cycles}$}
+\label{fig:error_L2}
 \end{figure}
 
 
