@@ -74,15 +74,7 @@ algorithm .
 After we have setup the initial microstate, the first step in devising our stochastic Ising model would be to setup our
 Monte Carlo sampler or random walk. The random walk will random select spins in
 our lattice. For each of the randomly selected spins we calculate the energy and
-then make a proposal about whether to flip the orientation of the spin. We can
-pre calculate the energy for a given temperature energy since for the Ising
-model the energy difference can only take on five different values \cref{eq:deltaE}.
-\begin{equation}\label{eq:deltaE}
-  \Delta E = -8J, \; -4J, \; 0, \; 4J, \; 8J
-\end{equation}
-This is quite straight forward to verify by using \cref{eq:ising} to calculate
-the energy of the original spins configuration and the new proposed
-configuration and then calculating the difference.  
+then make a proposal about whether to flip the orientation of the spin. 
 
 We will
 accept the proposal if flipping the spin results in lowering the energy of the
@@ -92,13 +84,33 @@ subsequent proposals. Since all of the proposed moved would result in a higher
 energy. This would eventually lead to us getting stuck in the lowest energy
 state. To avoid getting stuck we would need to also accept some proposals which
 results in a higher energy of the system. This is where the Metropolis
-algorithm comes to our rescue, where also include a probability of flipping
-the orientation of the spin anyway. This tweak to our proposal acceptance rule
+algorithm comes to our rescue. The first step of the Metropolis algorithm is to
+draw a random number between 0 and 1 from a probability distribution, we will
+use the uniform distribution. Then we check if the our random number $r \leq P_i
+/P_j$ where $P_i$ is the probability distribution of our new state and $P_j$ is
+the probability distribution of the previous state. If we recall that the
+probability distribution in both states are given by the Boltzmann distribution
+\cref{eq:Boltzmann}, the probability ratio $P_i/P_j$ then becomes \cref{eq:pRatio}.
+
+\begin{equation}\label{eq:pRatio}
+  \frac{P_i}{P_j} = \frac{e^{-\beta E_i}/Z}{e^{-\beta E_j}/Z} = e^{-\beta \Delta E} \; , \quad \Delta E = E_i - E_j
+\end{equation}
+It worth note that the probability ratio does not depend on the partition
+function. The new Metropolis acceptance rule then becomes the $r \leq e^{-\beta
+\Delta E}$.  We can
+pre calculate the energy for a given temperature energy since for the Ising
+model the energy difference can only take on five different values \cref{eq:deltaE}.
+\begin{equation}\label{eq:deltaE}
+  \Delta E = -8J, \; -4J, \; 0, \; 4J, \; 8J
+\end{equation}
+This is quite straight forward to verify by using \cref{eq:ising} to calculate
+the energy of the original state and the new proposed
+state and then finding the difference. Pre calculating the energy saves us a lot
+of CPU cycles as we do not need to calculate an exponential each time we propose
+a new state. Metropolis tweak to our proposal acceptance rule
 encapsulates the eternal struggle between two fundamental principles of our
-universe, energy minimization and entropy maximization.  
+universe, energy minimization and entropy maximization. This 
 
-
-\
 
 
 
