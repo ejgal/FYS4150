@@ -33,6 +33,8 @@ def equi_parser():
     exp_help = 'Highest power of 10 Monte Carlo cycles to run experiment for.'
     exp_def = 6
 
+
+
     points_help = 'Number of different sample sizes to run for. '
     points_help += 'Logarithmically spaced between 10 and 10^exp'
     points_def = 30
@@ -63,7 +65,7 @@ def phase_parser():
     dT_def = 0.05
 
     delay_help = 'Number of MC cycles to run before collecting data.'
-    delay_def = 400000
+    delay_def = 50000
 
     cycles_help = 'Total number of MC cycles.'
     cycles_def = 500000
