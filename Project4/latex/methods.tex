@@ -74,7 +74,6 @@ algorithm .
 After we have setup the initial microstate, the first step in devising our stochastic Ising model would be to setup our
 Monte Carlo sampler or random walk. The random walk will random select spins in
 our lattice. For each of the randomly selected spins we calculate the energy and
-<<<<<<< HEAD
 then make a proposal about whether to flip the orientation of the spin. We can
 pre calculate the energy for a given temperature energy since for the Ising
 model the energy difference can only take on five different values \cref{eq:deltaE}.
@@ -84,9 +83,6 @@ model the energy difference can only take on five different values \cref{eq:delt
 This is quite straight forward to verify by using \cref{eq:ising} to calculate
 the energy of the original spins configuration and the new proposed
 configuration and then calculating the difference.
-=======
-then make a proposal about whether to flip the orientation of the spin. 
->>>>>>> master
 
 We will
 accept the proposal if flipping the spin results in lowering the energy of the
@@ -121,14 +117,7 @@ state and then finding the difference. Pre calculating the energy saves us a lot
 of CPU cycles as we do not need to calculate an exponential each time we propose
 a new state. Metropolis tweak to our proposal acceptance rule
 encapsulates the eternal struggle between two fundamental principles of our
-<<<<<<< HEAD
 universe, energy minimization and entropy maximization.
-
-=======
-universe, energy minimization and entropy maximization. This 
->>>>>>> master
-
-
 
 
 \subsection{Analytic solution of the Ising Model for a 2x2 lattice}
@@ -233,6 +222,48 @@ that we could consistently achieve a relative error of 0.001 with only 100000
 Monte Carlo cycles (MCC) for the energy and magnetization. For the heat capacity
 and susceptibility we had to increase the MCC to 5 millions and the relative
 error tolerance to 0.05.
+
+\begin{figure}[ht]
+  \begin{subfigure}[t]{.5\textwidth} % top align
+    \centering
+    % include first image
+    \includegraphics[width=\linewidth]{../figures/relative_error_order0_T1.png}
+    \caption{Put your sub-caption here
+    Put your sub-caption here
+    Put your sub-caption here
+    Put your sub-caption here}
+    \label{fig:sub-first}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{.5\textwidth}
+    \centering
+    % include second image
+    \includegraphics[width=\linewidth]{../figures/relative_error_order1_T1.png}
+    \caption{Put your sub-caption here}
+    \label{fig:sub-second}
+  \end{subfigure}
+  \hfill
+  \newline
+  \begin{subfigure}[t]{.5\textwidth}
+    \centering
+    % include second image
+    \includegraphics[width=\linewidth]{../figures/relative_error_order0_T2.png}
+    \caption{Put your sub-caption here}
+    \label{fig:sub-second}
+  \end{subfigure}
+  \begin{subfigure}[t]{.5\textwidth}
+    \centering
+    % include second image
+    \includegraphics[width=\linewidth]{../figures/relative_error_order1_T2.png}
+    \caption{Put your sub-caption here}
+    \label{fig:sub-second}
+  \end{subfigure}
+\caption{Runs with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
+\num{1e6} MC cycles}
+\label{fig:phase}
+\end{figure}
+
+
 
 
 \subsection{Production runs}

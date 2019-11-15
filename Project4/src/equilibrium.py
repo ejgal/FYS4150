@@ -21,6 +21,8 @@ if __name__ == '__main__':
     N = points
     cycles = np.logspace(1,exp,N)
     delay = 0
+    # delay = int(N/10.)
+    delay=0
     write_header(output)
     for T in [1., 2.4]:
         for ordered in [0,1]:
