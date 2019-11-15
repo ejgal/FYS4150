@@ -12,14 +12,13 @@ anyway even if it is not energetically favourable, this behaviour is actually
 something for real systems to. 
 \subsection{Ising model}
 The Ising model, without an external magnetic field, is given by
-\cref{eq:ising}, where $E_i$ is the energy of a given microstate s$_k$ and s$_l$ takes values of $\pm 1$, N is the
+\cref{eq:ising}, where $E_i$ is the energy of a given microstate s$_k$ and s$_l$ takes values of $\pm 1$, O is the
 number of spins, J is a coupling constant corresponding to the strength of the
 interaction between the neighbouring spins and $<kl>$ means that we sum over
 nearest neighbour only. 
 
-\begin{equation}
-  \label{eq:ising}
-  E_i = -J\sum_{<kl>}^{N} s_k s_l
+\begin{equation}\label{eq:ising}
+  E_i = -J\sum_{<kl>}^{O} s_k s_l
 \end{equation}
 The parameter that we can control in our experiment is the temperature it is
 therefore it is natural to
@@ -62,15 +61,36 @@ The variance of the energy and magnetisation is defined as the following.
 
 
 \subsection{Metropolis algorithm}
-So far if we want to solve 
-The Metropolis algorithm is a 
+The issue with our current setup of the our Ising Model is that our probability
+distribution, which we need in order to calculate the expectation values
+contains the partition function $Z$. To calculate the partition requires on the
+order $2^{O}$ flops and
+for large lattices it becomes impossible compute. We need to devise a scheme
+that lets us obtain the probability distribution without having to calculate the
+partition function. To achieve this end we will apply three famous concepts in
+stochastic modeling, Monte Carlo sampling, Markov chains, and the Metropolis
+algorithm .
+
+After we have setup the inital microstate, the first step in devising our stochastic Ising model would be to setup the
+Monte Carlo sampler or random walk. The random walk will random select spins in
+our lattice. For each of the randomly selected spins we calculate the energy and
+then make a proposal about whether to flip the orientation of the spin.
+\textbf{Write Something about pre-
+calculating the energy} We will
+accept the proposal if flipping the spin results in a lower energy for the
+system. Still we there is an issue with only accepting proposals that lowers the
+energy, which is that after some steps we would start refusing every subsequent
+proposals. Since all of the proposed moved would result in a higher energy. This
+would eventually lead to us getting stuck in the lowest energy state. To avoid
+getting stuck we would need to also accept some proposals which results in
+a higher energy of the system. This is where the Metropolis
+algorithm comes to our rescue. Which also include a probability of flipping
+the orientation of the spin anyway.
 
 
+\
 
-Since the Ising model is a binary system the number of possible microstates is
-2$^{N^2}$. Even for small systems it is therefore computationally expensive to use
-the brute force method of generating all possible states and calculating
-expectation values. In the next section we do this for L=2.
+
 
 \subsection{Analytic solution of the Ising Model for a 2x2 lattice}
 In reality it is impossible to calculate the partition function, because you can
