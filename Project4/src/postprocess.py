@@ -159,8 +159,9 @@ def plot_fit(datafile):
         fit = np.polyfit(sel['T'],sel['cv'],6)
         poly = np.poly1d(fit)
         T = np.linspace(2.2,2.35,100)
-        ax.plot(T, poly(T),color=color,linestyle='--')
-        ax.plot(sel['T'],sel['cv'],marker='o',markersize=0.5,color=color,linestyle=' ')
+        ax.plot(T, poly(T),color=color,linestyle='-',linewidth=0.5)
+        ax.plot(sel['T'],sel['cv'],marker='o',markersize=0.3,color=color,linestyle=' ')
+
     plt.xlabel('T')
     plt.ylabel('C$_v$')
     plt.savefig(FIGDIR + 'fit.png')

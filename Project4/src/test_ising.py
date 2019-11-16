@@ -3,58 +3,6 @@ import numpy as np
 from ising import ising, expectation_values
 import analytic as a
 
-def test_ising_EM():
-    """
-    Check that the ising model produces same result as the
-    analytical solution for the 2x2 grid.
-
-    Tests energy and magnetization.
-    """
-    L = 2
-    spins = L**2
-    cycles = 1e5
-    tol = 0.001
-    delay = 0
-    T=1
-    for i in range(0,10):
-        values,acc,d = ising(L,cycles,T)
-        expect = expectation_values(values, cycles,L,T)
-
-        # Analytical solutions
-        E = a.expected_energy(T)/spins
-        Mabs = a.expected_magnetization(T)/spins
-
-        # Compare
-        assert E == approx(expect[0], rel=tol)
-        assert Mabs == approx(expect[2], rel=tol)
-
-
-def test_ising_cv_suscept():
-    """
-    Check that the ising model produces same result as the
-    analytical solution for the 2x2 grid.
-
-    Tests heat capacity and susceptibility
-    """
-    L = 2
-    spins = L**2
-    cycles = 5e6
-    tol = 0.01
-    delay = 0
-    T=1.0
-    for i in range(0,10):
-        values,acc,d = ising(L,cycles,T, delay)
-        expect = expectation_values(values, cycles,L,T, delay)
-
-        # Analytical solutions
-        cv = a.cv(T)/spins
-        suscept = a.susceptibility(T)/spins
-
-        # Compare
-        assert cv == approx(expect[3], rel=tol)
-        assert suscept == approx(expect[4], rel=tol)
-
-
 def test_jit():
     """
     Check that ising with and without numba gives close to the same

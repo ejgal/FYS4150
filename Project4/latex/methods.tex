@@ -218,50 +218,11 @@ analytical solutions was correct down to an absolute error of \num{1e-12}  when
 comparing against a brute force method where we created all the possible
 microstates.
 
-Change this section to say something about the new error plots \cref{fig:error_L2}
 
-Testing the ising model against the analytical solutions for a 2x2 grid showed
-that we could consistently achieve a relative error of 0.001 with only 100000
-Monte Carlo cycles (MCC) for the energy and magnetization. For the heat capacity
-and susceptibility we had to increase the MCC to 5 millions and the relative
-error tolerance to 0.05.
-
-% \begin{figure}[htp]
-%   \begin{subfigure}[t]{.5\textwidth}
-%     \centering
-%     \includegraphics[width=\linewidth]{../figures/relative_error_order0_T1.pdf}
-%     \caption{}
-%     \label{fig:sub-first}
-%   \end{subfigure}
-%   \hfill
-%   \begin{subfigure}[t]{.5\textwidth}
-%     \centering
-%     \includegraphics{../figures/relative_error_order1_T1.pdf}
-%     \caption{}
-%     \label{fig:sub-second}
-%   \end{subfigure}
-%   \hfill
-%   \newline
-%   \begin{subfigure}[t]{.5\textwidth}
-%     \centering
-%     \includegraphics{../figures/relative_error_order0_T2.pdf}
-%     \caption{}
-%     \label{fig:sub-second}
-%   \end{subfigure}
-%   \begin{subfigure}[t]{.5\textwidth}
-%     \centering
-%     \includegraphics[width=\linewidth]{../figures/relative_error_order1_T2.pdf}
-%     \caption{}
-%     \label{fig:sub-second}
-%   \end{subfigure}
-% \caption{Relative error vs MC cycles for L=2 for two different temperatures. Ordered
-% refers to the inital spin configuration, with 1 meaning all spins pointing up and
-% 0 meaning a random configuration. Plots are smoothed by taking a
-% rolling mean with window size 5. The relative error decreases roughly as
-% $\sqrt{MC cycles}$}
-% \label{fig:error_L2}
-% \end{figure}
-
+To test the implementation of the ising model we calculated the relative error
+in energy, magnetization, heat capacity and susceptibility (\cref{fig:error_L2})
+for L=2 (where we have calculated analytical solutions). The relative error
+was proportional to $1/ \textbf{MC cycles}^{-1/2}$.
 
 \begin{figure}[H]
   \centering
@@ -270,7 +231,7 @@ error tolerance to 0.05.
   refers to the inital spin configuration, with 1 meaning all spins pointing up and
   0 meaning a random configuration. Plots are smoothed by taking a
   rolling mean with window size 5. The relative error decreases roughly as
-  $\sqrt{MC cycles}$}
+  $\sqrt{\textbf{MC cycles}}$}
   \label{fig:error_L2}
 \end{figure}
 
@@ -290,3 +251,31 @@ Timings with and without parallelization for small grid sizes showed a speedup
 of roughly 3.4 on a laptop with 4 physical cores. The suboptimal speedup might
 be related to creation of and writing to the 2d arrays for storing results,
 but we did not look deeper into this.
+
+\subsection{Probability distribution}
+
+\begin{figure}[ht]
+  \begin{subfigure}[t]{\textwidth} % top align
+    \centering
+    \includegraphics[width=\linewidth]{../figures/distribution_0.pdf}
+    \caption{}
+    \label{fig:sub-first}
+  \end{subfigure}
+  \hfill
+  \newline
+  \begin{subfigure}[t]{\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{../figures/distribution_5.pdf}
+    \caption{}
+    \label{fig:sub-second}
+  \end{subfigure}
+  \label{fig:distribution}
+  \caption{Probability distribution of energy, scaled with number of spins. L=20
+  MC cycles = \num{1e6}.}
+\end{figure}
+
+
+The probability distribution of energy (\cref{fig:distribution}) shows that
+at low temperature almost all of the states are in a low energy state.
+As the temperature and the variance increases the distribution becomes more
+spread out.
