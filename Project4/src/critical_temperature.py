@@ -67,8 +67,13 @@ if __name__ == '__main__':
     T_high = T + width
     upper_rel = np.abs(T_low - analytic)/analytic
     lower_rel = np.abs(T_high - analytic)/analytic
-    print('relative error: {:.5f}'.format(rel_err))
-    print('relative error in [{:.5f},{:.5f}]'.format(lower_rel,upper_rel))
-    print('Absolute error: {}'.format(np.abs(analytic - T)))
-    print('CI abs err: {:.3e}'.format(np.abs(analytic - (T - width))))
-    print('CI abs err: {:.3e}'.format(np.abs(analytic - (T + width))))
+    abs_err = np.abs(T - analytic)
+    print('relative error: {:.5e}'.format(rel_err))
+    print('Absolute error: {:.5e}'.format(np.abs(abs_err)))
+    print('CI abs err: {:.5e}'.format(np.abs(analytic - (T - width))))
+    print('CI abs err: {:.5e}'.format(np.abs(analytic - (T + width))))
+
+    with open(DATADIR + 'critical.csv','w') as file:
+        file.write('T$_C$,{:.4f}\n'.format(T))
+        file.write('Absolute error,{:.2e}\n'.format(abs_err))
+        file.write('Relative error,{:.2e}\n'.format(rel_err))

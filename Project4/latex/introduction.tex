@@ -20,7 +20,14 @@ our implementation. After investigating when the most likely state is reached
 for a 20x20 lattice we will do runs with grid sizes of 40, 60, 80 and 100
 for different temperatures to look for a phase transitions.
 We will then find the critical temperature for each grid size and extrapolate
-this to find the critical temperature in the limit of an infinite grid.
+this to find the critical temperature in the limit of an infinite grid, and
+chech the results agains Lars Onsager's analytical solution (\cref{eq:analytical}).
+
+\begin{equation}
+  \label{eq:analytical}
+  T_C(L=\infty) = \frac{2}{\ln(1 + \sqrt2)} \approx 2.269
+\end{equation}
+
 
 %https://arxiv.org/pdf/1706.01764.pdf
 

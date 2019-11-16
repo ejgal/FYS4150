@@ -5,6 +5,14 @@
 \label{app:analytic}
 
 
+\begin{align*}
+  E_i &= -J \sum_{<k,l>} s_k s_l = -\frac{1}{2}J \sum_{i} \sum_{nn} s_i s_{nn} \\
+      &= -\frac{1}{2} J \brak{2 s_1 (s_2 + s_3) + 2s_2(s_1 + s_4) + 2s_3(s_4 + s_1) + 2s_4 (s_2 + s_3)}\\
+      &= -J\brak{ 2(s_4 + s_1)(s_2 + s_3)} \\
+      &= -2J\brak{(s_4 + s_1)(s_2+s_3)}
+\end{align*}
+
+
 \begin{align}
   \braket{E} &= \sum_{i=1}^{N} E_i P_i \\
              &= \brak{2 \cdot -8 \exp(8\beta) + 2\cdot 8 \exp(-8\beta)} / z \\
@@ -44,11 +52,13 @@
 \end{align}
 
 \begin{align}
-  C_v = \frac{\sigma_E^2}{k_b T^2}
+  C_v &= \frac{\sigma_E^2}{k_b T^2} = \para{\braket{E^2} - \braket{E}^2} / \para{k_b T^2}\\
+    &= \para{\frac{256}{z} \cosh(8\beta) - \frac{32^2}{z^2} \sinh(8\beta)^2} /\para{k_b T^2}
 \end{align}
 
 \begin{align}
-  \chi = \frac{\sigma_M^2}{k_b T}
+  \chi &= \frac{\sigma_M^2}{k_b T} = \para{\braket{M^2} - \braket{M}^2} / \para{k_b T}\\
+       &= \para{\frac{32}{z} \brak{ \exp(8\beta) + 1 } - \frac{64}{z^2} \para{ \exp(16\beta) + 4\exp(8\beta) +  4} }/\para{k_b T}
 \end{align}
 
 % \begin{align}
