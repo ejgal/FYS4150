@@ -10,7 +10,7 @@ from timing import estimate_time
 if __name__ == '__main__':
 
     L = 20
-    N = 600000
+    N = 1e6
     spins = L**2
     delay = 0
     ordered = 0
@@ -21,8 +21,9 @@ if __name__ == '__main__':
 
     Tstart = 1
     Tstop = 2.4
-    dT = 0.1
-    lenT = int((Tstop-Tstart)/(dT))
+    # dT = 0.1
+    # lenT = int((Tstop-Tstart)/(dT))
+    lenT = 6
     T = np.linspace(Tstart, Tstop, lenT)
 
     distributions = []

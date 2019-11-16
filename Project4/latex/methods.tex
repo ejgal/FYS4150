@@ -186,7 +186,7 @@ delay parameter to 50000 in the production runs.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{../figures/equilibrium_E.png}
+  \includegraphics[width=0.8\textwidth]{../figures/equilibrium_E.pdf}
   \caption{Absolute values of energy for different MC cycles.
   ord refers to the initial microstate of spins. 1=up, 0=random.}
   \label{fig:equi_E}
@@ -195,7 +195,7 @@ delay parameter to 50000 in the production runs.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{../figures/equilibrium_Mabs.png}
+  \includegraphics[width=0.8\textwidth]{../figures/equilibrium_Mabs.pdf}
   \caption{Absolute values of magnetization for different MC cycles.
   ord refers to the initial microstate of spins. 1=up, 0=random.}
   \label{fig:equi_M}
@@ -206,7 +206,7 @@ delay parameter to 50000 in the production runs.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{../figures/accepted.png}
+  \includegraphics[width=\textwidth]{../figures/accepted.pdf}
   \caption{Accepted microstates scaled with number of spins and MC cycles.}
   \label{fig:accepted}
 \end{figure}
@@ -226,43 +226,53 @@ Monte Carlo cycles (MCC) for the energy and magnetization. For the heat capacity
 and susceptibility we had to increase the MCC to 5 millions and the relative
 error tolerance to 0.05.
 
-\begin{figure}[htp]
-  \begin{subfigure}[t]{.5\textwidth}
-    \centering
-    \includegraphics[width=\linewidth]{../figures/relative_error_order0_T1.png}
-    \caption{}
-    \label{fig:sub-first}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[t]{.5\textwidth}
-    \centering
-    \includegraphics[width=\linewidth]{../figures/relative_error_order1_T1.png}
-    \caption{}
-    \label{fig:sub-second}
-  \end{subfigure}
-  \hfill
-  \newline
-  \begin{subfigure}[t]{.5\textwidth}
-    \centering
-    \includegraphics[width=\linewidth]{../figures/relative_error_order0_T2.png}
-    \caption{}
-    \label{fig:sub-second}
-  \end{subfigure}
-  \begin{subfigure}[t]{.5\textwidth}
-    \centering
-    \includegraphics[width=\linewidth]{../figures/relative_error_order1_T2.png}
-    \caption{}
-    \label{fig:sub-second}
-  \end{subfigure}
-\caption{Relative error vs MC cycles for L=2 for two different temperatures. Ordered
-refers to the inital spin configuration, with 1 meaning all spins pointing up and
-0 meaning a random configuration. Plots are smoothed by taking a
-rolling mean with window size 5. The relative error decreases roughly as
-$\sqrt{MC cycles}$}
-\label{fig:error_L2}
+% \begin{figure}[htp]
+%   \begin{subfigure}[t]{.5\textwidth}
+%     \centering
+%     \includegraphics[width=\linewidth]{../figures/relative_error_order0_T1.pdf}
+%     \caption{}
+%     \label{fig:sub-first}
+%   \end{subfigure}
+%   \hfill
+%   \begin{subfigure}[t]{.5\textwidth}
+%     \centering
+%     \includegraphics{../figures/relative_error_order1_T1.pdf}
+%     \caption{}
+%     \label{fig:sub-second}
+%   \end{subfigure}
+%   \hfill
+%   \newline
+%   \begin{subfigure}[t]{.5\textwidth}
+%     \centering
+%     \includegraphics{../figures/relative_error_order0_T2.pdf}
+%     \caption{}
+%     \label{fig:sub-second}
+%   \end{subfigure}
+%   \begin{subfigure}[t]{.5\textwidth}
+%     \centering
+%     \includegraphics[width=\linewidth]{../figures/relative_error_order1_T2.pdf}
+%     \caption{}
+%     \label{fig:sub-second}
+%   \end{subfigure}
+% \caption{Relative error vs MC cycles for L=2 for two different temperatures. Ordered
+% refers to the inital spin configuration, with 1 meaning all spins pointing up and
+% 0 meaning a random configuration. Plots are smoothed by taking a
+% rolling mean with window size 5. The relative error decreases roughly as
+% $\sqrt{MC cycles}$}
+% \label{fig:error_L2}
+% \end{figure}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../figures/relative_error.pdf}
+  \caption{Relative error vs MC cycles for L=2 for two different temperatures. Ordered
+  refers to the inital spin configuration, with 1 meaning all spins pointing up and
+  0 meaning a random configuration. Plots are smoothed by taking a
+  rolling mean with window size 5. The relative error decreases roughly as
+  $\sqrt{MC cycles}$}
+  \label{fig:error_L2}
 \end{figure}
-
-
 
 
 \subsection{Production runs}
