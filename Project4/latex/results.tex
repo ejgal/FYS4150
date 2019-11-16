@@ -5,17 +5,35 @@
 
 \subsection{Probability distribution}
 
+\begin{figure}[ht]
+  \begin{subfigure}[t]{\textwidth} % top align
+    \centering
+    \includegraphics[width=\linewidth]{../figures/distribution_0.pdf}
+    \caption{}
+    \label{fig:sub-first}
+  \end{subfigure}
+  \hfill
+  \newline
+  \begin{subfigure}[t]{\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{../figures/distribution_5.pdf}
+    \caption{}
+    \label{fig:sub-second}
+  \end{subfigure}
+  \label{fig:distribution}
+  \caption{Probability distribution of energy, scaled with number of spins. L=20
+  MC cycles = \num{1e6}.}
+\end{figure}
+
+
 The probability distribution of energy (\cref{fig:distribution}) shows that
 at low temperature almost all of the states are in a low energy state.
 As the temperature and the variance increases the distribution becomes more
 spread out.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{../figures/distribution.png}
-  \caption{Probability distribution of energy, scaled with number of spins. L=20}
-  \label{fig:distribution}
-\end{figure}
+
+
+
 
 
 \subsection{Phase transitions}
@@ -28,40 +46,68 @@ The results (\cref{fig:phase}) indicated a phase transition for T $\in
 changes, meaning that they capture the phase transition better.
 
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../figures/phase.pdf}
+  \caption{Runs with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
+   \num{1e6} MC cycles}
+  \label{fig:phase}
+\end{figure}
+
+
+
 \begin{figure}[ht]
   \begin{subfigure}[t]{.5\textwidth} % top align
     \centering
     % include first image
-    \includegraphics[width=\linewidth]{../figures/phase_E.png}
+    \includegraphics[width=\linewidth]{../figures/fit.pdf}
     \caption{}
     \label{fig:sub-first}
   \end{subfigure}
   \hfill
   \begin{subfigure}[t]{.5\textwidth}
     \centering
-    \includegraphics[width=\linewidth]{../figures/phase_Mabs.png}
+    \includegraphics[width=\linewidth]{../figures/Tc_fit.pdf}
     \caption{}
     \label{fig:sub-second}
   \end{subfigure}
-  \hfill
-  \newline
-  \begin{subfigure}[t]{.5\textwidth}
-    \centering
-    \includegraphics[width=\linewidth]{../figures/phase_cv.png}
-    \caption{}
-    \label{fig:sub-second}
-  \end{subfigure}
-  \begin{subfigure}[t]{.5\textwidth}
-    \centering
-    \includegraphics[width=\linewidth]{../figures/phase_suscept.png}
-    \caption{}
-    \label{fig:sub-second}
-  \end{subfigure}
-\caption{Runs with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
-\num{1e6} MC cycles}
-\label{fig:phase}
+  \label{fig:test}
 \end{figure}
 
+% \begin{figure}[ht]
+%   \begin{subfigure}[t]{.5\textwidth} % top align
+%     \centering
+%     % include first image
+%     \includegraphics[width=\linewidth]{../figures/phase_E.png}
+%     \caption{}
+%     \label{fig:sub-first}
+%   \end{subfigure}
+%   \hfill
+%   \begin{subfigure}[t]{.5\textwidth}
+%     \centering
+%     \includegraphics[width=\linewidth]{../figures/phase_Mabs.png}
+%     \caption{}
+%     \label{fig:sub-second}
+%   \end{subfigure}
+%   \hfill
+%   \newline
+%   \begin{subfigure}[t]{.5\textwidth}
+%     \centering
+%     \includegraphics[width=\linewidth]{../figures/phase_cv.pdf}
+%     \caption{}
+%     \label{fig:sub-second}
+%   \end{subfigure}
+%   \begin{subfigure}[t]{.5\textwidth}
+%     \centering
+%     \includegraphics[width=\linewidth]{../figures/phase_suscept.pdf}
+%     \caption{}
+%     \label{fig:sub-second}
+%   \end{subfigure}
+% \caption{Runs with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
+% \num{1e6} MC cycles}
+% \label{fig:phase}
+% \end{figure}
+%
 To better capture the peaks of $C_v$ and $\chi$ we did another
 run with dT = \num{5e-4} for T $\in \brak{2.2, 2.35}$.
  We fitted fourth order polynomials to $C_v$ and found

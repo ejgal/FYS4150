@@ -89,6 +89,9 @@ def post_parser():
     equi_help = 'Filepath of equilibrium results.'
     equi_def = DATADIR + 'equi_long2.csv'
 
+    error_help = 'Filepath of relative error results.'
+    error_def = DATADIR + 'equi_L2_large_7.csv'
+
     phase_help = 'Filepath of phase transition results.'
     phase_def = DATADIR + 'longrun2.csv'
 
@@ -102,6 +105,8 @@ def post_parser():
     parser.add_argument('--phase', help=phase_help, default=phase_def)
     parser.add_argument('--distfile', help=distfile_help, default=distfile_def)
     parser.add_argument('--distdata', help=distdata_help, default=distdata_def)
+    parser.add_argument('--error',help=error_help, default=error_def)
+
 
     return parser
 
