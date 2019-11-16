@@ -61,28 +61,21 @@ The variance of the energy and magnetisation is defined as the following.
 
 
 \subsection{Metropolis algorithm}
-The issue with our current setup of the our Ising Model is that our probability
+The issue with our current setup of the Ising Model is that our probability
 distribution, which we need in order to calculate the expectation values
-contains the partition function $Z$. To calculate the partition requires on the
-order $2^{O}$ flops and
+contains the partition function $Z$. To calculate the partition function
+requires on the order $2^{O}$,FLOPS where $O$ is number of microstates and
 for large lattices it becomes impossible compute. We need to devise a scheme
 that lets us obtain the probability distribution without having to calculate the
 partition function. To achieve this end we will apply three famous concepts in
 stochastic modeling, Monte Carlo sampling, Markov chains, and the Metropolis
 algorithm .
 
-After we have setup the initial microstate, the first step in devising our stochastic Ising model would be to setup our
-Monte Carlo sampler or random walk. The random walk will random select spins in
+After we have setup the initial state, the first step in devising our
+stochastic Ising model would be to setup our Monte Carlo sampler or random walk.
+The random walk will randomly select spins in 
 our lattice. For each of the randomly selected spins we calculate the energy and
-then make a proposal about whether to flip the orientation of the spin. We can
-pre calculate the energy for a given temperature energy since for the Ising
-model the energy difference can only take on five different values \cref{eq:deltaE}.
-\begin{equation}\label{eq:deltaE}
-  \Delta E = -8J, \; -4J, \; 0, \; 4J, \; 8J
-\end{equation}
-This is quite straight forward to verify by using \cref{eq:ising} to calculate
-the energy of the original spins configuration and the new proposed
-configuration and then calculating the difference.
+then make a proposal about whether to flip the orientation of the spin. 
 
 We will
 accept the proposal if flipping the spin results in lowering the energy of the
@@ -94,7 +87,7 @@ state. To avoid getting stuck we would need to also accept some proposals which
 results in a higher energy of the system. This is where the Metropolis
 algorithm comes to our rescue. The first step of the Metropolis algorithm is to
 draw a random number between 0 and 1 from a probability distribution, we will
-use the uniform distribution. Then we check if the our random number $r \leq P_i
+use the uniform distribution. Next is to check if the our random number $r$,  $r \leq P_i
 /P_j$ where $P_i$ is the probability distribution of our new state and $P_j$ is
 the probability distribution of the previous state. If we recall that the
 probability distribution in both states are given by the Boltzmann distribution
@@ -103,10 +96,10 @@ probability distribution in both states are given by the Boltzmann distribution
 \begin{equation}\label{eq:pRatio}
   \frac{P_i}{P_j} = \frac{e^{-\beta E_i}/Z}{e^{-\beta E_j}/Z} = e^{-\beta \Delta E} \; , \quad \Delta E = E_i - E_j
 \end{equation}
-It worth note that the probability ratio does not depend on the partition
-function. The new Metropolis acceptance rule then becomes the $r \leq e^{-\beta
-\Delta E}$.  We can
-pre calculate the energy for a given temperature energy since for the Ising
+It worth noticing that the probability ratio does not depend on the partition
+function. The Metropolis rule for which accept or reject proposed moves then
+becomes $r \leq e^{-\beta \Delta E}$.  $e^{-\beta \Delta E}$ is something we
+pre calculate for a given temperature, since for the Ising
 model the energy difference can only take on five different values \cref{eq:deltaE}.
 \begin{equation}\label{eq:deltaE}
   \Delta E = -8J, \; -4J, \; 0, \; 4J, \; 8J
@@ -115,9 +108,11 @@ This is quite straight forward to verify by using \cref{eq:ising} to calculate
 the energy of the original state and the new proposed
 state and then finding the difference. Pre calculating the energy saves us a lot
 of CPU cycles as we do not need to calculate an exponential each time we propose
-a new state. Metropolis tweak to our proposal acceptance rule
-encapsulates the eternal struggle between two fundamental principles of our
-universe, energy minimization and entropy maximization.
+a new state. There is a neat physical interpretation to the Metropolis
+algorithm as models the struggle between two fundamental principles of our
+universe, energy minimization and entropy maximization. This is something we
+will observe in our model as the entropy or acceptance ratio increases as we
+increase the temperature. 
 
 
 \subsection{Analytic solution of the Ising Model for a 2x2 lattice}
