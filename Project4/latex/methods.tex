@@ -242,8 +242,16 @@ of roughly 3.4 on a computer with 4 physical cores.
 
 To get a measure on how long the production runs would take, we created a script
 \footnote{timings.py} that estimates the time to 
-run phase\_transitions.py with the given parameters, to avoid we did starting
+run phase\_transitions.py with the given parameters, to avoid starting
 too time consuming runs.
+
+We did two production runs, one over a larger temperature range from $\beta \in
+[2.0, 2.8]$ where aim we capture the larger picture, both before and after the
+phase transition. Then the second run centred around the critical
+temperature  $\beta \in [2.2, 2.35]$. Both runs was ran for four different grid
+sizes $L \in [20,40,80,100]$, and with 1 million MC cycles, for which we
+discarded the first 50000 samples. The temperature step size for the two runs
+$dT$ was 0.001 and 0.0005 respectively.   
 
 \subsection{Probability distribution}
 
