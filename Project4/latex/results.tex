@@ -1,192 +1,70 @@
 \section{Results}
 
-
-
-
-\subsection{Probability distribution}
-
-\begin{figure}[ht]
-  \begin{subfigure}[t]{\textwidth} % top align
-    \centering
-    \includegraphics[width=\linewidth]{../figures/distribution_0.pdf}
-    \caption{}
-    \label{fig:sub-first}
-  \end{subfigure}
-  \hfill
-  \newline
-  \begin{subfigure}[t]{\textwidth}
-    \centering
-    \includegraphics[width=\linewidth]{../figures/distribution_5.pdf}
-    \caption{}
-    \label{fig:sub-second}
-  \end{subfigure}
-  \label{fig:distribution}
-  \caption{Probability distribution of energy, scaled with number of spins. L=20
-  MC cycles = \num{1e6}.}
-\end{figure}
-
-
-The probability distribution of energy (\cref{fig:distribution}) shows that
-at low temperature almost all of the states are in a low energy state.
-As the temperature and the variance increases the distribution becomes more
-spread out.
-
-
-
-
-
-
 \subsection{Phase transitions}
 
-We did a production run to look for signs of phase transitions with T $\in
-\brak{2.0,2.8}$, dT = \num{4e-3}, L $\in \brak{40,60,80,100}$, and \num{1e6} MC
-cycles.
+We did a production run to look for signs of phase transitions varying T between
+2.0 and 2.8 with a .
 The results (\cref{fig:phase}) indicated a phase transition for T $\in
 \brak{2.2,2.35}$. The simulations with higher grid size exhibits sharper
-changes, meaning that they capture the phase transition better.
-
+changes, meaning that they will capture the phase transition better.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../figures/phase.pdf}
-  \caption{Runs with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
-   \num{1e6} MC cycles}
+  \caption{Simulating for various temperatures looking for phase transitions.\\
+  T $\in \brak{2.0,2.8}$, dT = \num{4e-3}, \num{1e6} MC cycles, delay=50000}
   \label{fig:phase}
 \end{figure}
 
 
-
-\begin{figure}[ht]
-  \begin{subfigure}[t]{.5\textwidth} % top align
-    \centering
-    % include first image
-    \includegraphics[width=\linewidth]{../figures/fit.pdf}
-    \caption{}
-    \label{fig:sub-first}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[t]{.5\textwidth}
-    \centering
-    \includegraphics[width=\linewidth]{../figures/Tc_fit.pdf}
-    \caption{}
-    \label{fig:sub-second}
-  \end{subfigure}
-  \label{fig:test}
-\end{figure}
-
-% \begin{figure}[ht]
-%   \begin{subfigure}[t]{.5\textwidth} % top align
-%     \centering
-%     % include first image
-%     \includegraphics[width=\linewidth]{../figures/phase_E.png}
-%     \caption{}
-%     \label{fig:sub-first}
-%   \end{subfigure}
-%   \hfill
-%   \begin{subfigure}[t]{.5\textwidth}
-%     \centering
-%     \includegraphics[width=\linewidth]{../figures/phase_Mabs.png}
-%     \caption{}
-%     \label{fig:sub-second}
-%   \end{subfigure}
-%   \hfill
-%   \newline
-%   \begin{subfigure}[t]{.5\textwidth}
-%     \centering
-%     \includegraphics[width=\linewidth]{../figures/phase_cv.pdf}
-%     \caption{}
-%     \label{fig:sub-second}
-%   \end{subfigure}
-%   \begin{subfigure}[t]{.5\textwidth}
-%     \centering
-%     \includegraphics[width=\linewidth]{../figures/phase_suscept.pdf}
-%     \caption{}
-%     \label{fig:sub-second}
-%   \end{subfigure}
-% \caption{Runs with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
-% \num{1e6} MC cycles}
-% \label{fig:phase}
-% \end{figure}
-%
 To better capture the peaks of $C_v$ and $\chi$ we did another
 run with dT = \num{5e-4} for T $\in \brak{2.2, 2.35}$.
- We fitted fourth order polynomials to $C_v$ and found
-the critical temperature Tc$_{L}$ for each grid size.
-Using the finite size scaling relation
-\cref{eq:scaling} with $\nu$ = 1, we estimated $T_c(L=\infty)$
-by doing a linear
-regression with the four different T$_c$(L), using $1/L$ as the independent
-variable, and extracting the intercept.
-\footnote{Implemented in critical\_temperature.py}. The results are shown in
-\cref{tab:results}.
-
- \begin{equation}
-   \label{eq:scaling}
-   T_C(L=\infty) = T_C(L) - aL^{-1/\nu}
- \end{equation}
-
-
-
- % This gave us the result of $Tc=2.26709 \pm 0.00237$.
- % Comparing with the analytical solution gave us the relative error
- % \cref{eq:analytical} $\epsilon_r = 0.00092$ with the 99\% confidence interval
- % $\brak{0.00012,0.00197}$.
-
- \begin{table}[htp]
- \centering
- \begin{tabular}{|l|l|l|ll}
- \cline{1-3}
-                &        & 99\% confidence interval  &  &  \\ \cline{1-3}
- T$_c(L=\infty)$          & 2.26709   & {[}2.26472,2.26946{]}     &  &  \\ \cline{1-3}
- Relative error & 9.243e-04 & {[}1.210e-04,1.970e-03{]} &  &  \\ \cline{1-3}
- \end{tabular}
- \caption{Estimations of the critical temperature. Relative errors obtained by
- comparison with Lars Onsager's analytical solution \cref{eq:analytical}.}
- \label{tab:results}
- \end{table}
+ We fitted sixth order polynomials to $C_v$ and found
+the critical temperature Tc$_{L}$ for each grid size (\ref{fig:polyfit}).
 
 
 \begin{equation}
-  \label{eq:analytical}
-  T_C(L=\infty) = \frac{2}{\ln(1 + \sqrt2)} \approx 2.269
+  \label{eq:scaling}
+  T_C(L=\infty) = T_C(L) - aL^{-1/\nu}
 \end{equation}
 
+Using the finite size scaling relation in
+\cref{eq:scaling} with $\nu$ = 1, we estimated $T_c(L=\infty)$
+by doing a linear
+regression with the four different T$_C$(L), using $1/L$ as the independent
+variable, and extracting the intercept (\cref{fig:lin_reg}).
+\footnote{Implemented in critical\_temperature.py}.  This gave us the result of $T_C=2.2687$, with absolute and relative error
+ given in \cref{tab:critical}.
 
 
 
 
+ \begin{figure}[ht]
+   \begin{subfigure}[t]{.5\textwidth} % top align
+     \centering
+     % include first image
+     \includegraphics[width=\linewidth]{../figures/fit.pdf}
+     \caption{Fit of sixth order polynomials (lines) to the measurements
+     of heat capacity (circles).}
+     \label{fig:polyfit}
+   \end{subfigure}
+   \hfill
+   \begin{subfigure}[t]{.5\textwidth}
+     \centering
+     \includegraphics[width=\linewidth]{../figures/Tc_fit.pdf}
+     \caption{Linear regression on the critical temperatures for L $\in \brak{[40,60,80,100]}$
+     to extrapolate T$_C(L=\infty)$.}
+     \label{fig:lin_reg}
+   \end{subfigure}
+   \label{fig:test}
+ \end{figure}
 
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=\textwidth]{../figures/phase_E.png}
-%   \caption{Mean energy. Some small differences between grid sizes. Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
-%   \num{1e6} MC cycles}
-%   \label{fig:phase_E}
-% \end{figure}
-%
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=\textwidth]{../figures/phase_Mabs.png}
-%   \caption{Mean magnetisation.  Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
-%   \num{1e6} MC cycles}
-%   \label{fig:phase_Mabs}
-% \end{figure}
-%
-%
-%
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=\textwidth]{../figures/phase_cv.png}
-%   \caption{Heat capacity. Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
-%   \num{1e6} MC cycles}
-%   \label{fig:phase_cv}
-% \end{figure}
-%
-%
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=\textwidth]{../figures/phase_suscept.png}
-%   \caption{Susceptibility. Run with T $\in \brak{2.0,2.8}$, dT = \num{4e-3} and
-%   \num{1e6} MC cycles}
-%   \label{fig:phase_suscept}
-% \end{figure}
+
+
+
+ \begin{table}[htp]
+   \centering
+   \csvautotabular{../data/critical.csv}
+   \caption{Results for T$_C(L=\infty)$.}
+   \label{tab:critical}
+ \end{table}
