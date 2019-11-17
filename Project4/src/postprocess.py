@@ -37,10 +37,12 @@ def plot_relative_error(datafile,T = 1.0,L=2,window=1,ordered=0):
             axis.tick_params(left=True,right=True,which='both')
             # ax.tick_params(labelleft =True, labelright=True)
             cols = ['relE','relMabs','relcv','relsuscept']
+            labels = ['Energy','Magnetization','Heat capacity','Susceptibility']
             # colors = []
 
-            for col in cols:
-                sel.rolling(window).mean().plot('cycles',col,linestyle='--',logx=True,logy=True, ax=axis)
+            for col,label in zip(cols,labels):
+                mean = sel.rolling(window).mean()
+                mean.plot('cycles',col,linestyle='--',logx=True,logy=True, ax=axis,label=label)
 
             axis.set_title('Ordered={} T={}'.format(ordered,T))
             axis.set_ylabel('Relative error')
@@ -64,21 +66,23 @@ def plot_equilibrium(datafile):
     df['E'] = np.abs(df['E'])
     df['Mabs'] = np.abs(df['Mabs'])
     ticks = np.arange(-5,5,0.1)
-    for col in ['E','Mabs']:
-        fig, ax=plt.subplots(2, sharex=False)
+    for col,ylabel in zip(['E','Mabs'],['$|$Energy$|$', '$|$Magnetization$|$']):
+        fig, ax=plt.subplots(2, sharex=True, sharey=True)
         for T in [1.0,2.4]:
             lb = 'T={}'.format(T)
             # Plot for spins up and random
             for axis, ordered in zip(ax, [1,0]):
                 sel = df.loc[(df['T']==T) & (df['ordered']==ordered)]
                 sel = sel.loc[df['cycles'].between(0,50000)]
-                sel.plot('cycles',col, ax=axis,linestyle='-', label=lb)#,logx=True)
-                axis.set_ylabel(r'$\vert${}$\vert$ ord={}'.format(col,ordered))
+                sel.plot('cycles',col, ax=axis,linestyle='-', label=lb)
+
+                # axis.set_ylabel(r'$|<${}$>|$'.format(col))
+                axis.set_ylabel(ylabel)
                 axis.yaxis.set_major_locator(MultipleLocator(0.1))
                 axis.grid(linestyle='--',axis='y')
+                axis.set_title('Ordered={}'.format(ordered))
         plt.savefig(FIGDIR + 'equilibrium_{}.png'.format(col))
         plt.savefig(FIGDIR + 'equilibrium_{}.pdf'.format(col))
-
         plt.clf()
 
 def plot_distribution(distfile, datafile):
@@ -89,9 +93,12 @@ def plot_distribution(distfile, datafile):
     data.index = data['T']
     columns = dist.columns
     num_bins = int(1+3.3*np.log(len(dist)))
+    L = 20
     i = 0
+
     print(columns)
     for T in columns:
+        dist[T] = dist[T]/L**2
         fig,ax = plt.subplots(1,figsize=get_size(columns=2,ratio=0.3))
         label = 'T={} $\sigma_E^2$={:.2f}'.format(T,data.loc[float(T),'cv']*float(T)**2)
         dist[T].hist(density=True,bins=64,label=label, alpha=0.8,ax=ax)
@@ -163,7 +170,7 @@ def plot_fit(datafile):
         ax.plot(sel['T'],sel['cv'],marker='o',markersize=0.3,color=color,linestyle=' ')
 
     plt.xlabel('T')
-    plt.ylabel('C$_v$')
+    plt.ylabel('Heat capacity')
     plt.savefig(FIGDIR + 'fit.png')
     plt.savefig(FIGDIR + 'fit.pdf')
 
@@ -175,9 +182,10 @@ if __name__ == '__main__':
     datafile = args.distdata
     errorfile = args.error
 
+    plot_equilibrium(equi)
+
     plot_distribution(distfile, datafile)
     plot_fit('../data/longrun6.csv')
-    plot_equilibrium(equi)
     plot_accepted(equi)
     plot_phase(phase)
     win = 5

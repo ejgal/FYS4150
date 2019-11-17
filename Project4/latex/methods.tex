@@ -1,4 +1,4 @@
-\section{Methods}
+\section{Theory}
 
 Conceptually these systems are quite simple to model,
 consisting of binary spins which can either have the value 1 (up) or -1 (down).
@@ -7,7 +7,9 @@ spins in our system. We evolve our system by randomly selecting spins and
 changing their values if it is energetically favourable for the system. To not
 have our system being stuck in the ground state (lowest energy state) we will randomly flip some spins
 anyway even if it is not energetically favourable, this behaviour is actually
-something for real systems to.
+seen in real systems.
+
+
 \subsection{Ising model}
 The Ising model, without an external magnetic field, is given by
 \cref{eq:ising}, where $E_i$ is the energy of a given microstate s$_k$ and s$_l$ takes values of $\pm 1$, O is the
@@ -24,7 +26,7 @@ use the canonical ensemble where temperature is the intensive property, meaning
 that it is a local property that does not depend on the size of the system. The
 mean energy of the system is then given as an expectation value. To calculate
 the expectation value for lets say the energy, we need a probability distribution
-for a given temperature. In the canonical ensemble the probability distribution
+for a given temperature. In the canonical ensembfle the probability distribution
 is given by the Boltzmann distribution \cref{eq:Boltzmann}
 
 \begin{equation}\label{eq:Boltzmann}
@@ -39,9 +41,10 @@ $\beta$ is the inverse temperature times the Boltzmann constant
   Z = \sum_{i=1}^{N} e^{-\beta E_i}
 \end{equation}
 
-The properties which we are interested in, the ,energy $\braket{E}$, heat
-capacity $C_v$,magnetisation $\braket{M}$ and the susceptibility $\chi$ are then given
+The properties which we are interested in, the energy $\braket{E}$, heat
+capacity $C_v$, magnetisation $\braket{M}$ and susceptibility $\chi$ are then given
 by the following expressions.
+
 \begin{eqnarray}
   \braket{E} = \frac{1}{Z} \sum_{i=1}^N E_i e^{\beta E_i} \\
   C_v = \frac{1}{k_B T^2}\left(\braket{E^2} - \braket{E}^2 \right) \\
@@ -59,15 +62,15 @@ The variance of the energy and magnetisation is defined as the following.
 
 
 \subsection{Metropolis algorithm}
+
 The issue with our current setup of the Ising Model is that our probability
 distribution, which we need in order to calculate the expectation values
 contains the partition function $Z$. To calculate the partition function
-requires on the order $2^{O}$,FLOPS where $O$ is number of microstates and
-for large lattices it becomes impossible compute. We need to devise a scheme
-that lets us obtain the probability distribution without having to calculate the
-partition function. To achieve this end we will apply three famous concepts in
-stochastic modeling, Monte Carlo sampling, Markov chains, and the Metropolis
-algorithm .
+requires on the order $2^{O}$,FLOPS where $O$ is the number of spins. For large
+lattices it becomes impossible compute. We need to devise a scheme that lets us
+obtain the probability distribution without having to calculate the partition
+function. To achieve this end we will apply three famous concepts in stochastic
+modeling, Monte Carlo sampling, Markov chains, and the Metropolis algorithm .
 
 After we have setup the initial state, the first step in devising our
 stochastic Ising model would be to setup our Monte Carlo sampler or random walk.
@@ -77,7 +80,7 @@ then make a proposal about whether to flip the orientation of the spin.
 
 We will
 accept the proposal if flipping the spin results in lowering the energy of the
-system. Still we there is an issue with only accepting the proposals that lowers
+system. Still there is an issue with only accepting the proposals that lowers
 the energy, which is that after some steps we would start refusing every
 subsequent proposals. Since all of the proposed moved would result in a higher
 energy. This would eventually lead to us getting stuck in the lowest energy
@@ -235,14 +238,15 @@ numba using $@njit(parallel=True)$. We found it easiest to run calculations for
 each temperature in parallel, instead of parallelizing the ising model itself.
 An unfortunate side effect of this was that we were not able to write to file
 after each run of the ising model, so if our run did not finish we would lose
-all the results. We also added a script (timings.py) that estimates the time to
+all the results. We also added a script \footnote{timings.py} that estimates the time to
 run phase\_transitions.py with the given parameters so we did not start too time
 consuming runs.
 
 Timings with and without parallelization for small grid sizes showed a speedup
-of roughly 3.4 on a laptop with 4 physical cores. The suboptimal speedup might
+of roughly 3.4 on a computer with 4 physical cores. The suboptimal speedup might
 be related to creation of and writing to the 2d arrays for storing results,
 but we did not look deeper into this.
+
 
 \subsection{Probability distribution}
 
@@ -250,7 +254,9 @@ but we did not look deeper into this.
   \begin{subfigure}[t]{\textwidth} % top align
     \centering
     \includegraphics[width=\linewidth]{../figures/distribution_0.pdf}
-    \caption{}
+    \caption{When the temperature is low $\sigma_E^2$ is also low and almost all
+    of the energies are concentrated narrowly around the most likely
+    state.}
     \label{fig:sub-first}
   \end{subfigure}
   \hfill
@@ -258,7 +264,8 @@ but we did not look deeper into this.
   \begin{subfigure}[t]{\textwidth}
     \centering
     \includegraphics[width=\linewidth]{../figures/distribution_5.pdf}
-    \caption{}
+    \caption{Higher temperature gives a higher $\sigma_E^2$ and fluctuations around
+    the most likely state.}
     \label{fig:sub-second}
   \end{subfigure}
   \label{fig:distribution}
