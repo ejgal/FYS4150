@@ -9,14 +9,23 @@ from timing import estimate_time
 @njit(parallel=True)
 def phase_transitions(L,lenL,T,lenT,cycles,ordered,delay=0):
     """
-    Run ising model for all combinations temperature and grid width.
+    Run ising model for all combinations of temperature and grid width.
 
-    L    - Grid widths
-    lenL - Number of widths
-    T    - Temperatures
-    lenT - Number of temperatures
-    ordered, delay as in ising
+    Args:
+
+        L: Grid widths
+        T: Temperatures
+        lenL: Number of widths
+        lenT: Number of temperatures
+
+        ordered, delay as in ising
+
+    Returns:
+        2D arrays of size lenLxlenT.
+        E -
     """
+
+    # Arrays for storing results
     E = np.zeros(shape=(lenL,lenT))
     M = np.zeros(shape=(lenL,lenT))
     Mabs = np.zeros(shape=(lenL,lenT))
@@ -24,6 +33,8 @@ def phase_transitions(L,lenL,T,lenT,cycles,ordered,delay=0):
     suscept = np.zeros(shape=(lenL,lenT))
     accepted = np.zeros(shape=(lenL,lenT))
 
+
+    # Start of parallelized loop
     for i in prange(lenT):
         for j in range(lenL):
             values, acc,d = ising(L[j],cycles,T[i], ordered=ordered,delay=delay)
@@ -35,10 +46,15 @@ def phase_transitions(L,lenL,T,lenT,cycles,ordered,delay=0):
             suscept[j,i] = expect[4]
             accepted[j,i] = acc
 
+    # Return results, remember to store them.
     return E,M,Mabs,cv,suscept,accepted
 
 
 if __name__ == '__main__':
+
+    """
+    Run ising model for L = [40,60,80,100] and different temperatures.
+    """
 
     args = phase_parser().parse_args()
     output = args.output

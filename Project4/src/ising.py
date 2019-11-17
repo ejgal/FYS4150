@@ -7,14 +7,22 @@ def ising(L,N,T,ordered=0,delay=0,distribution=False):
     """
     Run ising model for a LxL grid.
 
-    L - Number of spins in each directino
-    N - Number of Monte Carlo cycles
-    T - Temperature
-    delay - Number of MC cycles to run before collecting data
-    ordered - Initial condition of spins
-        1 - all spins up
-        0 - random spins
-       -1 - all spins down
+    Args:
+        L: Grid size
+        N: Number of Monte Carlo cycles.
+        T: Temperature
+        delay: Number of MC cycles to run before collecting data
+        ordered: - Initial condition of spins
+                    1 - all spins up
+                    0 - random spins
+                   -1 - all spins down
+        distribution: If True, store all energies.
+
+    Returns:
+        - Array containing values needed to calculate expectation values.
+        - Number of accepted states.
+        - Array containing different energies encountered during the simulation.
+            if distribution set to True.
     """
 
     B = 1./T
@@ -101,7 +109,7 @@ def ising(L,N,T,ordered=0,delay=0,distribution=False):
 @jit(nopython=True)
 def expectation_values(values,N,L,T, delay=0):
     """
-    Calculates various expectation values per spin.
+    Calculates expectation values per spin.
 
     Args:
         values: Array - energy, energy2, magnet, magnet2, magnet_abs
@@ -111,7 +119,7 @@ def expectation_values(values,N,L,T, delay=0):
         delay: Number of MC cycles that was run before collecting values
 
     Returns:
-        Numpy array containing <E>, <M>, <|M|>, cv, susceptibility.
+        Numpy array containing <E>, <M>, <|M|>, heat capacity and susceptibility.
     """
 
     [E, E2, M, M2, Mabs] = values
@@ -129,7 +137,10 @@ def expectation_values(values,N,L,T, delay=0):
 
 def write_header(filename):
     """
-    Write header for output file
+    Write header for output file.
+
+    Args:
+        filename: Path of file to write.
     """
     with open(filename, 'w') as file:
         file.write('T,spins,cycles,ordered,delay,E,M,Mabs,cv,suscept,accepted\n')
@@ -138,7 +149,18 @@ def write_header(filename):
 def write_run(filename, expect, T,L,ordered,cycles,delay,accepted):
     """
     Append data for one run to file.
+
+    Args:
+        filename: Path of file to write.
+        expect: Array containing <E>, <M>, <|M|>, heat capacity and susceptibility.
+        T: Temperature
+        L: Grid width
+        cycles: Number of Monte Carlo cycles
+        Ordered: Initial state of grid.
+        delay: Number of MC cycles that was run before collecting values
+        accepted: Number of accepted states.
     """
+
     E,M,Mabs,cv,suscept = expect
     str = '{},{},{},{},{}'.format(T,L**2,cycles,ordered,delay)
     str += ',{},{},{},{},{},{}\n'.format(E,M,Mabs,cv,suscept, accepted)
@@ -149,13 +171,15 @@ def write_run(filename, expect, T,L,ordered,cycles,delay,accepted):
 
 if __name__ == '__main__':
 
-    # Run ising model and write to file
+    """
+    Example of running ising module and writing results to file.
+    """
     L = 20
     T = 1.
     N = 10000
     delay = 0
     ordered = 0
-    filename='../data/testfile.csv'
+    filename= '../data/testfile.csv'
     write_header(filename)
     values, accepted = ising(L, N, T, ordered=ordered,delay=delay)
     expect = expectation_values(values, N,L,T)
