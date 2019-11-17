@@ -21,6 +21,7 @@ __latexindent_temp.tex
 *.blg
 
 # python
+**/.pytest_cache/
 **/__pycache__/
 *.pyc
 
