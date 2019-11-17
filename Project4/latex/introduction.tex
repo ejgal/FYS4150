@@ -1,26 +1,28 @@
 \section{Introduction}
-There are many phenomenons that arise as a result of many physical entities
-interacting with each other to produce some global behaviour.
-Ferromagnetism could be an example of such a phenomenon. A widely used model for
-studying such phenomenons is the Ising model.
-The model was first suggested by Wilhelm Lenz in 1920 for modelling ferromagnetism and later solved
-for one dimension by his PhD student Erst Ising in 1925. Since the nineteen
-twenties the Ising model risen to become one of the most used models in
+There are many phenomenons that arise as a result of physical entities
+interacting with each other and together producing a global behaviour.
+Ferromagnetism is the result of such collective behaviour. A widely used model
+for studying these collective phenomenons is the Ising model.
+The model was first suggested by Wilhelm Lenz in 1920 for modelling
+ferromagnetism and later solved 
+in one dimension by his PhD student Erst Ising in 1925. Since the nineteen
+twenties the Ising model risen to become one of the most studied models in
 statistical mechanics and has even
 transcended the traditional boundaries between the disciplines. Finding
 application ranging from social sciences and biology to chemistry and
 mathematics.
 
 In this work we will look at a classic application of the Ising model, namely
-the phase transitions in magnetic systems.
-We will explain the theory of the ising model and the metropolis algorithm,
-before deriving analytical solutions for expectation values of the ising
-model using a 2x2 grid. These results will be used as a benchmark for testing
-our implementation. After investigating when the most likely state is reached
-for a 20x20 lattice we will do runs with grid sizes of 40, 60, 80 and 100
-for different temperatures to look for a phase transitions.
-We will then find the critical temperature for each grid size and extrapolate
-this to find the critical temperature in the limit of an infinite grid.
+in studying phase transitions in magnetic systems. We will use a common
+stochastic Monte Carlo model of the Ising model, built around the Metropolis algorithm. We will give a through explanation of our numerical model
+and demonstrate the behaviour of the model at different temperatures, lattice
+sizes and initial states. The aim with our analysis is to determine the
+temperature where the magnetic system transitions from a 
+magnetized state to a non-magnetized state. This
+temperature will subsequently be refereed to as the critical
+temperature of the system. We will find the critical for several lattice sizes
+and then extrapolate the critical temperatures to in order to estimate the
+critical temperature for an infinite lattice.
 
 %https://arxiv.org/pdf/1706.01764.pdf
 
