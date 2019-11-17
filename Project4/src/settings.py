@@ -4,8 +4,6 @@ import numpy as np
 # Analytical value for critical temperature
 analytic = 2/np.log(1+np.sqrt(2))
 
-
-
 # Directory settings
 DATADIR = '../data/'
 FIGDIR = '../figures/'
@@ -35,7 +33,7 @@ def get_size(columns=2,ratio=False):
 
 
 
-plt.rc('font', family='serif', serif='Times')
+# Set plot settings
 plt.rc('text', usetex=True)
 
 plt.rc('figure', autolayout=True)

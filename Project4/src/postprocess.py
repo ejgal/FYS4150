@@ -89,14 +89,12 @@ def plot_distribution(distfile, datafile):
     dist = pd.read_csv(distfile,index_col=0)
     data = pd.read_csv(datafile)
     data['T'] = data['T'].round(2)
-    print(data['T'])
     data.index = data['T']
     columns = dist.columns
     num_bins = int(1+3.3*np.log(len(dist)))
     L = 20
     i = 0
 
-    print(columns)
     for T in columns:
         dist[T] = dist[T]/L**2
         fig,ax = plt.subplots(1,figsize=get_size(columns=2,ratio=0.3))
@@ -110,7 +108,6 @@ def plot_distribution(distfile, datafile):
         plt.savefig(FIGDIR + 'distribution_{}.png'.format(i))
         plt.savefig(FIGDIR + 'distribution_{}.pdf'.format(i))
         i +=1
-        print(i)
     plt.clf()
 
 def plot_phase(datafile):
@@ -159,8 +156,8 @@ def plot_fit(datafile):
     df = pd.read_csv(datafile)
     fig,ax = plt.subplots(figsize=get_size(columns=1))
     colors = ['#1f77b4','#ff7f0e','#2ca02c','#d62728']
-    for L,color in zip([40,60,80,100],colors):
 
+    for L,color in zip([40,60,80,100],colors):
         spins = L**2
         sel = df.loc[df['spins']==spins]
         fit = np.polyfit(sel['T'],sel['cv'],6)

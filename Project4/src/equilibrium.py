@@ -10,6 +10,11 @@ from settings import *
 DATADIR = '../data/'
 
 if __name__ == '__main__':
+    """
+    Run ising model and vary number of Monte Carlo cycles
+    to assess when the most likely state is reached.
+    """
+
     # Run parser and store input to variables
     args = equi_parser().parse_args()
     exp = float(args.exp)
