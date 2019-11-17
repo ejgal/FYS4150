@@ -3,11 +3,11 @@
 Conceptually these systems are quite simple to model,
 consisting of binary spins which can either have the value 1 (up) or -1 (down).
 The energy of this system is given by summing up nearest neighbour spins of all
-spins in our system. We evolve our system by randomly selecting spins and
+the spins in our system. We evolve our system by randomly selecting spins and
 changing their values if it is energetically favourable for the system. To not
-have our system being stuck in the ground state (lowest energy state) we will randomly flip some spins
-anyway even if it is not energetically favourable, this behaviour is actually
-seen in real systems.
+have our system being stuck in the ground state (lowest energy state) we will
+follow the Metropolis algorithm to randomly flip some spins anyway, a
+behaviour is which seen for real systems.
 
 
 \subsection{Ising model}
@@ -20,22 +20,20 @@ nearest neighbour only.
 \begin{equation}\label{eq:ising}
   E_i = -J\sum_{<kl>}^{O} s_k s_l
 \end{equation}
-The parameter that we can control in our experiment is the temperature it is
-therefore it is natural to
-use the canonical ensemble where temperature is the intensive property, meaning
-that it is a local property that does not depend on the size of the system. The
+The parameter that we can control in our experiment is the temperature, and it
+is therefore it is natural to
+use the canonical ensemble where temperature is the intensive property. The
 mean energy of the system is then given as an expectation value. To calculate
-the expectation value for lets say the energy, we need a probability distribution
-for a given temperature. In the canonical ensembfle the probability distribution
-is given by the Boltzmann distribution \cref{eq:Boltzmann}
+the expectation value for instance energy, we need a probability distribution
+for a given temperature. In the canonical ensemble the probability distribution
+is given by the Boltzmann distribution \cref{eq:Boltzmann}.
 
 \begin{equation}\label{eq:Boltzmann}
   P_i(\beta) = \frac{e^{-\beta E_i}}{Z}
 \end{equation}
-
-$\beta$ is the inverse temperature times the Boltzmann constant
-($\beta = 1/k_b*T $),  $E_i$ is the energy of a microstate and $Z$
-\cref{eq:partFunc} is the partition function for the canonical ensemble.
+Where $\beta$ is the inverse temperature times the Boltzmann constant
+($\beta = 1/k_bT $),  $E_i$ is the energy of a microstate and $Z$
+ is the partition function for the canonical ensemble \cref{eq:partFunc}.
 
 \begin{equation}\label{eq:partFunc}
   Z = \sum_{i=1}^{N} e^{-\beta E_i}
@@ -67,7 +65,7 @@ The issue with our current setup of the Ising Model is that our probability
 distribution, which we need in order to calculate the expectation values
 contains the partition function $Z$. To calculate the partition function
 requires on the order $2^{O}$,FLOPS where $O$ is the number of spins. For large
-lattices it becomes impossible compute. We need to devise a scheme that lets us
+lattices it becomes impossible compute. Therefore we need to devise a scheme that lets us
 obtain the probability distribution without having to calculate the partition
 function. To achieve this end we will apply three famous concepts in stochastic
 modeling, Monte Carlo sampling, Markov chains, and the Metropolis algorithm .
@@ -82,10 +80,10 @@ We will
 accept the proposal if flipping the spin results in lowering the energy of the
 system. Still there is an issue with only accepting the proposals that lowers
 the energy, which is that after some steps we would start refusing every
-subsequent proposals. Since all of the proposed moved would result in a higher
+subsequent proposals, because all of the proposed moved would result in a higher
 energy. This would eventually lead to us getting stuck in the lowest energy
-state. To avoid getting stuck we would need to also accept some proposals which
-results in a higher energy of the system. This is where the Metropolis
+state. To avoid getting stuck we also need to accept some proposals which
+increase the energy of the system. This is where the Metropolis
 algorithm comes to our rescue. The first step of the Metropolis algorithm is to
 draw a random number between 0 and 1 from a probability distribution, we will
 use the uniform distribution. Next is to check if the our random number $r$,  $r \leq P_i
@@ -99,7 +97,8 @@ probability distribution in both states are given by the Boltzmann distribution
 \end{equation}
 It worth noticing that the probability ratio does not depend on the partition
 function. The Metropolis rule for which accept or reject proposed moves then
-becomes $r \leq e^{-\beta \Delta E}$.  $e^{-\beta \Delta E}$ is something we
+becomes $r \leq e^{-\beta \Delta E}$. The exponential $e^{-\beta \Delta E}$ is
+something we can
 pre calculate for a given temperature, since for the Ising
 model the energy difference can only take on five different values \cref{eq:deltaE}.
 \begin{equation}\label{eq:deltaE}
@@ -110,7 +109,7 @@ the energy of the original state and the new proposed
 state and then finding the difference. Pre calculating the energy saves us a lot
 of CPU cycles as we do not need to calculate an exponential each time we propose
 a new state. There is a neat physical interpretation to the Metropolis
-algorithm as models the struggle between two fundamental principles of our
+algorithm as it models the struggle between two fundamental principles of our
 universe, energy minimization and entropy maximization. This is something we
 will observe in our model as the entropy or acceptance ratio increases as we
 increase the temperature.
@@ -160,24 +159,23 @@ as the partition function, given in \cref{eq:partition}.
 
 
 \section{Experimental Setup}
-We will
-use quadratic grids with grid width L and periodic
-boundary conditions.
+In our numerical model we will use  use quadratic grids with grid width L and
+periodic boundary conditions. Periodic boundary conditions mean that our grid is
+repeated at the around the edges, this is necessary since we can not have
+infinite grids in our numerical model. 
 
 
 \subsection{Equilibrium}
-
-When we do the production runs we want to start calculating expectation values
+In order to get good statistics in the production runs we want to start calculating expectation values
 when the system has reached equilibrium, or the most likely state. A crude
 method for estimating this delay value (\# of MC cycles) is to plot energy and
-magnetization against MC cycles. We did this for T $\in \brak{1.0,2.4}$ for both
-ordered (all spins pointing up) and unordered initial states. From
-\cref{fig:equi_E} and \cref{fig:equi_M} it is clear that the system takes longer
-to reach the most likely state when the initial state is unordered. The
-magnetisation seems to take longer to stabilize than the energy. At around 7500
-cycles all values seem to be stable, showing small oscillations. Since we will
-be running several hundred thousands MC cycles we played it safe and set the
-delay parameter to 50000 in the production runs.
+magnetization against MC cycles. This is shown in \Cref{fig:equi_E} and \Cref{fig:equi_M}  for T $\in \brak{1.0,2.4}$ for both
+ordered (all spins pointing up) and unordered initial states. The system takes
+longer to reach the most likely state when the initial state is unordered. The
+magnetisation take longer to stabilize than the energy and at around 7500
+cycles all values seems to be stable. Still to be on the safe side, we decide to
+discard the first 50000 samples, which for a run with 1 million cycles only
+amount to 5 \% of the total samples size. 
 
 \begin{figure}[H]
   \centering
@@ -233,20 +231,19 @@ was proportional to $1/ \textbf{MC cycles}^{-1/2}$.
 
 \subsection{Production runs}
 
-For the production runs (phase\_transitions.py) we parallelized the code with
-numba using $@njit(parallel=True)$. We found it easiest to run calculations for
-each temperature in parallel, instead of parallelizing the ising model itself.
-An unfortunate side effect of this was that we were not able to write to file
-after each run of the ising model, so if our run did not finish we would lose
-all the results. We also added a script \footnote{timings.py} that estimates the time to
-run phase\_transitions.py with the given parameters so we did not start too time
-consuming runs.
+The production runs (phase\_transitions.py) was parallelized using
+$@njit(parallel=True)$ functionality within numba. It was easiest to run
+calculations for each temperature in parallel, instead of parallelizing the
+Ising model itself. A limitation of the using numba for parallelization was that
+we were un able to write to file after each run of the Ising model. This made
+our code vulnerable to crashes, since if the run  
+did not finish we would lose all the results. Timings with and without parallelization for small grid sizes showed a speedup
+of roughly 3.4 on a computer with 4 physical cores. 
 
-Timings with and without parallelization for small grid sizes showed a speedup
-of roughly 3.4 on a computer with 4 physical cores. The suboptimal speedup might
-be related to creation of and writing to the 2d arrays for storing results,
-but we did not look deeper into this.
-
+To get a measure on how long the production runs would take, we created a script
+\footnote{timings.py} that estimates the time to 
+run phase\_transitions.py with the given parameters, to avoid we did starting
+too time consuming runs.
 
 \subsection{Probability distribution}
 
