@@ -1,19 +1,20 @@
 \section{Discussion}
 
 The values for the confidence intervals around the T$_c$(L=$\infty$) assumes
-that the values for T$_c$(L) are certain. This is not correct, since we
-introduce uncertainties when running the simulations and by the method we use to
-estimate T$_c$(L). As shown in \cref{fig:error_L2} our model exhibited relative
-errors on the order of \num{1e-3} compared to the analytic solution using a 2x2
-grid. If the errors on a larger grid are comparable this should not be a
-significant source of error.
+that the values for T$_c$(L) are certain. This is not correct, since we have
+uncertainties inherent in the Monte Carlo simulations and in the method we use
+to estimate T$_c$(L). As shown in \cref{fig:error_L2} our model exhibited
+relative errors on the order of \num{1e-3} compared to the analytic solution
+using a 2x2 grid. If the errors on a larger grid are comparable this should not
+be a major source of error.
 
-We tested two other methods for estimating T$_C(L)$. Selecting the n largest
-points, and taking a rolling mean with a window of n for varying n. This gave
-similar results for n reasonable small compared to the 300 different temperature
-we ran experiments for. This gave similar results for T$_C(L)$ and
-T$_C(L=\infty)$, so this does not seem to be a significant source of error
-either.
+We tested two other methods for estimating T$_C(L)$. The first method was to
+take the mean of the n points with largest heat capacity. The second was to take
+a rolling mean with a window of n. We did this for various n, and as long as we
+kept n reasonably small compared to the 300 different temperatures of our
+dataset this gave similar results for T$_C(L)$ compared to fitting a sixth order
+polynomial. Therefore the method we have used for selecting T$_C(L)$   does not
+seem to be a major source of error either.
 
 Compared to Onsager's results (\cref{eq:analytical}) we got an absolute error
 of \num{4.54e-04} and a relative error of \num{2.00e-4}.
