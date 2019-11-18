@@ -1,4 +1,13 @@
-\section{Discussion}
+\newpage
+
+\section{Discussion and Conclusion}
+
+Our model seems to have captured the phase transition well. As we increased the
+grid size the phase change in magnetization started to behave more and more like
+a discontinuity.
+Compared to Onsager's results (\cref{eq:analytical}) we got an absolute error
+of \num{4.54e-04} and a relative error of \num{2.00e-4} which we are very
+pleased with.
 
 The values for the confidence intervals around the T$_c$(L=$\infty$) assumes
 that the values for T$_c$(L) are certain. This is not correct, since we have
@@ -13,8 +22,17 @@ take the mean of the n points with largest heat capacity. The second was to take
 a rolling mean with a window of n. We did this for various n, and as long as we
 kept n reasonably small compared to the 300 different temperatures of our
 dataset this gave similar results for T$_C(L)$ compared to fitting a sixth order
-polynomial. Therefore the method we have used for selecting T$_C(L)$   does not
+polynomial. Therefore the method we have used for selecting T$_C(L)$ does not
 seem to be a major source of error either.
 
-Compared to Onsager's results (\cref{eq:analytical}) we got an absolute error
-of \num{4.54e-04} and a relative error of \num{2.00e-4}.
+
+
+
+We encountered a few problems using numba to speed up and parallelize the code.
+The first was that it is generally difficult to split up code into smaller
+functions that can be unit tested. The other was that we did not manage to both
+parallelize and write to file after the run for each temperature and grid size.
+This meant we had to do the production runs, that took roughly 15 hours,
+without the possibility of looking at the current progress. In one run this
+led to no results being written to file, since there was an error in the file
+writing function.
