@@ -3,10 +3,12 @@ from pytest import approx
 import analytic as a
 
 
-
-
 tol = 10**-12
 
+
+"""
+Test analytical solutions against brute force solution for a 2x2 grid.
+"""
 
 def test_z():
     for T in np.linspace(1., 10., 5):
