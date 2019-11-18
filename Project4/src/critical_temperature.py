@@ -59,14 +59,15 @@ if __name__ == '__main__':
 
     # Calculate errors
     rel_err = np.abs(T - analytic)/analytic
+    abs_err = np.abs(T - analytic)
     T_low = T - width
     T_high = T + width
-    upper_rel = np.abs(T_low - analytic)/analytic
-    lower_rel = np.abs(T_high - analytic)/analytic
-    abs_err = np.abs(T - analytic)
+    upper_abs = np.abs(T_low - analytic)
+    lower_abs = np.abs(T_high - analytic)
 
     # Write results to file
     with open(DATADIR + 'critical.csv','w') as file:
-        file.write('T$_C$,{:.4f}\n'.format(T))
-        file.write('Absolute error,{:.2e}\n'.format(abs_err))
-        file.write('Relative error,{:.2e}\n'.format(rel_err))
+        file.write(',Value,CI low, CI high\n')
+        file.write('T$_C$,{:.4f},{:.4f}, {:.4f}\n'.format(T, T_low,T_high))
+        file.write('Absolute error,{:.2e},,'.format(abs_err))
+        file.write('Relative error,{:.2e},,\n'.format(rel_err))

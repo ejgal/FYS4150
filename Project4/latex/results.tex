@@ -7,10 +7,10 @@ The results (\cref{fig:phase}) indicated a phase transitions for T $\in
 changes, meaning that they will capture the phase transition better, because of
 a smaller contribution from the boundaries.
 
-\begin{figure}[H]
+\begin{figure}[htp]
   \centering
   \includegraphics[width=\textwidth]{../figures/phase.pdf}
-  \caption{Simulating for various temperatures looking for phase transitions.\\
+  \caption{Simulating for various temperatures looking for phase transitions. \\
   T $\in \brak{2.0,2.8}$, dT = \num{4e-3}, \num{1e6} MC cycles, delay=50000}
   \label{fig:phase}
 \end{figure}
@@ -31,14 +31,14 @@ Using the finite size scaling relation in
 \cref{eq:scaling} with $\nu$ = 1, we estimated $T_c(L=\infty)$
 by doing a linear
 regression with the four different T$_C$(L), using $1/L$ as the independent
-variable, and extracting the intercept (\cref{fig:lin_reg}).
-\footnote{Implemented in critical\_temperature.py}.  This gave us the result of $T_C=2.2687$, with absolute and relative error
- given in \cref{tab:critical}.
+variable, and extracting the intercept (\cref{fig:lin_reg})
+\footnote{Implemented in critical\_temperature.py}.  This gave us the result of
+$T_C(L=\infty)=2.2687$, with the 99\% confidence interval $\brak{2.2617, 2.2757}$.
 
 
 
 
- \begin{figure}[ht]
+ \begin{figure}[h]
    \begin{subfigure}[t]{.5\textwidth} % top align
      \centering
      % include first image
@@ -52,7 +52,9 @@ variable, and extracting the intercept (\cref{fig:lin_reg}).
      \centering
      \includegraphics[width=\linewidth]{../figures/Tc_fit.pdf}
      \caption{Linear regression on the critical temperatures for L $\in \brak{[40,60,80,100]}$
-     to extrapolate T$_C(L=\infty)$.}
+     to extrapolate T$_C(L=\infty) = 2.2687$ with the 99\% confidence
+     interval $\brak{2.2617, 2.2757}$.
+     }
      \label{fig:lin_reg}
    \end{subfigure}
    \label{fig:test}
@@ -61,7 +63,7 @@ variable, and extracting the intercept (\cref{fig:lin_reg}).
 
 
 
- \begin{table}[htp]
+ \begin{table}[h]
    \centering
    \csvautotabular{../data/critical.csv}
    \caption{Results for T$_C(L=\infty)$.}
