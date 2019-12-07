@@ -1,0 +1,55 @@
+\section{Theory}
+The vorticity equation
+\begin{equation}\label{eq:gov_vort}
+    \pdv{\zeta}{t} + \beta \pdv{\psi}{x} = 0
+\end{equation}
+The barotropic Rossby wave equation \cref{eq:barotropicRossby}
+
+\begin{equation}\label{eq:barotropicRossby}
+    \pd{t}{} \nabla_H^2 \psi + \beta \pdv{\psi}{x} = 0 
+\end{equation}
+We assume the following wave like solution \cref{eq:waveSolution} and 
+insert this into the barotropic Rossby wave equation \cref{eq:barotropicRossby}.
+\begin{equation}\label{eq:waveSolution}
+    \psi = A\cos{(2n\pi x /L - \omega t)}
+\end{equation}
+Using the one dimensional vorticity $\zeta = \pdv{v}{x} = \pdv[2]{\psi}{x}$ 
+
+\begin{equation}
+    \pdv{}{t} \left(-A (2n\pi/L)^2  \cos{(2n\pi x/L - \omega t)}\right) - \beta 
+     (2n\pi/L) A \sin{(2n x\pi/L - \omega t) = 0}
+\end{equation}
+
+\begin{equation}
+    -(2n\pi/L)\omega \cancel{A\sin{(2n x\pi/L - \omega t)}} - \beta 
+    \cancel{A\sin{(2 xn\pi/L - \omega t)}} = 0
+\end{equation}
+
+\begin{equation}
+    (2n\pi / L) \omega = \beta
+\end{equation}
+
+\begin{equation}\label{eq:omega1}
+    \omega = \frac{-\beta L}{2n\pi} 
+\end{equation}
+
+The phase speed of the Rossby wave can be derived by considering the phase of
+the wave \cref{eq:phase}.
+\begin{equation}\label{eq:phase}
+    \theta = \frac{n \pi x}{L} - \omega t
+\end{equation} 
+Then peak of the wave would be at $\theta = 2\pi$, where $\psi = A\cos{(2\pi)}$.
+In therms of the atmospheric motion this peak would correspond to would
+correspond to high pressure point. To get the motion of this point we can solve
+\cref{eq:phase} for x, $x=\theta L / 2n \pi + \omega t L / 2n \pi$ and then
+obtaining the phase speed by taking the time derivative. 
+\begin{equation}
+    c = \dv{x}{t} = \frac{\omega L}{2n\pi}
+\end{equation} 
+Inserting the expression for $\omega$ obtained previously \cref{eq:omega1}, we
+get the following expression for the phase speed.
+\begin{equation}\label{eq:Phase-speed1}
+    c = \frac{-\beta L^2}{(2n\pi)^2}
+\end{equation}
+Then following \cref{eq:Phase-speed1} the Rossby wave will propagate westward.  
+Next we assume $\psi $ 
