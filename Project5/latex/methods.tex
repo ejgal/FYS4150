@@ -51,5 +51,53 @@ get the following expression for the phase speed.
 \begin{equation}\label{eq:Phase-speed1}
     c = \frac{-\beta L^2}{(2n\pi)^2}
 \end{equation}
-Then following \cref{eq:Phase-speed1} the Rossby wave will propagate westward.  
-Next we assume $\psi $ 
+Then following \cref{eq:Phase-speed1} the Rossby wave will propagate 
+toward the west.  
+Next we assume a more realistic wavelike solution of \cref{eq:barotropicRossby}
+where the amplitude of the wave is also a function of $x$. We
+require there to be no flow at the endpoints, which we can enforce with simple
+Dirichlet conditions $\psi= 0$ at $x=0$ and $x=L$.
+\begin{equation}\label{eq:waveSolution2}
+    \psi = A(x)\cos{(kx-\omega t)} 
+\end{equation}  
+Inserting \label{eq:waveSolution2} into the barotropic Rossby wave equation
+\cref{eq:barotropicRossby} and then differentiating we get the following
+equation:
+
+\begin{equation}\label{eq:step1}
+    \begin{split}
+    \sin{(kx-wt)\left(\omega(A''(x)-k^2A(x))- \beta A(x)\right)} \\
+    + \cos{(kx - \omega t)}\left(\omega 2kA'(x) +\beta A'(x)\right) = 0
+    \end{split}
+\end{equation}
+The terms in front of the cosine and sine has to be zero, which means that we
+can split equation in to two parts. The equation for the sine and cosine terms 
+respectively.  
+
+\begin{equation}\label{eq:sine-terms}
+    \omega A''(x) -\omega k^2 A(x) - \beta A(x) = 0
+\end{equation}
+\begin{equation}\label{eq:cos-terms}
+    \omega 2 k A'(x) + \beta A'(x) = 0
+\end{equation} 
+
+Solving the equation for the cosine terms \cref{eq:cos-terms} with respect to
+$\omega$:
+\begin{equation}
+    \omega = -\frac{\beta}{2k}
+\end{equation}
+Inserting the expression for omega into \cref{eq:sine-terms} and solving the ODE
+give the following expression for $A(x)$
+\begin{equation}\label{eq:A_x}
+    A(x) = C_1 \cos{(kx) + C_2 \sin{(kx)}}
+\end{equation}
+Imposing the boundary condition at $x=0$ requiring $C_1$ to be zero ruling
+out the cosine term in \cref{eq:A_x}. Imposing the boundary condition $\psi=0$
+at $x=L$ yields the following expression for A(x).
+\begin{equation}
+    A(x) = \sin{\left(\frac{n\pi}{L} x \right)}
+\end{equation}
+Then final solution becomes:
+\begin{equation}
+    \psi = \sin{\left(\frac{n\pi}{L} x \right)} \cos{(kx - \omega t)}
+\end{equation}    
