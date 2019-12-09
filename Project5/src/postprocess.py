@@ -42,13 +42,13 @@ if __name__ == '__main__':
     compare('psi_periodic_forward_1_sine', times)
 
     # Bounded
-    hovmuller('psi_bounded_centered_0.10_sine')
-    hovmuller('psi_bounded_centered_0.10_gauss_0.10')
+    hovmuller('psi_bounded_centered_0.1_sine')
+    hovmuller('psi_bounded_centered_0.1_gauss_0.10')
 
     # Periodic
-    hovmuller('psi_periodic_centered_sine')
+    hovmuller('psi_periodic_centered_0.1_sine')
     hovmuller('psi_periodic_centered_0.1_gauss_0.08')
     hovmuller('psi_periodic_centered_0.1_gauss_0.09')
     hovmuller('psi_periodic_centered_0.1_gauss_0.10')
-    hovmuller('psi_periodic_centered_0.10_gauss_0.11')
-    hovmuller('psi_periodic_centered_0.10_gauss_0.12')
+    hovmuller('psi_periodic_centered_0.1_gauss_0.11')
+    hovmuller('psi_periodic_centered_0.1_gauss_0.12')
