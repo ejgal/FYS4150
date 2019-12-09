@@ -25,7 +25,11 @@ def poisson1d_periodic(p, b, dx, nx, target=1e-6, iter=10000):
     while (diff > target and count < iter):
         diff = 0
         pn = p.copy()
-        for i in range(1, nx-1):
+        # Borders
+        # p[-1] = 0.5 * (pn[1] + pn[-2] - b[-1] * dx**2)
+        # p[0] = 0.5 * (pn[1] + pn[-2] - b[0] * dx**2)
+
+        for i in range(0, nx):
             p[i] = 0.5 * (pn[(i+1) % nx] + pn[(i-1) % nx] - b[i] * dx**2)
             diff += np.abs(pn[i] - p[i])
         count += 1
@@ -42,22 +46,20 @@ def poisson1d_bounded(p, b, dx, nx, target=1e-6, iter=10000):
         pn = p.copy()
         for i in range(1, nx - 1):
             p[i] = 0.5 * (pn[i+1] + pn[i-1] - b[i] * dx**2)
-            diff += np.abs(p[i] - pn[i])
-        p[0] = 0
-        p[-1] = 0
+            diff += np.abs(pn[i] - p[i])
         count += 1
+        diff /= nx
     print('Iterations: {}'.format(count))
     return p
 
 
-def periodic(dx, t, init, advance, x0=0.5, sigma=0.1, save=True):
-    nx = int(1/dx + 1)
-    dt = 0.1
+def periodic(dx, t, init, advance, dt=0.1, x0=0.5, sigma=0.1, save=True):
+    nx = int(1/dx)
     nt = int(t/dt)
     alpha = dt/dx
-    x = np.linspace(0, 1, nx)
-    psi_file = DATADIR + 'psi_periodic_' + advance.__name__ + '_'
-    zeta_file = DATADIR + 'zeta_periodic_' + advance.__name__ + '_'
+    x = np.linspace(0, 1 - dx, nx)
+    psi_file = DATADIR + 'psi_periodic_' + advance.__name__ + '_' + '{}'.format(dt) + '_'
+    zeta_file = DATADIR + 'zeta_periodic_' + advance.__name__ + '_' + '{}'.format(dt) + '_'
     # Initalize psi and zeta
     if init == sine:
         psi = init(x)
@@ -67,14 +69,14 @@ def periodic(dx, t, init, advance, x0=0.5, sigma=0.1, save=True):
     else:
         psi = init(x, x0, sigma)
         zeta = gauss_der(x, x0, sigma)
-        psi_file += 'gauss.csv'
-        zeta_file += 'gauss.csv'
+        psi_file += 'gauss_{:.2f}.csv'.format(sigma)
+        zeta_file += 'gauss_{:.2f}.csv'.format(sigma)
     zeta_n = zeta.copy()
     zeta_nn = zeta_n.copy()
-    for i in range(0, nx):
-        zeta_n[i] = zeta[i] + dt/(2*dx) * (psi[(i+1) % nx] - psi[(i-1) % nx])
-    for i in range(0, nx):
-        zeta_nn[i] = zeta_n[i] + dt/(2*dx) * (psi[(i+1) % nx] - psi[(i-1) % nx])
+    # for i in range(0, nx):
+    #     zeta_n[i] = zeta[i] + dt/(2*dx) * (psi[(i+1) % nx] - psi[(i-1) % nx])
+    # for i in range(0, nx):
+    #     zeta_nn[i] = zeta_n[i] + dt/(2*dx) * (psi[(i+1) % nx] - psi[(i-1) % nx])
     print(psi_file, zeta_file)
     # TODO: Add function parameters to files
     if save:
@@ -94,21 +96,20 @@ def periodic(dx, t, init, advance, x0=0.5, sigma=0.1, save=True):
 
 # Time stepping functions periodic BC
 def centered(zeta, zeta_nn, i, alpha, psi, nx):
-    zeta[i] = zeta_nn[i] + alpha * (psi[(i-1) % nx] - psi[(i+1) % nx])
+    zeta[i] = zeta_nn[i] - alpha * (psi[(i+1) % nx] - psi[(i-1) % nx])
 
 
 def forward(zeta, zeta_nn, i, alpha, psi, nx):
     zeta[i] = zeta[i] - 0.5 * alpha * (psi[(i+1) % nx] - psi[(i-1) % nx])
 
 
-def bounded(dx, t, init, advance, x0=0.5, sigma=0.1, save=True):
-    nx = int(1/dx - 1)
-    dt = 0.1
+def bounded(dx, t, init, advance, dt=0.1, x0=0.5, sigma=0.1, save=True):
+    nx = int(1/dx + 1)
     nt = int(t/dt)
     alpha = dt/dx
     x = np.linspace(0, 1, nx)
-    psi_file = DATADIR + 'psi_bounded_' + advance.__name__ + '_'
-    zeta_file = DATADIR + 'zeta_bounded_' + advance.__name__ + '_'
+    psi_file = DATADIR + 'psi_bounded_' + advance.__name__ + '_' + '{}'.format(dt) + '_'
+    zeta_file = DATADIR + 'zeta_bounded_' + advance.__name__ + '_' + '{}'.format(dt) + '_'
     # Initalize psi and zeta
     if init == sine:
         psi = init(x)
@@ -118,8 +119,8 @@ def bounded(dx, t, init, advance, x0=0.5, sigma=0.1, save=True):
     else:
         psi = init(x, x0, sigma)
         zeta = gauss_der(x, x0, sigma)
-        psi_file += 'gauss.csv'
-        zeta_file += 'gauss.csv'
+        psi_file += 'gauss_{:.2f}.csv'.format(sigma)
+        zeta_file += 'gauss_{:.2f}.csv'.format(sigma)
     zeta_n = zeta.copy()
     zeta_nn = zeta_n.copy()
     print(psi_file, zeta_file)
@@ -154,9 +155,16 @@ if __name__ == '__main__':
     dx = 1/40
     sigma = 0.1
     x0 = 0.5
+
+    # Bounded sine and gaussian
     bounded(dx, t, init=sine, advance=centered)
     bounded(dx, t, init=gauss, advance=centered, sigma=sigma, x0=x0)
-    periodic(dx, t, init=sine, advance=forward, sigma=sigma, x0=x0)
-    periodic(dx, t, init=sine, advance=centered, sigma=sigma, x0=x0)
-    periodic(dx, t, init=gauss, advance=forward, sigma=sigma, x0=x0)
-    periodic(dx, t, init=gauss, advance=centered, sigma=sigma, x0=x0)
+
+    # Gaussian periodic
+    for sigma in [0.08, 0.09, 0.10, 0.11, 0.12]:
+        periodic(dx, t, init=gauss, advance=centered, sigma=sigma, x0=x0)
+
+    # Sine periodic
+    t = 1500
+    periodic(dx, t, init=sine, advance=forward, dt=1)
+    periodic(dx, t, init=sine, advance=centered, dt=1)
