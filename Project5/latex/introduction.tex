@@ -4,11 +4,14 @@ Rossby waves was first described by the Swedish meteorologist Carl G Rossby
 the Coriolis acceleration, where it is largest at the high latitude and zero at
 equator. The varying Coriolis acceleration changes the vorticity of fluid
 parcels as they moves to different latitudes. Rossby waves have scales of
-hundreds to thousands of kilometres. Rossby 
+hundreds to thousands of kilometres. Rossby waves play a major role in dictating
+the weather on daily and large time scales and are crucial for the meridional
+transport of heat, moisture and momentum \parencite{midSynDyn}.  
 
-We will study Rossby waves in a greatly simplified 
-barotropic atmosphere/ocean. In this simplified barotropic world the density depends only
-on pressure, which via the ideal gas law holds that the temperature is constant
+This study will consider Rossby waves in a greatly simplified 
+atmosphere/ocean. We will assume that our atmosphere/ocean is barotropic the
+density depends only on pressure, which via the ideal gas law holds that the
+temperature is constant
 on a isobaric surface. We also assume the flow to be frictionless and
 non-divergent, consequently neglecting vertical velocities. Under these
 simplifications the quasi geostrophic vorticity equation is reduced to
@@ -17,11 +20,16 @@ planetary vorticity.
 \begin{equation}\label{eq:QG_vorticity}
     \frac{D(\zeta + f)}{Dt} = 0
 \end{equation}
-From \cref{eq:QG_vorticity} we also have the conservation of absolute vorticity
-($\zeta + f$) following the flow. If a fluid parcel is moving poleward
-towards region of larger $f$ then, there must be a compensating change in
-$\zeta$ for order to keep the absolute vorticity unchanged. This balancing act
-between planetary and relative vorticity is the essential mechanism behind
+From \cref{eq:QG_vorticity} we also have the absolute vorticity
+($\zeta + f$) being conserved following the flow. If a fluid parcel is moving
+poleward towards region of larger $f$ then, there must be a compensating change
+in $\zeta$ for order to keep the absolute vorticity unchanged. This balancing
+act between planetary and relative vorticity is the essential mechanism behind
 Rossby waves, demonstrating that even in this simplified form the dynamical
-essence of Rossby waves is retained. 
+essence of the Rossby waves is retained. We will derive the barotropic Rossby
+wave equation (BRWQ) in the subsequent section.
 
+In the numerical study we will solve the BRWQ in both one and two dimension
+using both the forward difference and central difference scheme. We will provide
+a an extensive overview of our algorithm and evaluate the accuracy and stability
+of the two numerical schemes. 
