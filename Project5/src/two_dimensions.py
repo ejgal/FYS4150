@@ -14,7 +14,6 @@ def sine_der(x, y):
 def poisson2d_bounded(p, b, dx, nx, target=1e-6, iter=10000):
     count = 0
     diff = 1
-    # plot2d(np.linspace(0, 1-dx, nx), np.linspace(0, 1-dx, nx), p)
     ny = nx
     p[:, -1] = 0
     p[0, :] = 0
@@ -45,12 +44,14 @@ def poisson2d_bounded(p, b, dx, nx, target=1e-6, iter=10000):
 def poisson2d_periodic(p, b, dx, nx, target=1e-6, iter=10000):
     count = 0
     diff = 1
-    ny = nx
+    ny = nx + 1
+    p[-1, :] = 0
+    p[0, :] = 0
     while (diff > target and count < iter):
         diff = 0
         pn = p.copy()
         for i in range(0, nx):
-            for j in range(0, ny):
+            for j in range(1, ny - 1):
                 p[j, i] = - b[j, i] * dx**2
                 p[j, i] += (pn[j, (i+1) % nx] + pn[j, (i-1) % nx])
                 p[j, i] += (pn[(j+1) % nx, i] + pn[(j-1) % ny, i])
@@ -83,8 +84,6 @@ def bounded(dx, dt, t):
     X, Y = np.meshgrid(x, y)
     psi = sine(X, Y)
     zeta = sine_der(X, Y)
-    print(np.shape(psi))
-    print(np.shape(zeta))
     zeta_nn = zeta.copy()
     zeta_n = zeta.copy()
     for n in range(nt):
@@ -96,16 +95,14 @@ def bounded(dx, dt, t):
         zeta_n = zeta.copy()
         psi = poisson2d_bounded(psi, zeta, dx, nx)
         np.save('twod/psi_{:.2f}'.format(n), psi)
-    # plot2d(x, y, psi)
-    # plot2d(x, y, sine(X, Y))
 
 
 def periodic(dx, dt, t):
     nx = int(1/dx)  # Periodic
-    ny = int(1/dx)  # Bounded
+    ny = int(1/dx) + 1  # Bounded
     nt = int(t/dt)
     x = np.linspace(0, 1 - dx, nx)
-    y = np.linspace(0, 1 - dx, ny)
+    y = np.linspace(0, 1, ny)
     X, Y = np.meshgrid(x, y)
     psi = sine(X, Y)
     zeta = sine_der(X, Y)
@@ -113,10 +110,9 @@ def periodic(dx, dt, t):
     zeta_n = zeta.copy()
     for n in range(nt):
         for i in range(0, nx):
-            for j in range(0, nx):
+            for j in range(1, ny - 1):
                 zeta[j, i] = zeta_nn[j, i]
                 zeta[j, i] += - dt/dx * (psi[j, (i+1) % nx] - psi[j, (i-1) % nx])
-                # zeta[j, i] += - dt/dx * (psi[(j+1) % nx, i] - psi[(j-1)%nx, i])
         zeta_nn = zeta_n.copy()
         zeta_n = zeta.copy()
         psi = poisson2d_periodic(psi, zeta, dx, nx)

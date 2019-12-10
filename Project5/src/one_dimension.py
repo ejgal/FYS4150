@@ -34,7 +34,7 @@ def poisson1d_periodic(p, b, dx, nx, target=1e-6, iter=10000):
             diff += np.abs(pn[i] - p[i])
         count += 1
         diff /= nx
-    print('Iterations: {}'.format(count))
+    # print('Iterations: {}'.format(count))
     return p
 
 
@@ -49,7 +49,7 @@ def poisson1d_bounded(p, b, dx, nx, target=1e-6, iter=10000):
             diff += np.abs(pn[i] - p[i])
         count += 1
         diff /= nx
-    print('Iterations: {}'.format(count))
+    # print('Iterations: {}'.format(count))
     return p
 
 
@@ -77,7 +77,6 @@ def periodic(dx, t, init, advance, dt=0.1, x0=0.5, sigma=0.1, save=True):
     #     zeta_n[i] = zeta[i] + dt/(2*dx) * (psi[(i+1) % nx] - psi[(i-1) % nx])
     # for i in range(0, nx):
     #     zeta_nn[i] = zeta_n[i] + dt/(2*dx) * (psi[(i+1) % nx] - psi[(i-1) % nx])
-    print(psi_file, zeta_file)
     # TODO: Add function parameters to files
     if save:
         write(psi_file, psi, 0, mode='w')
@@ -123,7 +122,6 @@ def bounded(dx, t, init, advance, dt=0.1, x0=0.5, sigma=0.1, save=True):
         zeta_file += 'gauss_{:.2f}.csv'.format(sigma)
     zeta_n = zeta.copy()
     zeta_nn = zeta_n.copy()
-    print(psi_file, zeta_file)
     # TODO: Add function parameters to output files
     if save:
         write(psi_file, psi, 0, mode='w')
@@ -131,13 +129,12 @@ def bounded(dx, t, init, advance, dt=0.1, x0=0.5, sigma=0.1, save=True):
     for n in range(nt):
         for i in range(1, nx - 1):
             zeta[i] = zeta_nn[i] - alpha * (psi[i+1] - psi[i-1])
-        psi = poisson1d_bounded(psi, zeta, dx, nx)
+        psi = poisson1d_bounded(psi, zeta, dx, nx, target=1e-8)
         zeta_nn = zeta_n.copy()
         zeta_n = zeta.copy()
         if save:
             write(psi_file, psi, n*dt)
             write(zeta_file, zeta, n*dt)
-    print(psi[0], psi[-1])
     return psi, zeta
 
 
@@ -161,10 +158,12 @@ if __name__ == '__main__':
     bounded(dx, t, init=gauss, advance=centered, sigma=sigma, x0=x0)
 
     # Gaussian periodic
-    for sigma in [0.08, 0.09, 0.10, 0.11, 0.12]:
+    for sigma in [0.08, 0.09, 0.11, 0.12]:
         periodic(dx, t, init=gauss, advance=centered, sigma=sigma, x0=x0)
 
     # Sine periodic
     t = 1500
     periodic(dx, t, init=sine, advance=forward, dt=1)
-    periodic(dx, t, init=sine, advance=centered, dt=1)
+
+    t = 150
+    periodic(dx, t, init=sine, advance=centered, dt=0.1)
