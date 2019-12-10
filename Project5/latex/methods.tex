@@ -1,4 +1,46 @@
 \section{Theory}
+
+Rossby waves are described in what known as the Quasi Geostrophic (QG)
+framework. The primary scaling assumption in QG theory is that the Rossby number
+is much less that one. The Rossby number which can be obtained by scaling the
+momentum equation is defined as the following:
+\cref{eq:Rnumber},  
+\begin{equation}\label{eq:Rnumber}
+    R = \frac{U}{fL}
+\end{equation}
+Where $U$ is characteristic magnitude of the horizontal velocity, $f \sim 10^{-4}$
+is the Coriolis parameter and $L$ the characteristic horizontal length scale.
+From the assumption about the Rossby number it is evident that the horizontal
+length scales has to be large. A feature of large scale motion in the atmosphere
+and ocean is that there tends to be a balance between the pressure gradient
+force and Coriolis acceleration acting perpendicular to the velocity vector. 
+\begin{equation}\label{eq:geostrophic}
+    fu = -\frac{1}{\rho}\pdv{p}{y} \quad fv = \frac{1}{\rho}\pdv{p}{x}
+\end{equation} 
+The issue with a purely geostrophic framework \cref{eq:geostrophic} is that
+there is no development of the motion. 
+
+In QG-theory velocities is
+separated into a geostrophic and ageostrophic component $\mathbf{v} = \mathbf
+{v_g} +\mathbf{v_a}$. The geostrophic velocities are
+non-divergent and can consequently be written in terms of a steam function.
+It is the ageostrophic wind which are responsible for the
+horizontal divergence. Even though the ageostrophic velocities
+are small compared to the geostrophic, they are important since
+they governs the rising and sinking in the atmosphere.
+
+The quasi geostrophic potential vorticity equation \cref{eq:QG_vort} can be
+derived from the shallow water equations \textbf{CITE Joe}, following the
+previously discussed
+assumptions. 
+
+\begin{equation}\label{eq:QG_vort}
+    \left(\pdv{}{t}+u_g \pdv{}{x} + v_g \pdv{}{y} \right)(\zeta_g + \beta y) = 
+    f_0 \pdv{w}{z}
+\end{equation}
+
+\subsection{Analytic expression of phase velocities}
+
 The vorticity equation
 \begin{equation}\label{eq:gov_vort}
     \pdv{\zeta}{t} + \beta \pdv{\psi}{x} = 0
@@ -8,12 +50,12 @@ The barotropic Rossby wave equation \cref{eq:barotropicRossby}
 \begin{equation}\label{eq:barotropicRossby}
     \pd{t}{} \nabla_H^2 \psi + \beta \pdv{\psi}{x} = 0 
 \end{equation}
-We assume the following wave like solution \cref{eq:waveSolution} and 
+We assume the following periodic solution \cref{eq:waveSolution} and 
 insert this into the barotropic Rossby wave equation \cref{eq:barotropicRossby}.
 \begin{equation}\label{eq:waveSolution}
     \psi = A\cos{(2n\pi x /L - \omega t)}
 \end{equation}
-Using the one dimensional vorticity $\zeta = \pdv{v}{x} = \pdv[2]{\psi}{x}$ 
+Using the one dimensional vorticity $\zeta_x = \pdv{v}{x} = \pdv[2]{\psi}{x}$ 
 
 \begin{equation}
     \pdv{}{t} \left(-A (2n\pi/L)^2  \cos{(2n\pi x/L - \omega t)}\right) - \beta 
@@ -107,3 +149,5 @@ $\omega = -\frac{\beta}{k}$.
 \begin{equation}
     c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2} = -\frac{\beta L^2}{2 n^2 \pi^2}
 \end{equation}
+
+\section{Finite element differention}
