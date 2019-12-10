@@ -2,11 +2,26 @@
 Rossby waves was first described by the Swedish meteorologist Carl G Rossby
 \parencite{Rossby1939}. Rossby waves exist due to the latitudinal variation in
 the Coriolis acceleration, where it is largest at the high latitude and zero at
-equator. The varying Coriolis acceleration changes the vorticity of a fluid
-parcels as if they moves to different latitudes. 
+equator. The varying Coriolis acceleration changes the vorticity of fluid
+parcels as they moves to different latitudes. Rossby waves have scales of
+hundreds to thousands of kilometres. Rossby 
 
-In this work we will look at Rossby waves in a greatly simplified barotropic 
-atmosphere/ocean. In this simplified barotropic world the density depends only
+We will study Rossby waves in a greatly simplified 
+barotropic atmosphere/ocean. In this simplified barotropic world the density depends only
 on pressure, which via the ideal gas law holds that the temperature is constant
 on a isobaric surface. We also assume the flow to be frictionless and
-non-divergent, meaning no vertical velocities. 
+non-divergent, consequently neglecting vertical velocities. Under these
+simplifications the quasi geostrophic vorticity equation is reduced to
+\cref{eq:QG_vorticity}, where $\zeta$ is the relative vorticity and $f$ is the
+planetary vorticity. 
+\begin{equation}\label{eq:QG_vorticity}
+    \frac{D(\zeta + f)}{Dt} = 0
+\end{equation}
+From \cref{eq:QG_vorticity} we also have the conservation of absolute vorticity
+($\zeta + f$) following the flow. If a fluid parcel is moving poleward
+towards region of larger $f$ then, there must be a compensating change in
+$\zeta$ for order to keep the absolute vorticity unchanged. This balancing act
+between planetary and relative vorticity is the essential mechanism behind
+Rossby waves, demonstrating that even in this simplified form the dynamical
+essence of Rossby waves is retained. 
+
