@@ -54,7 +54,7 @@ def test_periodic():
     x = np.linspace(0, 1 - dx, nx)
     t = 5
     dt = 0.1
-    psi, zeta, = od.periodic(dx, t, dt=dt, init=od.sine, advance=od.centered, save=False)
+    psi, zeta, = od.periodic(dx, t, dt=dt, init=od.sine, advance=od.centered)
     n = 2
     k = 2*np.pi*n
     omega = - 1/k
@@ -72,7 +72,7 @@ def test_bounded():
     k = np.pi*n
 
     dt = 0.1
-    psi, zeta = od.bounded(dx, t, dt=dt, init=od.sine, advance=od.centered, save=False)
+    psi, zeta = od.bounded(dx, t, dt=dt, init=od.sine, advance=od.centered)
     omega = - 1/(2*k)
     sol = 2*np.sin(k*x)*np.cos(k*x - omega*t)
     rel_err = relative_error(sol, psi)
@@ -82,5 +82,5 @@ def test_bounded():
 if __name__ == '__main__':
     test_bounded()
     test_periodic()
-    # test_jacobi_1d_dirichlet()
-    # test_jacobi_1d_periodic()
+    test_jacobi_1d_dirichlet()
+    test_jacobi_1d_periodic()
