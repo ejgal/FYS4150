@@ -166,7 +166,6 @@ will solve numerically.
 
 \subsection{Implementation and testing}
 
-
 \begin{algorithm}
   \SetAlgoLined
   initialize $\zeta$ and $\psi$ using sine or gaussian\\
@@ -205,3 +204,14 @@ This lead to the timestepping schemes \cref{eq:advance_centered} and
 \begin{equation}   \label{eq:advance_forward}
   \zeta_{i}^{n+1} = \zeta_{i}^{n} - \frac{\Delta t}{\Delta x} (\psi_{i+1}^{n} - \psi_{i-1}^{n})
 \end{equation}
+
+
+Tuning parameter of jacobis method.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=\textwidth]{../figures/error_jacobi.pdf}
+  \caption{Absolute error of jacobis method
+  compared to analytical solutions of poissons equation. \num{1e-8}.}
+  \label{fig:periodic_sine}
+\end{figure}

@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
+from error import error_jacobi_bounded, error_jacobi_periodic
 
 DATADIR = '../data/'
 FIGDIR = '../figures/'
@@ -105,13 +105,29 @@ def hovmuller_four(filenames, outfile):
 
 if __name__ == '__main__':
 
+    # Error analysis jacobis method
+    fig, ax = plt.subplots()
+    abs, rel, nx = error_jacobi_bounded()
+    ax.plot(nx, abs, label='Bounded')
+    abs, rel, nx = error_jacobi_periodic()
+    ax.plot(nx, abs, label='Periodic')
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.grid()
+    plt.legend()
+    plt.xlabel('Grid points')
+    plt.ylabel('Absolute error')
+    plt.savefig(FIGDIR + 'error_jacobi.png')
+    plt.savefig(FIGDIR + 'error_jacobi.pdf')
+    plt.clf()
+    
     # # Bounded
     hovmuller('psi_bounded_centered_sine')
     hovmuller('psi_bounded_centered_gauss')
-    #
+
     # # Periodic
     hovmuller('psi_periodic_centered_short')
-    #
+
     times = [0, 50, 150, 300, 500]
     file1 = 'psi_periodic_centered_long'
     file2 = 'psi_periodic_forward_long'
