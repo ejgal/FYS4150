@@ -149,5 +149,63 @@ $\omega = -\frac{\beta}{k}$.
 To make the vorticity equation dimensionless we scale it using $x = \tilde{x} L $ and $t = \frac{\tilde{t}}{L \beta}$. The dimensionless phase speed is then $\frac{d\tilde{x}}{d\tilde{t}} = \frac{1}{\beta L^2} c$. For wavenumber two this gives us phase speeds of
 $0.0063$ for the periodic case and $c = 0.012665$ for the bounded case.
 
+After scaling \cref{eq:gov_vort} we get \cref{eq:vort_scaled} which we
+will solve numerically.
 
-\subsection{Initial and boundary conditions}
+\begin{equation}
+  \pdv{\zeta}{\tilde{t}} + \pdv{\psi}{\tilde{x}} = 0
+  \label{eq:vort_scaled}
+\end{equation}
+
+
+\subsection{Implementation and testing}
+
+\begin{algorithm}
+  \SetAlgoLined
+  initialize $\zeta$ and $\psi$ using sine or gaussian\\
+  \For{t=0; t<\text{timesteps}; t++}{
+    advance $\zeta$ one timestep \\
+    update $\psi$ using jacobis method
+  }
+  \caption{General algorithm for solving the vorticity equation.}
+  \label{algo:vort}
+\end{algorithm}
+
+
+The general algorithm for solving the vorticity equation is outlined in
+\cref{algo:vort}. We implemented two methods for advancing $\zeta$ using centered
+(\cref{eq:centered}) and forward (\cref{eq:forward}) differences.
+For the planetary vorticity advection term we used centered differences.
+This lead to the timestepping schemes \cref{eq:advance_centered} and
+\cref{eq:advance_forward}.
+
+
+\begin{equation} \label{eq:centered}
+  \pdv{\zeta}{t} \approx \frac{\zeta_{}^{n+1} - \zeta_{}^{n-1}}{2 \Delta t}
+\end{equation}
+
+\begin{equation} \label{eg:forward}
+  \pdv{\zeta}{t} \approx \frac{\zeta_{}^{n+1} - \zeta_{}^{n}}{\Delta t}
+\end{equation}
+
+
+\begin{equation} \label{eq:advance_centered}
+  \zeta_{i}^{n+1} = \zeta_{i}^{n-1} - \frac{\Delta t}{2 \Delta x}
+    (\psi_{i+1}^{n} - \psi_{i-1}^{n})
+\end{equation}
+
+
+\begin{equation}   \label{eq:advance_forward}
+  \zeta_{i}^{n+1} = \zeta_{i}^{n} - \frac{\Delta t}{\Delta x} (\psi_{i+1}^{n} - \psi_{i-1}^{n})
+\end{equation}
+
+
+Tuning parameter of jacobis method.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=\textwidth]{../figures/error_jacobi.pdf}
+  \caption{Absolute error of jacobis method
+  compared to analytical solutions of poissons equation. \num{1e-8}.}
+  \label{fig:periodic_sine}
+\end{figure}

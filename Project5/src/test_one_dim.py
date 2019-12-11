@@ -26,6 +26,10 @@ def test_jacobi_1d_periodic():
     od.poisson1d_periodic(psi, zeta, dx, nx, target=1e-8)
     # err = np.max(np.abs(sol[1:-1] - psi[1:-1]))
     relerr = relative_error(sol, psi)
+    abserr = np.max(np.abs(sol - psi))
+    # print('dx: {}'.format(dx))
+    # print('Abs err jacobi 1d periodic: {}'.format(abserr))
+    # print('Rel err: {}'.format(relerr))
     assert(relerr < 1e-2)
 
 
@@ -45,7 +49,8 @@ def test_jacobi_1d_dirichlet():
     p = od.poisson1d_bounded(p, s, dx, nx, target=1e-8, iter=1e5)
     relerr = relative_error(sol, p)
     assert(relerr < 1e-2)
-    print(relerr)
+    abserr = np.max(np.abs(sol - p))
+    print('Abs err jacobi 1d bounded: {}'.format(abserr))
 
 
 def test_periodic():
@@ -80,7 +85,7 @@ def test_bounded():
 
 
 if __name__ == '__main__':
-    test_bounded()
-    test_periodic()
     test_jacobi_1d_dirichlet()
     test_jacobi_1d_periodic()
+    test_bounded()
+    test_periodic()
