@@ -1,10 +1,21 @@
 \section{Theory}
 \subsection{The barotropic Rossby wave equation}
-The first step towards the BRWE is to linearise the vorticity equation \cref{eq:
-QG_vorticity}. If we suppose that the flow can be represented by a mean flow
-plus some small perturbation $u = U + u'$ and $v = V + v'$, where $|U| >> u'$
-and $|V| >> v'$.     
+The first step towards the BRWE is to linearise the vorticity equation 
+\cref{eq:QG_vorticity}. If we suppose that the flow can be represented by a
+mean flow plus some small perturbation: 
+\begin{equation}\label{eq:VeloctiyPertubation}
+    \begin{split}
+    u = U + u' \quad  |U| >> u' \\
+    v = V + v' \quad  |V| >> v'
+    \end{split}
+\end{equation}
+Then the vorticity of the mean and the perturbation is: 
 
+\begin{equation}\label{eq:VortPertubation}
+    Z = \pdv{V}{x} - \pdv{U}{y} \; , \quad \zeta' = \pdv{v'}{x} - \pdv{u'}{y} 
+\end{equation}
+To linearise the Coriolis parameter $f=2\Omega \sin(\theta)$, $\Omega$ is the
+rotation rate of the earth ($\Omega = 2\pi/ \mathrm{day}$). 
 
 
 \begin{equation}\label{eq:QG_vort}
