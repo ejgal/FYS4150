@@ -3,6 +3,9 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
 
+DATADIR = '../data/'
+
+
 def sine(x, y):
     return np.sin(4*np.pi*x)*np.sin(4*np.pi*y)
 
@@ -11,7 +14,7 @@ def sine_der(x, y):
     return - 32*np.pi**2 * np.sin(4*np.pi*x)*np.sin(4*np.pi*y)
 
 
-def poisson2d_bounded(p, b, dx, nx, target=1e-6, iter=10000):
+def poisson2d_bounded(p, b, dx, nx, target=1e-8, iter=10000):
     count = 0
     diff = 1
     ny = nx
@@ -41,7 +44,7 @@ def poisson2d_bounded(p, b, dx, nx, target=1e-6, iter=10000):
     return p
 
 
-def poisson2d_periodic(p, b, dx, nx, target=1e-6, iter=10000):
+def poisson2d_periodic(p, b, dx, nx, target=1e-8, iter=10000):
     count = 0
     diff = 1
     ny = nx + 1
@@ -75,7 +78,7 @@ def plot2d(x, y, p):
     plt.show()
 
 
-def bounded(dx, dt, t):
+def bounded(dx, dt, t, save=False):
     nx = int(1/dx) + 1  # Bounded
     ny = int(1/dx) + 1  # Bounded
     nt = int(t/dt)
@@ -94,12 +97,14 @@ def bounded(dx, dt, t):
         zeta_nn = zeta_n.copy()
         zeta_n = zeta.copy()
         psi = poisson2d_bounded(psi, zeta, dx, nx)
-        np.save('twod/psi_{:.2f}'.format(n), psi)
+        if save:
+            np.save(DATADIR + 'bounded/psi_{:06.2f}'.format(n), psi)
+    return psi, zeta
 
 
-def periodic(dx, dt, t):
-    nx = int(1/dx)  # Periodic
-    ny = int(1/dx) + 1  # Bounded
+def periodic(dx, dt, t, save=False):
+    nx = int(1/dx)  # Periodic in x
+    ny = int(1/dx) + 1  # Bounded in y
     nt = int(t/dt)
     x = np.linspace(0, 1 - dx, nx)
     y = np.linspace(0, 1, ny)
@@ -116,16 +121,11 @@ def periodic(dx, dt, t):
         zeta_nn = zeta_n.copy()
         zeta_n = zeta.copy()
         psi = poisson2d_periodic(psi, zeta, dx, nx)
-        np.save('twodper/psi_{:.2f}'.format(n), psi)
+        if save:
+            np.save(DATADIR + 'periodic/psi_{:06.2f}'.format(n), psi)
+    return psi, zeta
 
 
 if __name__ == '__main__':
-    # x = np.linspace(0, 1 - 1/40, 40)
-    # y = np.linspace(0, 1, 41)
-    # X, Y = np.meshgrid(x, y)
-    # p = np.sin(4*np.pi*X)*np.sin(4*np.pi*Y)
-    # p = sine_der(X, Y)
-    # print(np.shape(p))
-    # plot2d(x, y, p)
-    # bounded(1/40, 1, 150)
-    periodic(1/40, 1, 150)
+    bounded(1/40, 1, 150, save=True)
+    periodic(1/40, 1, 150, save=True)
