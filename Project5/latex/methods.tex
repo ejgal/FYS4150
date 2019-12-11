@@ -1,5 +1,9 @@
 \section{Theory}
 \subsection{The barotropic Rossby wave equation}
+\begin{equation}
+    \pdv{\zeta}{t} + \bvec{u} \nabla \cdot \zeta + 
+\end{equation}
+
 The first step towards the BRWE is to linearise the vorticity equation 
 \cref{eq:QG_vorticity}. If we suppose that the flow can be represented by a
 mean flow plus some small perturbation: 
@@ -14,8 +18,14 @@ Then the vorticity of the mean and the perturbation is:
 \begin{equation}\label{eq:VortPertubation}
     Z = \pdv{V}{x} - \pdv{U}{y} \; , \quad \zeta' = \pdv{v'}{x} - \pdv{u'}{y} 
 \end{equation}
-To linearise the Coriolis parameter $f=2\Omega \sin(\theta)$, $\Omega$ is the
-rotation rate of the earth ($\Omega = 2\pi/ \mathrm{day}$). 
+To linearise the Coriolis parameter, we expand $f$
+around a reference latitude $\theta_0$: 
+\begin{equation}
+    f \approx f_0 + \beta y
+\end{equation} 
+where $f_0 = 2\Omega \sin(\theta)$, $\beta = 2\cos (\theta_0)/R_e$ and $R_e$ is
+the radius of the earth. This linearisation of the Coriolis parameter is
+commonly referred to as the $\beta-\mathrm{approximation}$.
 
 
 \begin{equation}\label{eq:QG_vort}
