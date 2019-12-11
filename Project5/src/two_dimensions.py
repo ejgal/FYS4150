@@ -3,6 +3,9 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
 
+DATADIR = '../data/'
+
+
 def sine(x, y):
     return np.sin(4*np.pi*x)*np.sin(4*np.pi*y)
 
@@ -75,7 +78,7 @@ def plot2d(x, y, p):
     plt.show()
 
 
-def bounded(dx, dt, t):
+def bounded(dx, dt, t, save=False):
     nx = int(1/dx) + 1  # Bounded
     ny = int(1/dx) + 1  # Bounded
     nt = int(t/dt)
@@ -94,10 +97,12 @@ def bounded(dx, dt, t):
         zeta_nn = zeta_n.copy()
         zeta_n = zeta.copy()
         psi = poisson2d_bounded(psi, zeta, dx, nx)
-        np.save('twod/psi_{:.2f}'.format(n), psi)
+        if save:
+            np.save(DATADIR + 'bounded/psi_{:06.2f}'.format(n), psi)
+    return psi, zeta
 
 
-def periodic(dx, dt, t):
+def periodic(dx, dt, t, save=False):
     nx = int(1/dx)  # Periodic
     ny = int(1/dx) + 1  # Bounded
     nt = int(t/dt)
@@ -116,7 +121,9 @@ def periodic(dx, dt, t):
         zeta_nn = zeta_n.copy()
         zeta_n = zeta.copy()
         psi = poisson2d_periodic(psi, zeta, dx, nx)
-        np.save('twodper/psi_{:.2f}'.format(n), psi)
+        if save:
+            np.save(DATADIR + 'periodic/psi_{:06.2f}'.format(n), psi)
+    return psi, zeta
 
 
 if __name__ == '__main__':
@@ -127,5 +134,5 @@ if __name__ == '__main__':
     # p = sine_der(X, Y)
     # print(np.shape(p))
     # plot2d(x, y, p)
-    # bounded(1/40, 1, 150)
-    periodic(1/40, 1, 150)
+    bounded(1/40, 1, 150, save=True)
+    periodic(1/40, 1, 150, save=True)
