@@ -1,38 +1,11 @@
 \section{Theory}
+\subsection{The barotropic Rossby wave equation}
+The first step towards the BRWE is to linearise the vorticity equation \cref{eq:
+QG_vorticity}. If we suppose that the flow can be represented by a mean flow
+plus some small perturbation $u = U + u'$ and $v = V + v'$, where $|U| >> u'$
+and $|V| >> v'$.     
 
-Rossby waves are described in what known as the Quasi Geostrophic (QG)
-framework. The primary scaling assumption in QG theory is that the Rossby number
-is much less that one. The Rossby number which can be obtained by scaling the
-momentum equation is defined as the following:
-\cref{eq:Rnumber},
-\begin{equation}\label{eq:Rnumber}
-    R = \frac{U}{fL}
-\end{equation}
-Where $U$ is characteristic magnitude of the horizontal velocity, $f \sim 10^{-4}$
-is the Coriolis parameter and $L$ the characteristic horizontal length scale.
-From the assumption about the Rossby number it is evident that the horizontal
-length scales has to be large. A feature of large scale motion in the atmosphere
-and ocean is that there tends to be a balance between the pressure gradient
-force and Coriolis acceleration acting perpendicular to the velocity vector.
-\begin{equation}\label{eq:geostrophic}
-    fu = -\frac{1}{\rho}\pdv{p}{y} \quad fv = \frac{1}{\rho}\pdv{p}{x}
-\end{equation}
-The issue with a purely geostrophic framework \cref{eq:geostrophic} is that
-there is no development of the motion.
 
-In QG-theory velocities is
-separated into a geostrophic and ageostrophic component $\mathbf{v} = \mathbf
-{v_g} +\mathbf{v_a}$. The geostrophic velocities are
-non-divergent and can consequently be written in terms of a steam function.
-It is the ageostrophic wind which are responsible for the
-horizontal divergence. Even though the ageostrophic velocities
-are small compared to the geostrophic, they are important since
-they governs the rising and sinking in the atmosphere.
-
-The quasi geostrophic potential vorticity equation \cref{eq:QG_vort} can be
-derived from the shallow water equations \textbf{CITE Joe}, following the
-previously discussed
-assumptions.
 
 \begin{equation}\label{eq:QG_vort}
     \left(\pdv{}{t}+u_g \pdv{}{x} + v_g \pdv{}{y} \right)(\zeta_g + \beta y) =
