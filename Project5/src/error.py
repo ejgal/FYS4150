@@ -4,7 +4,7 @@ import one_dimension as od
 from test_one_dim import relative_error
 
 
-def error_jacobi_periodic():
+def error_jacobi_periodic(target):
     abserrors = []
     relerrors = []
     nxs = np.logspace(1, 2, 10)
@@ -21,7 +21,7 @@ def error_jacobi_periodic():
         psi = np.zeros(nx)
         sol = -1/k**2 * np.cos(k*x)
         zeta = np.cos(k*x)
-        od.poisson1d_periodic(psi, zeta, dx, nx, iter=3e4, target=1e-8)
+        od.poisson1d_periodic(psi, zeta, dx, nx, target=target)
         # err = np.max(np.abs(sol[1:-1] - psi[1:-1]))
         # relerr = relative_error(sol, psi)
         abserr = np.max(np.abs(sol - psi))
@@ -41,7 +41,7 @@ def error_jacobi_periodic():
     # plt.show()
 
 
-def error_jacobi_bounded():
+def error_jacobi_bounded(target):
     abserrors = []
     relerrors = []
     nxs = np.logspace(1, 2, 10)
@@ -58,7 +58,7 @@ def error_jacobi_bounded():
         sol = x**2/2. - a*x**4/12 + c0*x + c1
 
         p = np.zeros(nx)
-        p = od.poisson1d_bounded(p, s, dx, nx, target=1e-8, iter=1e5)
+        p = od.poisson1d_bounded(p, s, dx, nx, target=target)
         relerr = relative_error(sol, p)
         abserr = np.max(np.abs(sol - p))
         print('Abs err jacobi 1d bounded: {}'.format(abserr))
@@ -73,5 +73,5 @@ def error_jacobi_bounded():
 
 
 if __name__ == '__main__':
-    error_jacobi_periodic()
-    error_jacobi_bounded()
+    error_jacobi_periodic(1e-8)
+    error_jacobi_bounded(1e-8)

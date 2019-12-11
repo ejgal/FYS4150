@@ -106,21 +106,22 @@ def hovmuller_four(filenames, outfile):
 if __name__ == '__main__':
 
     # Error analysis jacobis method
-    fig, ax = plt.subplots()
-    abs, rel, nx = error_jacobi_bounded()
-    ax.plot(nx, abs, label='Bounded')
-    abs, rel, nx = error_jacobi_periodic()
-    ax.plot(nx, abs, label='Periodic')
-    plt.xscale('log')
-    plt.yscale('log')
-    plt.grid()
-    plt.legend()
-    plt.xlabel('Grid points')
-    plt.ylabel('Absolute error')
+    fig, ax = plt.subplots(2, sharex=True, sharey=True,figsize=get_size(columns=2, ratio=0.8))
+    for target, axis in zip([1e-8, 1e-10], ax):
+        abs, rel, nx = error_jacobi_bounded(target=target)
+        axis.plot(nx, abs, label='Bounded')
+        abs, rel, nx = error_jacobi_periodic(target=target)
+        axis.plot(nx, abs, label='Periodic')
+        axis.set_xscale('log')
+        axis.set_yscale('log')
+        axis.grid()
+        axis.legend()
+        axis.set_xlabel('Grid points')
+        axis.set_ylabel('Absolute error')
     plt.savefig(FIGDIR + 'error_jacobi.png')
     plt.savefig(FIGDIR + 'error_jacobi.pdf')
     plt.clf()
-    
+
     # # Bounded
     hovmuller('psi_bounded_centered_sine')
     hovmuller('psi_bounded_centered_gauss')

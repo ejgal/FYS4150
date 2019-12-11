@@ -14,7 +14,7 @@ def sine_der(x, y):
     return - 32*np.pi**2 * np.sin(4*np.pi*x)*np.sin(4*np.pi*y)
 
 
-def poisson2d_bounded(p, b, dx, nx, target=1e-6, iter=10000):
+def poisson2d_bounded(p, b, dx, nx, target=1e-8, iter=10000):
     count = 0
     diff = 1
     ny = nx
@@ -44,7 +44,7 @@ def poisson2d_bounded(p, b, dx, nx, target=1e-6, iter=10000):
     return p
 
 
-def poisson2d_periodic(p, b, dx, nx, target=1e-6, iter=10000):
+def poisson2d_periodic(p, b, dx, nx, target=1e-8, iter=10000):
     count = 0
     diff = 1
     ny = nx + 1
@@ -103,8 +103,8 @@ def bounded(dx, dt, t, save=False):
 
 
 def periodic(dx, dt, t, save=False):
-    nx = int(1/dx)  # Periodic
-    ny = int(1/dx) + 1  # Bounded
+    nx = int(1/dx)  # Periodic in x
+    ny = int(1/dx) + 1  # Bounded in y
     nt = int(t/dt)
     x = np.linspace(0, 1 - dx, nx)
     y = np.linspace(0, 1, ny)
@@ -127,12 +127,5 @@ def periodic(dx, dt, t, save=False):
 
 
 if __name__ == '__main__':
-    # x = np.linspace(0, 1 - 1/40, 40)
-    # y = np.linspace(0, 1, 41)
-    # X, Y = np.meshgrid(x, y)
-    # p = np.sin(4*np.pi*X)*np.sin(4*np.pi*Y)
-    # p = sine_der(X, Y)
-    # print(np.shape(p))
-    # plot2d(x, y, p)
     bounded(1/40, 1, 150, save=True)
     periodic(1/40, 1, 150, save=True)

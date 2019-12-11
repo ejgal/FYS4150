@@ -20,7 +20,7 @@ def gauss_der(x, x0, sigma):
 
 
 # Jacobi solvers
-def poisson1d_periodic(p, b, dx, nx, target=1e-6, iter=10000):
+def poisson1d_periodic(p, b, dx, nx, target=1e-8, iter=10000):
     count = 0
     diff = 1
     while (diff > target and count < iter):
@@ -35,11 +35,11 @@ def poisson1d_periodic(p, b, dx, nx, target=1e-6, iter=10000):
             diff += np.abs(pn[i] - p[i])
         count += 1
         diff /= nx
-    # print('Iterations: {}'.format(count))
+    print('Iterations: {}'.format(count))
     return p
 
 
-def poisson1d_bounded(p, b, dx, nx, target=1e-6, iter=10000):
+def poisson1d_bounded(p, b, dx, nx, target=1e-8, iter=10000):
     count = 0
     diff = 1
     while (diff > target and count < iter):
@@ -127,7 +127,7 @@ def bounded(dx, t, init, advance, dt=0.1, x0=0.5, sigma=0.1, filename=False):
     for n in range(nt):
         for i in range(1, nx - 1):
             zeta[i] = zeta_nn[i] - alpha * (psi[i+1] - psi[i-1])
-        psi = poisson1d_bounded(psi, zeta, dx, nx, target=1e-8)
+        psi = poisson1d_bounded(psi, zeta, dx, nx)
         zeta_nn = zeta_n.copy()
         zeta_n = zeta.copy()
         if filename:
