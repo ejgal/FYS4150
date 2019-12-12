@@ -15,19 +15,21 @@ the temperature is constant on a isobaric surface, i.e. no stratification. We al
 non-divergent, consequently neglecting vertical velocities. Under these
 simplifications the quasi geostrophic vorticity equation is reduced to
 \cref{eq:QG_vorticity}, where $\zeta$ is the relative vorticity and $f$ is the
-planetary vorticity. 
+Coriolis parameter, $f=2\Omega \sin(\theta)$, where $\Omega$ is
+the rotation rate of the earth $\Omega = 2\pi/ \mathrm{day}$.
 \begin{equation}\label{eq:QG_vorticity}
     \frac{D(\zeta + f)}{Dt} = 0
 \end{equation}
 In the simplified the quasi geostrophic vorticity equation the
 change in absolute vorticity $(\zeta + f)$ following the flow is zero, in other
-words the absolute vorticity is conserved. If a fluid parcel is moving
+words the absolute vorticity is conserved. When you have the vorticity in terms
+of a conserved quantity it is commonly called potential vorticity (PV). If a fluid parcel is moving
 poleward towards region of larger $f$ then, there must be a compensating change
 in $\zeta$ in order for the absolute vorticity to remain unchanged. This
 balancing act between planetary and relative vorticity is the essential
 mechanism behind
 Rossby waves. We will derive the barotropic Rossby
-wave equation (BRWE) from \cref{eq:QG_vort} in the subsequent section.
+wave equation (BRWE) from \cref{eq:QG_vorticity} in the subsequent section.
 
 After we have developed our analytical framework, we will discretize the BRWE
 and solve the BRWE in both one and two dimension, using both periodic and

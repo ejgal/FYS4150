@@ -1,4 +1,5 @@
 \section{Theory}
+<<<<<<< HEAD
 
 Rossby waves are described in what known as the Quasi Geostrophic (QG)
 framework. The primary scaling assumption in QG theory is that the Rossby number
@@ -33,23 +34,63 @@ The quasi geostrophic potential vorticity equation \cref{eq:QG_vort} can be
 derived from the shallow water equations \textbf{CITE Joe}, following the
 previously discussed
 assumptions.
+=======
+\subsection{The barotropic Rossby wave equation}
+The first step towards the BRWE is to linearise the vorticity equation 
+\cref{eq:QG_vorticity}. If we suppose that the flow can be represented by a
+mean flow plus some small perturbation: 
+\begin{equation}\label{eq:VeloctiyPertubation}
+    \begin{split}
+    u = U + u' \quad  |U| >> u' \\
+    v = V + v' \quad  |V| >> v'
+    \end{split}
+\end{equation}
+Then the vorticity of the mean and the perturbation is: 
 
-\begin{equation}\label{eq:QG_vort}
-    \left(\pdv{}{t}+u_g \pdv{}{x} + v_g \pdv{}{y} \right)(\zeta_g + \beta y) =
-    f_0 \pdv{w}{z}
+\begin{equation}\label{eq:VortPertubation}
+    Z = \pdv{V}{x} - \pdv{U}{y} \; , \quad \zeta' = \pdv{v'}{x} - \pdv{u'}{y} 
+\end{equation}
+To linearise the Coriolis parameter, we expand $f$
+around a reference latitude $\theta_0$: 
+\begin{equation}
+    f \approx f_0 + \beta y
+\end{equation} 
+where $f_0 = 2\Omega \sin(\theta)$, $\beta = 2\cos (\theta_0)/R_e$ and $R_e$ is
+the radius of the earth. This linearisation of the Coriolis parameter is
+commonly referred to as the $\beta-\mathrm{plane}$ approximation.
+>>>>>>> master
+
+\begin{equation}
+    \pdv{\zeta'}{t} + (U+u')\pdv{\zeta'}{x} + (V+v')\pdv{\zeta'}{y} + \bvec{U} 
+    \cdot \nabla q_s + u' \pdv{q_s}{x} + v' \pdv{q_s}{y} = 0     
+\end{equation}
+\begin{equation}\label{eq:q_s}
+    q_s = Z + f_0 + \beta y
+\end{equation}
+Then mean flow $\bvec{U}$ is geostrophic, consequently the flow will be parallel
+to the contours of stationary potential vorticity $q_s$, ergo $\bvec{U} \cdot
+\nabla q_s = 0$. The perturbations are assumed to be so weak that perturbations
+advecting perturbations can be neglected. Thus we get the following linearised
+barotropic vorticity equation:
+
+\begin{equation}
+    \pdv{\zeta '}{t} + U\pdv{\zeta'}{x} + V\pdv{\zeta'}{y} + \beta v' = 0
+\end{equation}
+
+We will drop the primes from here on. Then if we suppose that the velocity of
+the mean flow is zero, and express the velocities in terms of the streamfunction
+$\psi$, $u = -\pdv{\psi}{y}$, $v = \pdv{\psi}{x}$ and $\zeta = \nabla_H^2 \psi
+$.The equation we end up with is the barotropic Rossby wave equation
+\cref{eq:barotropicRossby} in the absence of a mean flow. 
+
+\begin{equation}\label{eq:barotropicRossby}
+    \pdv{}{t} \nabla_H^2 \psi + \beta \pdv{\psi}{x} = 0
 \end{equation}
 
 \subsection{Analytic expression of phase velocities}
 
-The vorticity equation
-\begin{equation}\label{eq:gov_vort}
-    \pdv{\zeta}{t} + \beta \pdv{\psi}{x} = 0
-\end{equation}
-The barotropic Rossby wave equation \cref{eq:barotropicRossby}
 
-\begin{equation}\label{eq:barotropicRossby}
-    \pd{t}{} \nabla_H^2 \psi + \beta \pdv{\psi}{x} = 0
-\end{equation}
+
 We assume the following periodic solution \cref{eq:waveSolution} and
 insert this into the barotropic Rossby wave equation \cref{eq:barotropicRossby}.
 \begin{equation}\label{eq:waveSolution}
