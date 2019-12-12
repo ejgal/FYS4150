@@ -36,8 +36,9 @@ previously discussed
 assumptions.
 =======
 \subsection{The barotropic Rossby wave equation}
-The first step towards the BRWE is to linearise the vorticity equation 
-\cref{eq:QG_vorticity}. If we suppose that the flow can be represented by a
+A complication with the current vorticity equation \cref{eq:QG_vorticity} is
+that it is nonlinear, in order obtain linear wave solutions we need to linearise
+the equation. If we suppose that the flow can be represented by a
 mean flow plus some small perturbation: 
 \begin{equation}\label{eq:VeloctiyPertubation}
     \begin{split}
@@ -69,7 +70,7 @@ commonly referred to as the $\beta-\mathrm{plane}$ approximation.
 \end{equation}
 Then mean flow $\bvec{U}$ is geostrophic, consequently the flow will be parallel
 to the contours of stationary potential vorticity $q_s$, ergo $\bvec{U} \cdot
-\nabla q_s = 0$. The perturbations are assumed to be so weak that perturbations
+\nabla q_s = 0$. The perturbations are assumed to be weak so that perturbations
 advecting perturbations can be neglected. Thus we get the following linearised
 barotropic vorticity equation:
 
@@ -78,9 +79,9 @@ barotropic vorticity equation:
 \end{equation}
 
 We will drop the primes from here on. Then if we suppose that the velocity of
-the mean flow is zero, and express the velocities in terms of the streamfunction
+the mean flow is zero, and express the perturbation velocities in terms of the streamfunction
 $\psi$, $u = -\pdv{\psi}{y}$, $v = \pdv{\psi}{x}$ and $\zeta = \nabla_H^2 \psi
-$.The equation we end up with is the barotropic Rossby wave equation
+$. The equation we end up with is the barotropic Rossby wave equation
 \cref{eq:barotropicRossby} in the absence of a mean flow. 
 
 \begin{equation}\label{eq:barotropicRossby}
