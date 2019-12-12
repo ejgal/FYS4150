@@ -105,7 +105,7 @@ def hovmuller_four(filenames, outfile):
 
 def plot_error():
     # Error analysis jacobis method
-    figsize = get_size(columns=2, ratio=0.8)
+    figsize = get_size(columns=2, ratio=0.7)
     fig, ax = plt.subplots(3, sharex=True, sharey=True, figsize=figsize)
     for target, axis in zip([1e-6, 1e-8, 1e-10], ax):
         abs, rel, nx = error_jacobi_bounded(target=target)
