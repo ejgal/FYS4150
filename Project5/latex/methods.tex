@@ -206,8 +206,12 @@ This lead to the timestepping schemes \cref{eq:advance_centered} and
 \end{equation}
 
 
-Tuning parameter of jacobis method. \Cref{fig:error_jacobi} shows the absolute
-error of jacobis method compared to analytical solutions of poissons equation.
+After advancing the vorticity one timestep we run adjust the stream function
+according to ref eq??. We do this by solving the poisson equation using
+jacobis method. The method requires a convergence parameter for deciding when to
+stop iterating. To set this we tested with two analytical solutions of poissons
+equation, one bounded, one periodic. \Cref{fig:error_jacobi} shows the absolute
+error of jacobis method compared to these solutions.
 As the convergence parameter is lowered the method performs better for larger grids.
 Since we are using close to 40 grid points for our simulations we ended up
 setting the convergence parameter to 10$^{-8}$.
@@ -234,3 +238,9 @@ setting the convergence parameter to 10$^{-8}$.
   blows up quickly while the one using central differences does not.}
   \label{fig:compare}
 \end{figure}
+
+
+\Cref{fig:compare} shows the blow up of the numerical solution with forward
+time step with $\Delta t = 1$ and $\Delta x = 0.025$ for the periodic case.
+With a central difference in time the solution stays stable.
+All the rest of the plots are done using the central difference.
