@@ -1,13 +1,12 @@
 \section{Introduction}
-The concept of Rossby waves was first introduced by the Swedish meteorologist
+Rossby waves was first introduced by the Swedish meteorologist
 Carl G Rossby in 1939 \parencite{Rossby1939}. Rossby waves are large scale
 planetary waves, with typical scales ranging from 
-hundreds to thousands of kilometres. The rossby wave phenomenon arise due to the
-latitudinal variation in the Coriolis acceleration, which is large at the
-high latitudes and zero at the equator. Rossby waves have scales of
-hundreds to thousands of kilometres and play a major role in dictating
+hundreds to thousands of kilometres. They play a major role in dictating
 the weather on daily and large time scales and are crucial for the meridional
-transport of heat, moisture and momentum \parencite{midSynDyn}.  
+transport of heat, moisture and momentum \parencite{midSynDyn}. The rossby wave phenomenon arise due to the
+latitudinal variation in the Coriolis acceleration and are observed both in
+ocean an atmosphere. 
 
 In this study we will examine Rossby waves in a simplified 
 atmosphere/ocean. We will assume that our atmosphere/ocean is barotropic, that
@@ -20,9 +19,9 @@ planetary vorticity.
 \begin{equation}\label{eq:QG_vorticity}
     \frac{D(\zeta + f)}{Dt} = 0
 \end{equation}
-A feature of our simplified of the quasi geostrophic vorticity equation is that
-change in absolute vorticity $(\zeta + f)$ is zero, in other words the absolute
-vorticity is conserved. If a fluid parcel is moving
+In the simplified the quasi geostrophic vorticity equation the
+change in absolute vorticity $(\zeta + f)$ following the flow is zero, in other
+words the absolute vorticity is conserved. If a fluid parcel is moving
 poleward towards region of larger $f$ then, there must be a compensating change
 in $\zeta$ in order for the absolute vorticity to remain unchanged. This
 balancing act between planetary and relative vorticity is the essential
@@ -33,4 +32,4 @@ wave equation (BRWE) from \cref{eq:QG_vort} in the subsequent section.
 After we have developed our analytical framework, we will discretize the BRWE
 and solve the BRWE in both one and two dimension, using both periodic and
 bounded boundary condition. We will examine both the forward
-difference and central difference scheme and consider their stability.  
+difference and central difference scheme and consider their stability. 
