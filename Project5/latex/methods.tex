@@ -212,6 +212,18 @@ Tuning parameter of jacobis method.
   \centering
   \includegraphics[width=\textwidth]{../figures/error_jacobi.pdf}
   \caption{Absolute error of jacobis method
-  compared to analytical solutions of poissons equation. \num{1e-8}.}
+  compared to analytical solutions of poissons equation. Convergence parameter set to (from top to bottom) 10$^{-6}$, 10$^{-8}$, 10$^{-10}$ }
   \label{fig:periodic_sine}
+\end{figure}
+
+Since we are using close to 40 grid points for our simulations we ended up
+iterating until the difference between the iterations was less than 10$^{-8}$.
+
+\begin{figure}[htp]
+  \centering
+  \includegraphics[width=\textwidth]{../figures/compare_dt_1.pdf}
+  \caption{Comparison of solutions at different times using forward (top) and
+  centered (bottom) differences in time. The solution using forward differences
+  blows up quickly while the one using central differences does not.}
+  \label{fig:compare}
 \end{figure}

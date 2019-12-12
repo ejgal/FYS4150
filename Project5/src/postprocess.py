@@ -103,11 +103,11 @@ def hovmuller_four(filenames, outfile):
     plt.rc('figure', autolayout=True)
 
 
-if __name__ == '__main__':
-
+def plot_error():
     # Error analysis jacobis method
-    fig, ax = plt.subplots(2, sharex=True, sharey=True,figsize=get_size(columns=2, ratio=0.8))
-    for target, axis in zip([1e-8, 1e-10], ax):
+    figsize = get_size(columns=2, ratio=0.8)
+    fig, ax = plt.subplots(3, sharex=True, sharey=True, figsize=figsize)
+    for target, axis in zip([1e-6, 1e-8, 1e-10], ax):
         abs, rel, nx = error_jacobi_bounded(target=target)
         axis.plot(nx, abs, label='Bounded')
         abs, rel, nx = error_jacobi_periodic(target=target)
@@ -122,11 +122,16 @@ if __name__ == '__main__':
     plt.savefig(FIGDIR + 'error_jacobi.pdf')
     plt.clf()
 
-    # # Bounded
+
+if __name__ == '__main__':
+
+    # Jacobi error
+    plot_error()
+    # Bounded
     hovmuller('psi_bounded_centered_sine')
     hovmuller('psi_bounded_centered_gauss')
 
-    # # Periodic
+    # Periodic
     hovmuller('psi_periodic_centered_short')
 
     times = [0, 50, 150, 300, 500]

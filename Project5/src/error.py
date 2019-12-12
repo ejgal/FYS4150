@@ -11,7 +11,6 @@ def error_jacobi_periodic(target):
     for nx in nxs:
         print(nx)
         nx = int(nx)
-        # nx = int(nx)
         dx = 1/nx
         print('nx: {}, dx: {}'.format(nx, dx))
         x = np.linspace(0, 1 - dx, nx)
@@ -22,23 +21,13 @@ def error_jacobi_periodic(target):
         sol = -1/k**2 * np.cos(k*x)
         zeta = np.cos(k*x)
         od.poisson1d_periodic(psi, zeta, dx, nx, target=target)
-        # err = np.max(np.abs(sol[1:-1] - psi[1:-1]))
-        # relerr = relative_error(sol, psi)
         abserr = np.max(np.abs(sol - psi))
         print('Abs err jacobi 1d periodic: {}'.format(abserr))
         abserrors.append(abserr)
         relerr = relative_error(sol, psi)
         relerrors.append(relerr)
         print('Rel err jacobi 1d periodic: {}'.format(relerr))
-        # plt.plot(x, sol)
-        # plt.plot(x, psi)
-        # plt.show()
     return abserrors, relerrors, nxs
-    # plt.plot(nxs, abserrors, marker='x')
-    # plt.grid()
-    # plt.xscale('log')
-    # plt.yscale('log')
-    # plt.show()
 
 
 def error_jacobi_bounded(target):
@@ -46,7 +35,6 @@ def error_jacobi_bounded(target):
     relerrors = []
     nxs = np.logspace(1, 2, 10)
     for nx in nxs:
-
         nx = int(nx)
         dx = 1/(nx - 1)
         x = np.linspace(0, 1, nx)
@@ -65,11 +53,6 @@ def error_jacobi_bounded(target):
         abserrors.append(abserr)
         relerrors.append(relerr)
     return abserrors, relerrors, nxs
-    # plt.plot(nxs, abserrors, marker='x')
-    # plt.grid()
-    # plt.xscale('log')
-    # plt.yscale('log')
-    # plt.show()
 
 
 if __name__ == '__main__':
