@@ -36,17 +36,17 @@ previously discussed
 assumptions.
 =======
 \subsection{The barotropic Rossby wave equation}
-A complication with the current vorticity equation \cref{eq:QG_vorticity} is
+A problem with the current vorticity equation \cref{eq:QG_vorticity} is
 that it is nonlinear, in order obtain linear wave solutions we need to linearise
-the equation. If we suppose that the flow can be represented by a
-mean flow plus some small perturbation: 
+the equation. We will approach this problem by supposing that the flow can be
+represented by a mean flow plus some small perturbation: 
 \begin{equation}\label{eq:VeloctiyPertubation}
     \begin{split}
     u = U + u' \quad  |U| >> u' \\
     v = V + v' \quad  |V| >> v'
     \end{split}
 \end{equation}
-Then the vorticity of the mean and the perturbation is: 
+Then the vorticity of the mean flow and the perturbation is: 
 
 \begin{equation}\label{eq:VortPertubation}
     Z = \pdv{V}{x} - \pdv{U}{y} \; , \quad \zeta' = \pdv{v'}{x} - \pdv{u'}{y} 
@@ -78,7 +78,7 @@ barotropic vorticity equation:
     \pdv{\zeta '}{t} + U\pdv{\zeta'}{x} + V\pdv{\zeta'}{y} + \beta v' = 0
 \end{equation}
 
-We will drop the primes from here on. Then if we suppose that the velocity of
+We will drop the primes from here on. Next we suppose that the velocity of
 the mean flow is zero, and express the perturbation velocities in terms of the streamfunction
 $\psi$, $u = -\pdv{\psi}{y}$, $v = \pdv{\psi}{x}$ and $\zeta = \nabla_H^2 \psi
 $. The equation we end up with is the barotropic Rossby wave equation
@@ -89,11 +89,13 @@ $. The equation we end up with is the barotropic Rossby wave equation
 \end{equation}
 
 \subsection{Analytic expression of phase velocities}
-
-
-
-We assume the following periodic solution \cref{eq:waveSolution} and
-insert this into the barotropic Rossby wave equation \cref{eq:barotropicRossby}.
+\subsubsection{Periodic boundaries}
+We assume the following periodic solution \cref{eq:waveSolution}.
+At $x=0$ we have $\psi = A\cos{(-\omega t)}$ and at $x = L$, $\psi = A
+\cos{(2n\pi -\omega)}$, and since cosine is periodic with a period of $2\pi$, 
+we see that \cref{eq:waveSolution} satisfies boundary condition.    
+Next we insert \cref{eq:waveSolution} into the barotropic Rossby wave equation
+\cref{eq:barotropicRossby}.
 \begin{equation}\label{eq:waveSolution}
     \psi = A\cos{(2n\pi x /L - \omega t)}
 \end{equation}
@@ -128,24 +130,26 @@ correspond to high pressure point. To get the motion of this point we can solve
 \cref{eq:phase} for x, $x=\theta L / 2n \pi + \omega t L / 2n \pi$ and then
 obtaining the phase speed by taking the time derivative.
 \begin{equation}
-    c = \dv{x}{t} = \frac{\omega L}{2n\pi}
+    c = \dv{x}{t} = \frac{\omega L}{2n\pi} 
 \end{equation}
 Inserting the expression for $\omega$ obtained previously \cref{eq:omega1}, we
 get the following expression for the phase speed.
 \begin{equation}\label{eq:Phase-speed1}
-    c = \frac{-\beta L^2}{(2n\pi)^2}
+    c = \frac{-\beta L^2}{(2n\pi)^2} = \frac{-\beta}{k^2}
 \end{equation}
-Then following \cref{eq:Phase-speed1} the Rossby wave will propagate
+Then following \cref{eq:Phase-speed1} the Rossby waves will propagate
 toward the west.
-Next we assume a more realistic wavelike solution of \cref{eq:barotropicRossby}
-where the amplitude of the wave is also a function of $x$. We
+\subsubsection{Bounded boundaries}
+In the ocean the boundaries would be better represented using bounded boundary
+condition. We will suppose wavelike solution of \cref{eq:barotropicRossby}
+where the amplitude of the wave also vary in $x$. We
 require there to be no flow at the endpoints, which we can enforce with simple
 Dirichlet conditions $\psi= 0$ at $x=0$ and $x=L$.
 \begin{equation}\label{eq:waveSolution2}
     \psi = A(x)\cos{(kx-\omega t)}
 \end{equation}
-Inserting \label{eq:waveSolution2} into the barotropic Rossby wave equation
-\cref{eq:barotropicRossby} and then differentiating we get the following
+Inserting \label{eq:waveSolution2} into the BRWE
+\cref{eq:barotropicRossby}, and then differentiating we get the following
 equation:
 
 \begin{equation}\label{eq:step1}
@@ -155,8 +159,8 @@ equation:
     \end{split}
 \end{equation}
 The terms in front of the cosine and sine has to be zero, which means that we
-can split equation in to two parts. The equation for the sine and cosine terms
-respectively.
+can split equation into two equations, one for the sine and one cosine
+terms respectively (\cref{eq:sine-terms}, \cref{eq:cos-terms}).
 
 \begin{equation}\label{eq:sine-terms}
     \omega A''(x) -\omega k^2 A(x) - \beta A(x) = 0
@@ -171,11 +175,11 @@ $\omega$:
     \omega = -\frac{\beta}{2k}
 \end{equation}
 Inserting the expression for omega into \cref{eq:sine-terms} and solving the ODE
-give the following expression for $A(x)$
+gives us the following expression for $A(x)$
 \begin{equation}\label{eq:A_x}
     A(x) = C_1 \cos{(kx) + C_2 \sin{(kx)}}
 \end{equation}
-Imposing the boundary condition at $x=0$ requiring $C_1$ to be zero ruling
+Imposing the boundary condition at $x=0$ requires $C_1$ to be zero, ruling
 out the cosine term in \cref{eq:A_x}. Imposing the boundary condition $\psi=0$
 at $x=L$ yields the following expression for A(x).
 \begin{equation}
@@ -183,26 +187,21 @@ at $x=L$ yields the following expression for A(x).
 \end{equation}
 Then final solution becomes:
 \begin{equation}
-    \psi = \sin{\left(\frac{n\pi}{L} x \right)} \cos{(kx - \omega t)}
+    \psi(x,t) = \sin{\left(\frac{n\pi}{L} x \right)} \cos{(kx - \omega t)}
 \end{equation}
-The phase speed can be calculated in the same manner as previously and inserting
-the previously obtained expressions for $k$, $k=\frac{n\pi}{L}$ and $\omega$,
-$\omega = -\frac{\beta}{k}$.
+The phase speed can be calculated in the same manner as in the periodic case. 
 \begin{equation}
-    c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2} = -\frac{\beta L^2}{2 n^2 \pi^2}
+    c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2}
 \end{equation}
 
 \subsection{Scaling}
-
-To make the vorticity equation dimensionless we scale it using $x = \tilde{x} L $ and $t = \frac{\tilde{t}}{L \beta}$. The dimensionless phase speed is then $\frac{d\tilde{x}}{d\tilde{t}} = \frac{1}{\beta L^2} c$. For wavenumber two this gives us phase speeds of
+Before we do the discretisation it is useful to nondimensionalise the BRWE.   
+We scale the BRWE using $x = \tilde{x} L $ and $t = \frac{\tilde{t}}{L \beta}$. The dimensionless phase speed is then $\frac{d\tilde{x}}{d\tilde{t}} = \frac{1}{\beta L^2} c$. For wavenumber two this gives us phase speeds of
 $0.0063$ for the periodic case and $c = 0.012665$ for the bounded case.
+After doing the scaling we end up with the following dimensionless BRWE \cref{eq:scaled_BRWE}.
 
-After scaling \cref{eq:gov_vort} we get \cref{eq:vort_scaled} which we
-will solve numerically.
-
-\begin{equation}
+\begin{equation}\label{eq:scaled_BRWE}
   \pdv{\zeta}{\tilde{t}} + \pdv{\psi}{\tilde{x}} = 0
-  \label{eq:vort_scaled}
 \end{equation}
 
 
@@ -215,12 +214,12 @@ will solve numerically.
     advance $\zeta$ one timestep \\
     update $\psi$ using jacobis method
   }
-  \caption{General algorithm for solving the vorticity equation.}
+  \caption{General algorithm for solving the BRWE.}
   \label{algo:vort}
 \end{algorithm}
 
 
-The general algorithm for solving the vorticity equation is outlined in
+The general algorithm for solving the BRWE is outlined in
 \cref{algo:vort}. We implemented two methods for advancing $\zeta$ using centered
 (\cref{eq:centered}) and forward (\cref{eq:forward}) differences.
 For the planetary vorticity advection term we used centered differences.
