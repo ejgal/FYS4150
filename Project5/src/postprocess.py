@@ -109,9 +109,9 @@ def plot_error():
     fig, ax = plt.subplots(3, sharex=True, sharey=True, figsize=figsize)
     for target, axis in zip([1e-6, 1e-8, 1e-10], ax):
         abs, rel, nx = error_jacobi_bounded(target=target)
-        axis.plot(nx, abs, label='Bounded')
+        axis.plot(nx, abs, label='Bounded', marker='x')
         abs, rel, nx = error_jacobi_periodic(target=target)
-        axis.plot(nx, abs, label='Periodic')
+        axis.plot(nx, abs, label='Periodic', marker='o')
         axis.set_xscale('log')
         axis.set_yscale('log')
         axis.grid()
