@@ -1,40 +1,4 @@
 \section{Theory}
-<<<<<<< HEAD
-
-Rossby waves are described in what known as the Quasi Geostrophic (QG)
-framework. The primary scaling assumption in QG theory is that the Rossby number
-is much less that one. The Rossby number which can be obtained by scaling the
-momentum equation is defined as the following:
-\cref{eq:Rnumber},
-\begin{equation}\label{eq:Rnumber}
-    R = \frac{U}{fL}
-\end{equation}
-Where $U$ is characteristic magnitude of the horizontal velocity, $f \sim 10^{-4}$
-is the Coriolis parameter and $L$ the characteristic horizontal length scale.
-From the assumption about the Rossby number it is evident that the horizontal
-length scales has to be large. A feature of large scale motion in the atmosphere
-and ocean is that there tends to be a balance between the pressure gradient
-force and Coriolis acceleration acting perpendicular to the velocity vector.
-\begin{equation}\label{eq:geostrophic}
-    fu = -\frac{1}{\rho}\pdv{p}{y} \quad fv = \frac{1}{\rho}\pdv{p}{x}
-\end{equation}
-The issue with a purely geostrophic framework \cref{eq:geostrophic} is that
-there is no development of the motion.
-
-In QG-theory velocities is
-separated into a geostrophic and ageostrophic component $\mathbf{v} = \mathbf
-{v_g} +\mathbf{v_a}$. The geostrophic velocities are
-non-divergent and can consequently be written in terms of a steam function.
-It is the ageostrophic wind which are responsible for the
-horizontal divergence. Even though the ageostrophic velocities
-are small compared to the geostrophic, they are important since
-they governs the rising and sinking in the atmosphere.
-
-The quasi geostrophic potential vorticity equation \cref{eq:QG_vort} can be
-derived from the shallow water equations \textbf{CITE Joe}, following the
-previously discussed
-assumptions.
-=======
 \subsection{The barotropic Rossby wave equation}
 A problem with the current vorticity equation \cref{eq:QG_vorticity} is
 that it is nonlinear, in order obtain linear wave solutions we need to linearise
@@ -59,7 +23,6 @@ around a reference latitude $\theta_0$:
 where $f_0 = 2\Omega \sin(\theta)$, $\beta = 2\cos (\theta_0)/R_e$ and $R_e$ is
 the radius of the earth. This linearisation of the Coriolis parameter is
 commonly referred to as the $\beta-\mathrm{plane}$ approximation.
->>>>>>> master
 
 \begin{equation}
     \pdv{\zeta'}{t} + (U+u')\pdv{\zeta'}{x} + (V+v')\pdv{\zeta'}{y} + \bvec{U}
@@ -231,7 +194,7 @@ This lead to the timestepping schemes \cref{eq:advance_centered} and
   \pdv{\zeta}{t} \approx \frac{\zeta_{}^{n+1} - \zeta_{}^{n-1}}{2 \Delta t}
 \end{equation}
 
-\begin{equation} \label{eg:forward}
+\begin{equation} \label{eq:forward}
   \pdv{\zeta}{t} \approx \frac{\zeta_{}^{n+1} - \zeta_{}^{n}}{\Delta t}
 \end{equation}
 
@@ -249,13 +212,17 @@ This lead to the timestepping schemes \cref{eq:advance_centered} and
 
 After advancing the vorticity one timestep we run adjust the stream function
 according to ref eq??. We do this by solving the poisson equation using
-jacobis method. The method requires a convergence parameter for deciding when to
-stop iterating. To set this we tested with two analytical solutions of poissons
-equation, one bounded, one periodic. \Cref{fig:error_jacobi} shows the absolute
-error of jacobis method compared to these solutions.
-As the convergence parameter is lowered the method performs better for larger grids.
-Since we are using close to 40 grid points for our simulations we ended up
-setting the convergence parameter to 10$^{-8}$.
+jacobis method. Jacobis method requires a convergence parameter for deciding
+when tostop iterating. To determine convergence parameter we test our
+numerical solutions  against two analytical solutions
+of poissons equation, one bounded and one periodic. \Cref{fig:error_jacobi}
+shows the absolute error of jacobis method compared to the analytical solutions.
+For small convergence parameters, Jacobis method gives a smaller
+absolute error on larger grids. 
+
+For our model runs we will be using close to 40 grid points and we found that
+setting the convergence parameter to 10$^{-8}$ Jacobis method achieved
+satisfactory result.
 
 \begin{figure}[htp]
   \centering
