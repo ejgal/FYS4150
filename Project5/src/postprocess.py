@@ -109,9 +109,9 @@ def plot_error():
     fig, ax = plt.subplots(3, sharex=True, sharey=True, figsize=figsize)
     for target, axis in zip([1e-6, 1e-8, 1e-10], ax):
         abs, rel, nx = error_jacobi_bounded(target=target)
-        axis.plot(nx, abs, label='Bounded')
+        axis.plot(nx, abs, label='Bounded', marker='x')
         abs, rel, nx = error_jacobi_periodic(target=target)
-        axis.plot(nx, abs, label='Periodic')
+        axis.plot(nx, abs, label='Periodic', marker='o')
         axis.set_xscale('log')
         axis.set_yscale('log')
         axis.grid()
@@ -123,10 +123,39 @@ def plot_error():
     plt.clf()
 
 
+def plot_2d(boundary, outfile, times=[0, 50, 100, 149]):
+    plt.rc('figure', autolayout=False)
+    figsize = get_size(columns=2, ratio=1)
+    fig, axes = plt.subplots(2, 2, sharex=True, sharey=True, figsize=figsize)
+    levels = np.linspace(-1.5, 1.5, 10)
+    for ax, time in zip(axes.flat, times):
+        filename = DATADIR + boundary + '/' + 'psi_{:06.2f}.npy'.format(time)
+        psi = np.load(filename)
+        dx = 1/40
+        nx = int(1/dx)
+        if boundary == 'periodic':
+            ny = nx + 1
+            x = np.linspace(0, 1-dx, nx)
+        else:
+            nx = nx + 1
+            x = np.linspace(0, 1, nx)
+            ny = nx
+        y = np.linspace(0, 1, ny)
+        X, Y = np.meshgrid(x, y)
+        c = ax.contourf(X, Y, psi, levels)
+        ax.set_xlabel('x')
+        ax.set_ylabel('t')
+    fig.colorbar(c, ax=axes.ravel().tolist())
+    plt.savefig(FIGDIR + outfile + '.png')
+    plt.savefig(FIGDIR + outfile + '.pdf')
+    plt.clf()
+    plt.rc('figure', autolayout=True)
+
+
 if __name__ == '__main__':
 
-    # Jacobi error
-    plot_error()
+    plot_2d('periodic', 'periodic_2d')
+    plot_2d('bounded', 'bounded_2d')
     # Bounded
     hovmuller('psi_bounded_centered_sine')
     hovmuller('psi_bounded_centered_gauss')
@@ -144,3 +173,5 @@ if __name__ == '__main__':
     for sigma in sigmas:
         filenames.append('psi_periodic_gauss_{:.2f}'.format(sigma))
     hovmuller_four(filenames, 'hovmuller_sigma')
+    # Jacobi error
+    plot_error()
