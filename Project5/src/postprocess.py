@@ -65,7 +65,7 @@ def compare(filename1, filename2, outfile, times=[0, 50, 150]):
     plt.clf()
 
 
-def hovmuller(filename):
+def hovmuller(filename, ylabel=None):
     infile = DATADIR + filename + '.csv'
     outfile = FIGDIR + filename
     psi = pd.read_csv(infile, header=None, index_col=0, skiprows=6)
@@ -74,7 +74,7 @@ def hovmuller(filename):
     X, T = np.meshgrid(x, t)
     plt.contourf(X, T, psi.values)
     plt.xlabel('x')
-    plt.ylabel('t')
+    plt.ylabel(ylabel)
     plt.colorbar()
     plt.savefig(outfile + '.png')
     plt.savefig(outfile + '.pdf')
@@ -143,9 +143,10 @@ def plot_2d(boundary, outfile, times=[0, 50, 100, 149]):
         y = np.linspace(0, 1, ny)
         X, Y = np.meshgrid(x, y)
         c = ax.contourf(X, Y, psi, levels)
-        ax.set_xlabel('x')
-        ax.set_ylabel('t')
+        ax.set_title('t={}'.format(time))
     fig.colorbar(c, ax=axes.ravel().tolist())
+    fig.text(0.03, 0.5, 'y', ha='center', va='center', rotation='vertical', fontsize=14)
+    fig.text(0.44, 0.03, 'X', ha='center', va='center', rotation='horizontal', fontsize=14)
     plt.savefig(FIGDIR + outfile + '.png')
     plt.savefig(FIGDIR + outfile + '.pdf')
     plt.clf()
@@ -162,12 +163,10 @@ if __name__ == '__main__':
 
     # Periodic
     hovmuller('psi_periodic_centered_short')
-
     times = [0, 50, 150, 300, 500]
     file1 = 'psi_periodic_centered_long'
     file2 = 'psi_periodic_forward_long'
     compare(file1, file2, 'compare_dt_1', times)
-
     sigmas = [0.08, 0.10, 0.11, 0.12]
     filenames = []
     for sigma in sigmas:
