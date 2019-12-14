@@ -157,6 +157,11 @@ The phase speed can be calculated in the same manner as in the periodic case.
     c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2}
 \end{equation}
 
+
+
+\section{Implementation}
+
+
 \subsection{Scaling}
 Before we do the discretisation it is useful to nondimensionalise the BRWE.
 We scale the BRWE using $x = \tilde{x} L $ and $t = \frac{\tilde{t}}{L \beta}$. The dimensionless phase speed is then $\frac{d\tilde{x}}{d\tilde{t}} = \frac{1}{\beta L^2} c$. For wavenumber two this gives us phase speeds of
@@ -168,7 +173,12 @@ After doing the scaling we end up with the following dimensionless BRWE \cref{eq
 \end{equation}
 
 
-\subsection{Implementation and testing}
+\subsection{Algorithm and finite differences}
+
+
+
+The general algorithm for solving the BRWE is outlined in
+\cref{algo:vort}.
 
 \begin{algorithm}
   \SetAlgoLined
@@ -181,9 +191,7 @@ After doing the scaling we end up with the following dimensionless BRWE \cref{eq
   \label{algo:vort}
 \end{algorithm}
 
-
-The general algorithm for solving the BRWE is outlined in
-\cref{algo:vort}. We implemented two methods for advancing $\zeta$ using centered
+We implemented two methods for advancing $\zeta$ using centered
 (\cref{eq:centered}) and forward (\cref{eq:forward}) differences.
 For the planetary vorticity advection term we used centered differences.
 This lead to the timestepping schemes \cref{eq:advance_centered} and
@@ -210,21 +218,30 @@ This lead to the timestepping schemes \cref{eq:advance_centered} and
 \end{equation}
 
 
-After advancing the vorticity one timestep we run adjust the stream function
-according to ref eq??. We do this by solving the poisson equation using
+\subsection{Initalization}
+
+We will test different initial condition for $\psi$.
+In one dimension we will use $\psi(x, 0) = \sin{(4 \pi x)}$ and $\psi(x, 0) =
+\exp{-\para{\frac{x - x_0}{\sigma}}^2}$.
+In two dimensions we used $\psi(x,y,0) = \sin{(4 \pi x)} \sin{(4 \pi y)}$.
+
+
+$ \zeta(t=0) $ was initalized as $ \pdv[2]{\psi}{x} $ in one dimension and as
+$\nabla_H \psi$ in two dimensions.
+
+
+
+\subsection{Jacobis method}
+
+After advancing the vorticity one timestep we adjust the stream function
+according to $\zeta = \nabla_H^2 \psi$.  We do this by solving the poisson
+equation using
 jacobis method. Jacobis method requires a convergence parameter for deciding
-when tostop iterating. To determine convergence parameter we test our
+when to stop iterating. To determine this parameter we test our
 numerical solutions  against two analytical solutions
-of poissons equation, one bounded and one periodic. \Cref{fig:error_jacobi}
-shows the absolute error of jacobis method compared to the analytical solutions.
-For small convergence parameters, Jacobis method gives a smaller
-absolute error on larger grids. 
+of poissons equation, one bounded and one periodic.
 
-For our model runs we will be using close to 40 grid points and we found that
-setting the convergence parameter to 10$^{-8}$ Jacobis method achieved
-satisfactory result.
-
-\begin{figure}[htp]
+\begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{../figures/error_jacobi.pdf}
   \caption{Absolute error of jacobis method
@@ -237,8 +254,24 @@ satisfactory result.
   \label{fig:error_jacobi}
 \end{figure}
 
+\Cref{fig:error_jacobi}
+shows the absolute error of jacobis method compared to the analytical solutions.
+For small convergence parameters, Jacobis method gives a smaller
+absolute error on larger grids.
+For our model runs we will be using close to 40 grid points and we found that
+setting the convergence parameter to 10$^{-8}$ Jacobis method achieved
+satisfactory result.
 
-\begin{figure}[htp]
+
+\subsection{Comparison of timestepping methods}
+
+\Cref{fig:compare} shows the blow up of the numerical solution with forward
+time step with $\Delta t = 1$ and $\Delta x = 0.025$ for the periodic case.
+With a central difference in time the solution stays stable.
+We decided to use the CTCS scheme.
+
+
+\begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{../figures/compare_dt_1.pdf}
   \caption{Comparison of solutions with periodic boundaries
@@ -248,9 +281,3 @@ satisfactory result.
   blows up quickly while the one using central differences does not.}
   \label{fig:compare}
 \end{figure}
-
-
-\Cref{fig:compare} shows the blow up of the numerical solution with forward
-time step with $\Delta t = 1$ and $\Delta x = 0.025$ for the periodic case.
-With a central difference in time the solution stays stable.
-All the rest of the plots are done using the central difference.

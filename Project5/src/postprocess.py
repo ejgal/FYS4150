@@ -56,7 +56,7 @@ def compare(filename1, filename2, outfile, times=[0, 50, 150]):
     fig, ax = plt.subplots(2, figsize=get_size(columns=2))
     for axis, psi in zip(ax, [psi1, psi2]):
         for t in times:
-            psi.iloc[t, :].plot(label='t={}'.format(t), ax=axis)
+            psi.loc[t, :].plot(label='t={}'.format(t), ax=axis)
         axis.legend(loc='right')
         axis.grid()
 
