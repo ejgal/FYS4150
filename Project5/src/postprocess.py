@@ -155,22 +155,63 @@ def plot_2d(boundary, outfile, times=[0, 50, 100, 149]):
 
 if __name__ == '__main__':
 
-    plot_2d('periodic', 'periodic_2d')
-    plot_2d('bounded', 'bounded_2d')
-    # Bounded
-    hovmuller('psi_bounded_centered_sine')
-    hovmuller('psi_bounded_centered_gauss')
+    # plot_2d('periodic', 'periodic_2d')
+    # plot_2d('bounded', 'bounded_2d')
+    # # Bounded
+    # hovmuller('psi_bounded_centered_sine')
+    # hovmuller('psi_bounded_centered_gauss')
+    #
+    # # Periodic
+    # hovmuller('psi_periodic_centered_short')
+    # times = [0, 50, 150, 300, 500]
+    # file1 = 'psi_periodic_centered_long'
+    # file2 = 'psi_periodic_forward_long'
+    # compare(file1, file2, 'compare_dt_1', times)
+    # sigmas = [0.08, 0.10, 0.11, 0.12]
+    # filenames = []
+    # for sigma in sigmas:
+    #     filenames.append('psi_periodic_gauss_{:.2f}'.format(sigma))
+    # hovmuller_four(filenames, 'hovmuller_sigma')
+    #
+    # # Jacobi error
+    # plot_error()
 
-    # Periodic
-    hovmuller('psi_periodic_centered_short')
-    times = [0, 50, 150, 300, 500]
-    file1 = 'psi_periodic_centered_long'
-    file2 = 'psi_periodic_forward_long'
-    compare(file1, file2, 'compare_dt_1', times)
-    sigmas = [0.08, 0.10, 0.11, 0.12]
-    filenames = []
-    for sigma in sigmas:
-        filenames.append('psi_periodic_gauss_{:.2f}'.format(sigma))
-    hovmuller_four(filenames, 'hovmuller_sigma')
-    # Jacobi error
-    plot_error()
+    # Stability plot CTCS
+    fig, axes = plt.subplots(3, sharex=True, sharey=True)
+    ax1, ax2, ax3 = axes.flat
+
+    psi = pd.read_csv('../data/psi_long_centered_400.csv', header=None, index_col=0, skiprows=6)
+    ax1.plot(np.max(np.abs(psi), axis=1), label='dt=4.00')
+
+    psi = pd.read_csv('../data/psi_long_centered_629.csv', header=None, index_col=0, skiprows=6)
+    ax2.plot(np.max(np.abs(psi), axis=1), label='dt=6.29')
+
+    psi = pd.read_csv('../data/psi_long_centered_630.csv', header=None, index_col=0, skiprows=6)
+    ax3.plot(np.max(np.abs(psi), axis=1), label='dt=6.30')
+
+    for ax in axes.flat:
+        ax.legend()
+        ax.grid()
+        ax.set_ylabel(r'max($|\psi|$)')
+    plt.xscale('log')
+    plt.ylim(0.5, 2)
+    plt.xlabel('Time')
+    plt.savefig(FIGDIR + 'stability_ctcs' + '.png')
+    plt.savefig(FIGDIR + 'stability_ctcs' + '.pdf')
+    plt.clf()
+
+    # Stability plot comparison
+    psi = pd.read_csv('../data/psi_long_forward_008.csv', header=None, index_col=0, skiprows=6)
+    plt.plot(np.max(np.abs(psi), axis=1), label='FTCS, dt=0.08')
+    psi = pd.read_csv('../data/psi_long_forward_005.csv', header=None, index_col=0, skiprows=6)
+    plt.plot(np.max(np.abs(psi), axis=1), label='FTCS, dt=0.05')
+    psi = pd.read_csv('../data/psi_long_centered.csv', header=None, index_col=0, skiprows=6)
+    plt.plot(np.max(np.abs(psi), axis=1), label='CTCS, dt=1', alpha=0.7)
+    plt.grid()
+    plt.legend()
+    plt.xscale('log')
+    plt.xlabel('Time')
+    plt.ylabel(r'max($|\psi|$)')
+    plt.savefig(FIGDIR + 'stability_compare' + '.png')
+    plt.savefig(FIGDIR + 'stability_compare' + '.pdf')
+    plt.clf()
