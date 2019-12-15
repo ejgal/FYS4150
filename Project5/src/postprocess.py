@@ -84,7 +84,7 @@ def hovmuller(filename, ylabel=None):
 def hovmuller_four(filenames, outfile):
     outfile = FIGDIR + outfile
     plt.rc('figure', autolayout=False)
-    figsize = get_size(columns=2, ratio=1)
+    figsize = get_size(columns=2, ratio=0.7)
     fig, axes = plt.subplots(2, 2, sharex=True, sharey=True, figsize=figsize)
     levels = np.linspace(-1.25, 1.25, 10)
     for file, ax in zip(filenames, axes.flat):
@@ -125,7 +125,7 @@ def plot_error():
 
 def plot_2d(boundary, outfile, times=[0, 50, 100, 149]):
     plt.rc('figure', autolayout=False)
-    figsize = get_size(columns=2, ratio=1)
+    figsize = get_size(columns=2, ratio=0.7)
     fig, axes = plt.subplots(2, 2, sharex=True, sharey=True, figsize=figsize)
     levels = np.linspace(-1.5, 1.5, 10)
     for ax, time in zip(axes.flat, times):
@@ -155,26 +155,28 @@ def plot_2d(boundary, outfile, times=[0, 50, 100, 149]):
 
 if __name__ == '__main__':
 
-    # plot_2d('periodic', 'periodic_2d')
-    # plot_2d('bounded', 'bounded_2d')
-    # # Bounded
-    # hovmuller('psi_bounded_centered_sine')
-    # hovmuller('psi_bounded_centered_gauss')
-    #
-    # # Periodic
-    # hovmuller('psi_periodic_centered_short')
-    # times = [0, 50, 150, 300, 500]
-    # file1 = 'psi_periodic_centered_long'
-    # file2 = 'psi_periodic_forward_long'
-    # compare(file1, file2, 'compare_dt_1', times)
-    # sigmas = [0.08, 0.10, 0.11, 0.12]
-    # filenames = []
-    # for sigma in sigmas:
-    #     filenames.append('psi_periodic_gauss_{:.2f}'.format(sigma))
-    # hovmuller_four(filenames, 'hovmuller_sigma')
-    #
-    # # Jacobi error
-    # plot_error()
+    # Bounded
+    hovmuller('psi_bounded_centered_sine')
+    hovmuller('psi_bounded_centered_gauss')
+
+    # Periodic
+    hovmuller('psi_periodic_centered_short')
+    times = [0, 50, 150, 300, 500]
+    file1 = 'psi_periodic_centered_long'
+    file2 = 'psi_periodic_forward_long'
+    compare(file1, file2, 'compare_dt_1', times)
+    sigmas = [0.08, 0.10, 0.11, 0.12]
+    filenames = []
+    for sigma in sigmas:
+        filenames.append('psi_periodic_gauss_{:.2f}'.format(sigma))
+    hovmuller_four(filenames, 'hovmuller_sigma')
+
+    plot_2d('periodic', 'periodic_2d')
+    plot_2d('bounded', 'bounded_2d')
+
+
+    # Jacobi error
+    plot_error()
 
     # Stability plot CTCS
     fig, axes = plt.subplots(3, sharex=True, sharey=True)

@@ -1,11 +1,15 @@
+\newpage
 \section{Results}
 
 
-
+All figures shown in this section was produced using the CTCS scheme with
+$\Delta x = \frac{1}{40} $ and $\Delta t = $.
 
 \subsection{Periodic}
 
-
+With periodic boundaries and a sinusoidal inital state \cref{fig:periodic_sine}
+the phase speed is constant and all waves move westward. By following one wave
+from east to west we can find the phase speed as $\frac{1}{160} = 0.00625$.
 
 \begin{figure}[htp]
   \centering
@@ -14,6 +18,7 @@
   state using a central difference in time. Waves propagate westward.}
   \label{fig:periodic_sine}
 \end{figure}
+
 
 
 \begin{figure}[htp]
@@ -29,6 +34,11 @@
 
 
 \subsection{Bounded}
+
+With no flow at the boundaries and an initial sinusoidal \cref{fig:bounded_sine}
+we can use the same method as for the periodic to find a phase speed of
+$\frac{1}{100 - 20} = 0.0125$.
+
 
 \begin{figure}[htp]
   \centering
@@ -48,15 +58,11 @@
 \end{figure}
 
 
-\subsection{Phase speed}
-
-
-Looking at the hovmuller diagrams for the periodic case we
-can extract the phase speed as 1/160 = 0.00625.
-For the bounded we use 1/(100 - 20) = 0.0125.
-
-
 \subsection{2 dimensions}
+
+In two dimensions we only looked at the sinusoidal initial state.
+With periodic boundaries \cref{fig:2d_periodic} the waves seem to be travelling
+in very much the same way as in the one dimensional case.
 
 
 \begin{figure}[htp]
@@ -65,6 +71,7 @@ For the bounded we use 1/(100 - 20) = 0.0125.
   \caption{}
   \label{fig:2d_periodic}
 \end{figure}
+
 
 
 \begin{figure}[htp]
