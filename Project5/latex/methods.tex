@@ -263,7 +263,45 @@ setting the convergence parameter to 10$^{-8}$ Jacobis method achieved
 satisfactory result.
 
 
-\subsection{Comparison of timestepping methods}
+\subsection{Stability and comparison of timestepping methods}
+
+To assess the stability of the two timestepping methods we can insert solutions
+of $\psi = A^n e^{ikj \Delta x}$ into the FTCS and CTCS schemes.
+For both schemes we need to use that
+$\pdv{\zeta}{t} = -k^2 \pdv{\psi}{t} = - \frac{1}{c} \pdv{\psi}{t}$
+The FTCS gives
+
+\begin{align}
+  &-\frac{1}{c} \frac{A^{n+1} e^{ikj\Delta x} - A^n e^{ikj\Delta x}}{\Delta t} + \frac{A^n e^{ik(j+1)\Delta x} - A^n e^{ik(j-1)\Delta x}}{2\Delta x} \\
+  &= A^n e^{ikj} \brak{A - 1 - c\frac{\Delta t}{2 \Delta x} \para{e^{ik\Delta x} - e^{-ik\Delta x}}} = 0
+\end{align}
+
+Solving for A leads to $ A = 1 + \frac{c \Delta t}{\Delta x} sin(k\Delta x) i$.
+For the numerical solution to stay stable we need $\abs{A}^2 <= 1$, which can
+not be satisfied. Therefore the FTCS scheme is unconditionally unstable.
+
+For the CTCS scheme we get
+\begin{align}
+  &-\frac{1}{c}\frac{A^{n+1} e^{ikj\Delta x} - A^{n-1} e^{ikj \Delta x}}{2 \Delta t} + \frac{A^n e^{ik(j+1) \Delta x} - A^{n} e^{ik(j-1)\Delta x}}{2 \Delta x} \\
+  &= A^n e^{ikj\Delta x} \brak{ A - A^{-1} - c\frac{\Delta t}{\Delta x} \para{2 sin(k\Delta x) i}} = 0
+\end{align}
+
+Setting $c\frac{\Delta t}{\Delta x} = \alpha$ and solving for A gives
+$ A = \alpha sin(k\Delta x) i \pm \sqrt{-\alpha^2 sin(k\Delta x)^2 + 1}$.
+This gives us two cases, $\abs{\alpha} > 1$ and $\abs{\alpha} \leq 1$
+
+
+For $\abs{\alpha} < 1$ we get
+$\abs{A}^2 = \alpha^2 sin(k\Delta x) + 1 - \alpha^2 sin(k\Delta x) = 1$
+which is unconditionally stable.
+
+
+For $\abs{\alpha} > 1$ we get $\abs{A}^2 = \para{ \alpha sin(k\Delta x) \pm \sqrt{\alpha^2 sin(k\Delta x)^2 -1 }}^2$ which will be unstable for some combinations of k and $\Delta x$.
+
+We therefore find the stability criterion for the CTCS scheme to be
+$ \frac{\Delta t}{\Delta x} < \frac{1}{c} = k^2$.
+
+
 
 \Cref{fig:compare} shows the blow up of the numerical solution with forward
 time step with $\Delta t = 1$ and $\Delta x = 0.025$ for the periodic case.
