@@ -174,7 +174,6 @@ if __name__ == '__main__':
     plot_2d('periodic', 'periodic_2d')
     plot_2d('bounded', 'bounded_2d')
 
-
     # Jacobi error
     plot_error()
 
@@ -203,6 +202,7 @@ if __name__ == '__main__':
     plt.clf()
 
     # Stability plot comparison
+    plt.subplots(figsize=get_size(columns=2, ratio=0.3))
     psi = pd.read_csv('../data/psi_long_forward_008.csv', header=None, index_col=0, skiprows=6)
     plt.plot(np.max(np.abs(psi), axis=1), label='FTCS, dt=0.08')
     psi = pd.read_csv('../data/psi_long_forward_005.csv', header=None, index_col=0, skiprows=6)
