@@ -194,8 +194,8 @@ The general algorithm for solving the BRWE is outlined in
 We implemented two methods for advancing $\zeta$ using centered
 (\cref{eq:centered}) and forward (\cref{eq:forward}) differences.
 For the planetary vorticity advection term we used centered differences.
-This lead to the timestepping schemes \cref{eq:advance_centered} and
-\cref{eq:advance_forward}.
+This lead to the forward time centered space (FTCS) \cref{eq:advance_centered} and centered time centered space (CTCS)
+\cref{eq:advance_forward} schemes.
 
 
 \begin{equation} \label{eq:centered}
@@ -227,8 +227,7 @@ In two dimensions we used $\psi(x,y,0) = \sin{(4 \pi x)} \sin{(4 \pi y)}$.
 
 
 $ \zeta(t=0) $ was initalized as $ \pdv[2]{\psi}{x} $ in one dimension and as
-$\nabla_H \psi$ in two dimensions.
-
+$\nabla_H^2 \psi$ in two dimensions.
 
 
 \subsection{Jacobis method}
@@ -237,7 +236,7 @@ After advancing the vorticity one timestep we adjust the stream function
 according to $\zeta = \nabla_H^2 \psi$.  We do this by solving the poisson
 equation using
 jacobis method. Jacobis method requires a convergence parameter for deciding
-when to stop iterating. To determine this parameter we test our
+when to stop iterating. To determine this parameter we tested our
 numerical solutions  against two analytical solutions
 of poissons equation, one bounded and one periodic.
 
@@ -257,7 +256,7 @@ of poissons equation, one bounded and one periodic.
 \Cref{fig:error_jacobi}
 shows the absolute error of jacobis method compared to the analytical solutions.
 For small convergence parameters, Jacobis method gives a smaller
-absolute error on larger grids.
+absolute error on large grids.
 For our model runs we will be using close to 40 grid points and we found that
 setting the convergence parameter to 10$^{-8}$ Jacobis method achieved
 satisfactory result.
@@ -269,8 +268,9 @@ To assess the stability of the two timestepping methods we can insert solutions
 of $\psi = A^n e^{ikj \Delta x}$ into the FTCS and CTCS schemes.
 For both schemes we need to use that
 $\pdv{\zeta}{t} = -k^2 \pdv{\psi}{t} = - \frac{1}{c} \pdv{\psi}{t}$
-The FTCS gives
 
+\subsubsection{FTCS}
+The FTCS gives
 \begin{align}
   &-\frac{1}{c} \frac{A^{n+1} e^{ikj\Delta x} - A^n e^{ikj\Delta x}}{\Delta t} + \frac{A^n e^{ik(j+1)\Delta x} - A^n e^{ik(j-1)\Delta x}}{2\Delta x} \\
   &= A^n e^{ikj} \brak{A - 1 - c\frac{\Delta t}{2 \Delta x} \para{e^{ik\Delta x} - e^{-ik\Delta x}}} = 0
@@ -279,6 +279,21 @@ The FTCS gives
 Solving for A leads to $ A = 1 + \frac{c \Delta t}{\Delta x} sin(k\Delta x) i$.
 For the numerical solution to stay stable we need $\abs{A}^2 <= 1$, which can
 not be satisfied. Therefore the FTCS scheme is unconditionally unstable.
+The instability of the FTCS scheme is shown in \cref{fig:compare_small},
+where we see the FTCS solutions diverging around t=10.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{../figures/stability_compare.pdf}
+  \caption{Comparison of maximum value of $\psi$ as a function of time with
+  different timesteps and schemes.
+  The CTCS scheme with a long timestep seems stable, while FTCS with small timesteps
+  both diverges at around t=10.}
+  \label{fig:compare_ctcs}
+\end{figure}
+
+
+\subsubsection{CTCS}
 
 For the CTCS scheme we get
 \begin{align}
@@ -303,19 +318,17 @@ $ \frac{\Delta t}{\Delta x} < \frac{1}{c} = k^2$.
 
 
 
-\Cref{fig:compare} shows the blow up of the numerical solution with forward
-time step with $\Delta t = 1$ and $\Delta x = 0.025$ for the periodic case.
-With a central difference in time the solution stays stable.
-We decided to use the CTCS scheme.
-
+For the CTCS scheme with a sinusoidal inital state with wavenumber $4 \pi$ and $\Delta x = \frac{1}{40}$
+this corresponds to having $ \Delta t \leq \frac{\para{4 \pi}^2}{40} = 3.948$.
+Some runs with periodic boundaries is shown in \cref{fig:compare_ctcs}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\textwidth]{../figures/compare_dt_1.pdf}
-  \caption{Comparison of solutions with periodic boundaries
-  at different times using forward (top) and
-  centered (bottom) differences in time with $\Delta x$ = 0.025 and $\Delta t$
-  = 1. The solution using forward differences
-  blows up quickly while the one using central differences does not.}
-  \label{fig:compare}
+  \includegraphics[width=\textwidth]{../figures/stability_ctcs.pdf}
+  \caption{Comparison of maximum value of $\psi$ as a function of time with
+  different timesteps.
+  The top figure is barely outside of the stability criterion and was not run
+  long enough to show any instability. The two bottom figures have very similar
+  timesteps but shows signs off instability at very different times.}
+  \label{fig:compare_ctcs}
 \end{figure}
