@@ -1,9 +1,9 @@
 \section{Theory}
 \subsection{The barotropic Rossby wave equation}
-A problem with the current vorticity equation \cref{eq:QG_vorticity} is
-that it is nonlinear, in order obtain linear wave solutions we need to linearise
-the equation. We will approach this problem by supposing that the flow can be
-represented by a mean flow plus some small perturbation:
+A problem with the current vorticity \cref{eq:QG_vorticity} is
+that it is nonlinear, in order obtain linear wave solutions we need to
+linearise the equation. We will linearise \cref{eq:QG_vorticity} by supposing
+that the flow can be represented by a mean flow plus some small perturbation:
 \begin{equation}\label{eq:VeloctiyPertubation}
     \begin{split}
     u = U + u' \quad  |U| >> u' \\
@@ -16,13 +16,14 @@ Then the vorticity of the mean flow and the perturbation is:
     Z = \pdv{V}{x} - \pdv{U}{y} \; , \quad \zeta' = \pdv{v'}{x} - \pdv{u'}{y}
 \end{equation}
 To linearise the Coriolis parameter, we expand $f$
-around a reference latitude $\theta_0$:
-\begin{equation}
+around a reference latitude $\theta_0$,
+\begin{equation}\label{eq:Beta_approx}
     f \approx f_0 + \beta y
 \end{equation}
 where $f_0 = 2\Omega \sin(\theta)$, $\beta = 2\cos (\theta_0)/R_e$ and $R_e$ is
-the radius of the earth. This linearisation of the Coriolis parameter is
-commonly referred to as the $\beta-\mathrm{plane}$ approximation.
+the radius of the earth. This linearisation of the Coriolis parameter
+\cref{eq:Beta_approx} is commonly referred to as the $\beta-\mathrm{plane}$
+approximation.
 
 \begin{equation}
     \pdv{\zeta'}{t} + (U+u')\pdv{\zeta'}{x} + (V+v')\pdv{\zeta'}{y} + \bvec{U}
@@ -55,8 +56,8 @@ $. The equation we end up with is the barotropic Rossby wave equation
 \subsubsection{Periodic boundaries}
 We assume the following periodic solution \cref{eq:waveSolution}.
 At $x=0$ we have $\psi = A\cos{(-\omega t)}$ and at $x = L$, $\psi = A
-\cos{(2n\pi -\omega)}$, and since cosine is periodic with a period of $2\pi$,
-we see that \cref{eq:waveSolution} satisfies boundary condition.
+\cos{(2n\pi -\omega)}$, and because cosine is periodic with a period of $2\pi$,
+we see that \cref{eq:waveSolution} satisfies the boundary conditions.
 Next we insert \cref{eq:waveSolution} into the barotropic Rossby wave equation
 \cref{eq:barotropicRossby}.
 \begin{equation}\label{eq:waveSolution}
@@ -100,11 +101,11 @@ get the following expression for the phase speed.
 \begin{equation}\label{eq:Phase-speed1}
     c = \frac{-\beta L^2}{(2n\pi)^2} = \frac{-\beta}{k^2}
 \end{equation}
-Then following \cref{eq:Phase-speed1} the Rossby waves will propagate
+Then according to \cref{eq:Phase-speed1} the Rossby waves will propagate
 toward the west.
 \subsubsection{Bounded boundaries}
 In the ocean the boundaries would be better represented using bounded boundary
-condition. We will suppose wavelike solution of \cref{eq:barotropicRossby}
+condition. We will suppose a wavelike solution of \cref{eq:barotropicRossby}
 where the amplitude of the wave also vary in $x$. We
 require there to be no flow at the endpoints, which we can enforce with simple
 Dirichlet conditions $\psi= 0$ at $x=0$ and $x=L$.
@@ -131,7 +132,6 @@ terms respectively (\cref{eq:sine-terms}, \cref{eq:cos-terms}).
 \begin{equation}\label{eq:cos-terms}
     \omega 2 k A'(x) + \beta A'(x) = 0
 \end{equation}
-
 Solving the equation for the cosine terms \cref{eq:cos-terms} with respect to
 $\omega$:
 \begin{equation}
@@ -156,17 +156,22 @@ The phase speed can be calculated in the same manner as in the periodic case.
 \begin{equation}
     c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2}
 \end{equation}
+The phase speed for the Rossby waves with solid boundaries is half compared to
+the periodic boundaries. 
 
 
 
-\section{Implementation}
+\section{Numerical model}
 
 
 \subsection{Scaling}
 Before we do the discretisation it is useful to nondimensionalise the BRWE.
-We scale the BRWE using $x = \tilde{x} L $ and $t = \frac{\tilde{t}}{L \beta}$. The dimensionless phase speed is then $\frac{d\tilde{x}}{d\tilde{t}} = \frac{1}{\beta L^2} c$. For wavenumber two this gives us phase speeds of
+We scale the BRWE using $x = \tilde{x} L $ and $t = \frac{\tilde{t}}{L \beta}$.
+The dimensionless phase speed is then $\frac{d\tilde{x}}{d\tilde{t}} = \frac{1}
+{\beta L^2} c$. For wavenumber two this gives us phase speeds of
 $0.0063$ for the periodic case and $c = 0.012665$ for the bounded case.
-After doing the scaling we end up with the following dimensionless BRWE \cref{eq:scaled_BRWE}.
+After doing the scaling we end up with the following dimensionless BRWE 
+\cref{eq:scaled_BRWE}.
 
 \begin{equation}\label{eq:scaled_BRWE}
   \pdv{\zeta}{\tilde{t}} + \pdv{\psi}{\tilde{x}} = 0
