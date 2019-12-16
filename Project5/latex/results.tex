@@ -23,7 +23,7 @@ With a Gaussian initial state (\cref{fig:periodic_gauss}) the Hovmöller diagram
 is not as ordered. Due to the less order in the initial state the phase velocity
 is not constant in time. This effect is most prominent for the cases where
 $\sigma$ is small. For large $\sigma$ the phase velocity seems to be more
-constant. 
+constant.
 
 %Estimating
 %the phase speed from \cref{fig:periodic_gauss} by following one contour over the
@@ -45,7 +45,10 @@ constant.
 
 With no flow at the boundaries and an initial sinusoidal \cref{fig:bounded_sine}
 we can use the same method as for the periodic to find a phase speed of
-$\frac{\Delta x}{\Delta t} = \frac{0 -1}{100 - 20} = -0.0125$. 
+$\frac{\Delta x}{\Delta t} = \frac{0 -1}{100 - 20} = -0.0125$.
+The wave pattern fits well with the theoretical case. Since our initial state
+has wave number 2 the sine term modulating the solution has one through and
+one ridge, and is zero at both ends and the middle.
 
 
 \begin{figure}[H]
@@ -67,15 +70,15 @@ $\frac{\Delta x}{\Delta t} = \frac{0 -1}{100 - 20} = -0.0125$.
 
 \subsection{2 dimensions}
 
-In two dimensions we only looked at the sinusoidal initial state.
-With periodic boundaries \cref{fig:2d_periodic} the waves seem to be travelling
-in very much the same way as in the one dimensional case.
-
+In two dimensions we only looked at the sinusoidal initial state. With both
+periodic (\cref{fig:2d_periodic}) and closed boundaries (\cref{fig:2d_bounded})
+the waves seem to be travelling in very much the same way as in the one
+dimensional case.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../figures/periodic_2d.pdf}
-  \caption{Rossby wave travelling in a 2d periodic domain, plotted is the state of the wave at four different times. CTCS, $\Delta x = \frac{1}{40}$, $\Delta t = 0.10$.}
+  \caption{Rossby wave travelling in a 2d periodic domain, plotted is the state of the wave at four different times. CTCS, $\Delta x = \Delta y = \frac{1}{40}$, $\Delta t = 0.10$.}
   \label{fig:2d_periodic}
 \end{figure}
 
@@ -84,6 +87,6 @@ in very much the same way as in the one dimensional case.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../figures/bounded_2d.pdf}
-  \caption{Rossby wave travelling in a 2d basin, plotted is the state of the wave  at four different times. CTCS, $\Delta x = \frac{1}{40}$, $\Delta t = 0.10$.}
+  \caption{Rossby wave travelling in a 2d basin, plotted is the state of the wave  at four different times. CTCS, $\Delta x = \Delta y = \frac{1}{40}$, $\Delta t = 0.10$.}
   \label{fig:2d_bounded}
 \end{figure}

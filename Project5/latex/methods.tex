@@ -160,7 +160,7 @@ The phase speed can be calculated in the same manner as in the periodic case.
     c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2}
 \end{equation}
 The phase speed for the Rossby waves with solid boundaries is half compared to
-the periodic boundaries. 
+the periodic boundaries.
 
 
 
@@ -173,7 +173,7 @@ We scale the BRWE using $x = \tilde{x} L $ and $t = \frac{\tilde{t}}{L \beta}$.
 The dimensionless phase speed is then $\frac{d\tilde{x}}{d\tilde{t}} = \frac{1}
 {\beta L^2} c$. For wavenumber two this gives us phase speeds of
 $0.0063$ for the periodic case and $c = 0.012665$ for the bounded case.
-After doing the scaling we end up with the following dimensionless BRWE 
+After doing the scaling we end up with the following dimensionless BRWE
 \cref{eq:scaled_BRWE}.
 
 \begin{equation}\label{eq:scaled_BRWE}
@@ -182,8 +182,6 @@ After doing the scaling we end up with the following dimensionless BRWE
 
 
 \subsection{Algorithm and finite differences}
-
-
 
 The general algorithm for solving the BRWE is outlined in
 \cref{algo:vort}.
@@ -200,10 +198,10 @@ The general algorithm for solving the BRWE is outlined in
 \end{algorithm}
 
 We implemented two methods for advancing $\zeta$ using centered
-(\cref{eq:centered}) and forward (\cref{eq:forward}) differences.
-For the planetary vorticity advection term we used centered differences.
-This lead to the forward time centered space (FTCS) \cref{eq:advance_centered} and centered time centered space (CTCS)
-\cref{eq:advance_forward} schemes.
+(\cref{eq:centered}) and forward (\cref{eq:forward}) differences. For the
+planetary vorticity advection term we used centered differences. This lead to
+the forward time centered space (FTCS) \cref{eq:advance_centered} and centered
+time centered space (CTCS) \cref{eq:advance_forward} schemes.
 
 
 \begin{equation} \label{eq:centered}
@@ -228,13 +226,12 @@ This lead to the forward time centered space (FTCS) \cref{eq:advance_centered} a
 
 \subsection{Initalization}
 
-We will test different initial condition for $\psi$.
-In one dimension we will use $\psi(x, 0) = \sin{(4 \pi x)}$ and $\psi(x, 0) =
+We will test different initial condition for $\psi$. In one dimension we will
+use the sinusoidal $\psi(x, 0) = \sin{(4 \pi x)}$ and Gaussian $\psi(x, 0) =
 \exp{-\para{\frac{x - x_0}{\sigma}}^2}$.
-
-In two dimensions we used $\psi(x,y,0) = \sin{(4 \pi x)} \sin{(4 \pi y)}$.
-$ \zeta(t=0) $ was initalized as $ \pdv[2]{\psi}{x} $ in one dimension and as
-$\nabla_H^2 \psi$ in two dimensions.
+In two dimensions we will use a two-dimensional sinusoidal $\psi(x,y,0) =
+\sin{(4 \pi x)} \sin{(4 \pi y)}$. $ \zeta(t=0) $ was initalized as $
+\pdv[2]{\psi}{x} $ in one dimension and as $\nabla_H^2 \psi$ in two dimensions.
 
 
 \subsection{Jacobis method}
@@ -272,7 +269,7 @@ satisfactory result.
 \subsection{Stability and comparison of timestepping methods}
 
 To assess the stability of the two timestepping methods we can insert solutions
-of $\psi = A^n e^{ikj \Delta x}$ into the FTCS and CTCS schemes.
+of $\psi_{j}^{n} = A^n e^{ikj \Delta x}$ into the FTCS and CTCS schemes.
 For both schemes we need to use that
 $\pdv{\zeta}{t} = -k^2 \pdv{\psi}{t} = - \frac{1}{c} \pdv{\psi}{t}$
 
@@ -314,16 +311,17 @@ This gives us two cases, $\abs{\alpha} > 1$ and $\abs{\alpha} \leq 1$
 For $\abs{\alpha} < 1$ we get
 $\abs{A}^2 = \alpha^2 sin(k\Delta x) + 1 - \alpha^2 sin(k\Delta x) = 1$
 which is unconditionally stable.
-For $\abs{\alpha} > 1$ we get $\abs{A}^2 = \para{ \alpha sin(k\Delta x) \pm 
-\sqrt{\alpha^2 sin(k\Delta x)^2 -1 }}^2$ which will be unstable for some 
+For $\abs{\alpha} > 1$ we get $\abs{A}^2 = \para{ \alpha sin(k\Delta x) \pm
+\sqrt{\alpha^2 sin(k\Delta x)^2 -1 }}^2$ which will be unstable for some
 combinations of k and $\Delta x$.
 We therefore find the stability criterion for the CTCS scheme to be
 $ \frac{\Delta t}{\Delta x} < \frac{1}{c} = k^2$.
 
-For the CTCS scheme with a sinusoidal inital state with wavenumber $4 \pi$ and 
+For the CTCS scheme with a sinusoidal inital state with wavenumber $4 \pi$ and
 $\Delta x = \frac{1}{40}$
 this corresponds to having $ \Delta t \leq \frac{\para{4 \pi}^2}{40} = 3.948$.
-Some runs with periodic boundaries is shown in \cref{fig:compare_ctcs}
+Some runs with periodic boundaries is shown in \cref{fig:compare_ctcs}.
+
 
 \begin{figure}[h]
   \centering
