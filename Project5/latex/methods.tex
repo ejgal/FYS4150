@@ -155,7 +155,6 @@ Then final solution becomes:
 The solution contains the same cosine term as in the periodic domain, but is now
 modulated by a sine term that enforces the boundary conditions and increases
 the number of throughs and ridges compared to the periodic solution.
-
 The phase speed can be calculated in the same manner as in the periodic case.
 \begin{equation}
     c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2}
@@ -232,9 +231,8 @@ This lead to the forward time centered space (FTCS) \cref{eq:advance_centered} a
 We will test different initial condition for $\psi$.
 In one dimension we will use $\psi(x, 0) = \sin{(4 \pi x)}$ and $\psi(x, 0) =
 \exp{-\para{\frac{x - x_0}{\sigma}}^2}$.
+
 In two dimensions we used $\psi(x,y,0) = \sin{(4 \pi x)} \sin{(4 \pi y)}$.
-
-
 $ \zeta(t=0) $ was initalized as $ \pdv[2]{\psi}{x} $ in one dimension and as
 $\nabla_H^2 \psi$ in two dimensions.
 
@@ -279,7 +277,7 @@ For both schemes we need to use that
 $\pdv{\zeta}{t} = -k^2 \pdv{\psi}{t} = - \frac{1}{c} \pdv{\psi}{t}$
 
 \subsubsection{FTCS}
-The FTCS gives
+The FTCS gives,
 \begin{align}
   &-\frac{1}{c} \frac{A^{n+1} e^{ikj\Delta x} - A^n e^{ikj\Delta x}}{\Delta t} + \frac{A^n e^{ik(j+1)\Delta x} - A^n e^{ik(j-1)\Delta x}}{2\Delta x} \\
   &= A^n e^{ikj} \brak{A - 1 - c\frac{\Delta t}{2 \Delta x} \para{e^{ik\Delta x} - e^{-ik\Delta x}}} = 0
@@ -304,7 +302,7 @@ where we see the FTCS solutions diverging around t=10.
 
 \subsubsection{CTCS}
 
-For the CTCS scheme we get
+For the CTCS scheme we get,
 \begin{align}
   &-\frac{1}{c}\frac{A^{n+1} e^{ikj\Delta x} - A^{n-1} e^{ikj \Delta x}}{2 \Delta t} + \frac{A^n e^{ik(j+1) \Delta x} - A^{n} e^{ik(j-1)\Delta x}}{2 \Delta x} \\
   &= A^n e^{ikj\Delta x} \brak{ A - A^{-1} - c\frac{\Delta t}{\Delta x} \para{2 sin(k\Delta x) i}} = 0
@@ -313,21 +311,17 @@ For the CTCS scheme we get
 Setting $c\frac{\Delta t}{\Delta x} = \alpha$ and solving for A gives
 $ A = \alpha sin(k\Delta x) i \pm \sqrt{-\alpha^2 sin(k\Delta x)^2 + 1}$.
 This gives us two cases, $\abs{\alpha} > 1$ and $\abs{\alpha} \leq 1$
-
-
 For $\abs{\alpha} < 1$ we get
 $\abs{A}^2 = \alpha^2 sin(k\Delta x) + 1 - \alpha^2 sin(k\Delta x) = 1$
 which is unconditionally stable.
-
-
-For $\abs{\alpha} > 1$ we get $\abs{A}^2 = \para{ \alpha sin(k\Delta x) \pm \sqrt{\alpha^2 sin(k\Delta x)^2 -1 }}^2$ which will be unstable for some combinations of k and $\Delta x$.
-
+For $\abs{\alpha} > 1$ we get $\abs{A}^2 = \para{ \alpha sin(k\Delta x) \pm 
+\sqrt{\alpha^2 sin(k\Delta x)^2 -1 }}^2$ which will be unstable for some 
+combinations of k and $\Delta x$.
 We therefore find the stability criterion for the CTCS scheme to be
 $ \frac{\Delta t}{\Delta x} < \frac{1}{c} = k^2$.
 
-
-
-For the CTCS scheme with a sinusoidal inital state with wavenumber $4 \pi$ and $\Delta x = \frac{1}{40}$
+For the CTCS scheme with a sinusoidal inital state with wavenumber $4 \pi$ and 
+$\Delta x = \frac{1}{40}$
 this corresponds to having $ \Delta t \leq \frac{\para{4 \pi}^2}{40} = 3.948$.
 Some runs with periodic boundaries is shown in \cref{fig:compare_ctcs}
 
