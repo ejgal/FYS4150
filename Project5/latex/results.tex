@@ -9,7 +9,8 @@ $\Delta x = \frac{1}{40} $ and $\Delta t = 0.10$.
 
 With periodic boundaries and a sinusoidal inital state \cref{fig:periodic_sine}
 the phase speed is constant and all waves move westward. By following one wave
-from east to west we can find the phase speed as $\frac{1}{160} = 0.00625$.
+from east to west we can find the phase speed as $\frac{\Delta x}{\Delta t} =
+\frac{0-1}{160} = -0.00625$.
 
 \begin{figure}[htp]
   \centering
@@ -37,7 +38,7 @@ With a Gaussian initial state (\cref{fig:periodic_gauss}) the Hovmöller diagram
 
 With no flow at the boundaries and an initial sinusoidal \cref{fig:bounded_sine}
 we can use the same method as for the periodic to find a phase speed of
-$\frac{1}{100 - 20} = 0.0125$.
+$\frac{\Delta x}{\Delta t} \frac{0 -1}{100 - 20} = -0.0125$.
 
 
 \begin{figure}[htp]
@@ -67,7 +68,7 @@ in very much the same way as in the one dimensional case.
 \begin{figure}[htp]
   \centering
   \includegraphics[width=\textwidth]{../figures/periodic_2d.pdf}
-  \caption{CTCS, $\Delta x = \frac{1}{40}$, $\Delta t = 0.10$.}
+  \caption{Rossby wave travelling in a 2d periodic domain, plotted is the state of the wave at four different times. CTCS, $\Delta x = \frac{1}{40}$, $\Delta t = 0.10$.}
   \label{fig:2d_periodic}
 \end{figure}
 
@@ -76,6 +77,6 @@ in very much the same way as in the one dimensional case.
 \begin{figure}[htp]
   \centering
   \includegraphics[width=\textwidth]{../figures/bounded_2d.pdf}
-  \caption{CTCS, $\Delta x = \frac{1}{40}$, $\Delta t = 0.10$.}
+  \caption{Rossby wave travelling in a 2d basin, plotted is the state of the wave  at four different times. CTCS, $\Delta x = \frac{1}{40}$, $\Delta t = 0.10$.}
   \label{fig:2d_bounded}
 \end{figure}
