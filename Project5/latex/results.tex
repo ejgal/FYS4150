@@ -3,7 +3,7 @@
 
 
 All figures shown in this section was produced using the CTCS scheme with
-$\Delta x = \frac{1}{40} $ and $\Delta t = 1$.
+$\Delta x = \frac{1}{40} $ and $\Delta t = 0.10$.
 
 \subsection{Periodic}
 
@@ -15,19 +15,19 @@ from east to west we can find the phase speed as $\frac{\Delta x}{\Delta t} =
 \begin{figure}[htp]
   \centering
   \includegraphics[width=\textwidth]{../figures/psi_periodic_centered_short.pdf}
-  \caption{Hovmuller diagram for the periodic domain with a sinusoidal initial
-  state using a central difference in time. Waves propagate westward.}
+  \caption{Hovmuller diagram for the periodic domain with a sinusoidal initial state. CTCS, $\Delta x = \frac{1}{40}$, $\Delta t = 0.10$. Waves propagate westward.}
   \label{fig:periodic_sine}
 \end{figure}
 
+With a Gaussian initial state (\cref{fig:periodic_gauss}) the Hovmöller diagram is not as ordered. Small $\sigma$ (narrow peak)
 
 
 \begin{figure}[htp]
   \centering
   \includegraphics[width=\textwidth]{../figures/hovmuller_sigma.pdf}
-  \caption{Hovmuller diagram for the periodic domain with a Gaussian initial
+  \caption{Hovmöller diagram for the periodic domain with a Gaussian initial
   state.
-  From top left to bottom right: $\sigma = \brak{0.08, 0.10, 0.11, 0.12}$.
+  From top left to bottom right: $\sigma = \brak{0.08, 0.10, 0.11, 0.12}$. CTCS, $\Delta x = \frac{1}{40}$, $\Delta t = 0.10$.
   }
   \label{fig:periodic_gauss}
 \end{figure}
@@ -45,7 +45,7 @@ $\frac{\Delta x}{\Delta t} \frac{0 -1}{100 - 20} = -0.0125$.
   \centering
   \includegraphics[width=\textwidth]{../figures/psi_bounded_centered_sine.pdf}
   \caption{Hovmuller diagram for the bounded domain with a sinusoidal initial
-  state.}
+  state. CTCS, $\Delta x = \frac{1}{40}$, $\Delta t = 0.10$.}
   \label{fig:bounded_sine}
 \end{figure}
 
@@ -53,8 +53,7 @@ $\frac{\Delta x}{\Delta t} \frac{0 -1}{100 - 20} = -0.0125$.
 \begin{figure}[htp]
   \centering
   \includegraphics[width=\textwidth]{../figures/psi_bounded_centered_gauss.pdf}
-  \caption{Hovmuller diagram for the bounded domain with a Gaussian initial
-  state.}
+  \caption{Hovmuller diagram for the bounded domain with a Gaussian initial state. CTCS, $\Delta x = \frac{1}{40}$, $\Delta t = 0.10$.}
   \label{fig:bounded_gauss}
 \end{figure}
 
@@ -69,7 +68,7 @@ in very much the same way as in the one dimensional case.
 \begin{figure}[htp]
   \centering
   \includegraphics[width=\textwidth]{../figures/periodic_2d.pdf}
-  \caption{Rossby wave travelling in a 2d periodic domain, plotted is the state of the wave at four different times.}
+  \caption{Rossby wave travelling in a 2d periodic domain, plotted is the state of the wave at four different times. CTCS, $\Delta x = \frac{1}{40}$, $\Delta t = 0.10$.}
   \label{fig:2d_periodic}
 \end{figure}
 
@@ -78,6 +77,6 @@ in very much the same way as in the one dimensional case.
 \begin{figure}[htp]
   \centering
   \includegraphics[width=\textwidth]{../figures/bounded_2d.pdf}
-  \caption{Rossby wave travelling in a 2d basin, plotted is the state of the wave  at four different times.}
+  \caption{Rossby wave travelling in a 2d basin, plotted is the state of the wave  at four different times. CTCS, $\Delta x = \frac{1}{40}$, $\Delta t = 0.10$.}
   \label{fig:2d_bounded}
 \end{figure}
