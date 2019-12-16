@@ -73,7 +73,7 @@ def hovmuller(filename, ylabel=None):
     t = psi.index.values
     X, T = np.meshgrid(x, t)
     plt.contourf(X, T, psi.values)
-    plt.xlabel('x')
+    plt.xlabel('x$_i$')
     plt.ylabel(ylabel)
     plt.colorbar()
     plt.savefig(outfile + '.png')
@@ -156,11 +156,11 @@ def plot_2d(boundary, outfile, times=[0, 50, 100, 149]):
 if __name__ == '__main__':
 
     # Bounded
-    hovmuller('psi_bounded_centered_sine')
-    hovmuller('psi_bounded_centered_gauss')
+    hovmuller('psi_bounded_centered_sine', ylabel='t')
+    hovmuller('psi_bounded_centered_gauss', ylabel='t')
 
     # Periodic
-    hovmuller('psi_periodic_centered_short')
+    hovmuller('psi_periodic_centered_short', ylabel='t')
     times = [0, 50, 150, 300, 500]
     file1 = 'psi_periodic_centered_long'
     file2 = 'psi_periodic_forward_long'
