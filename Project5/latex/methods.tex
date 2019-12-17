@@ -1,9 +1,14 @@
 \section{Theory}
 
 \subsection{The barotropic Rossby wave equation}
+<<<<<<< HEAD
 
 A problem with the current vorticity \cref{eq:QG_vorticity} is
 that it is nonlinear, in order obtain linear wave solutions we need to
+=======
+The current vorticity \cref{eq:QG_vorticity} is
+ nonlinear, in order obtain linear wave solutions we need to
+>>>>>>> master
 linearise the equation. We will linearise \cref{eq:QG_vorticity} by supposing
 that the flow can be represented by a mean flow plus some small perturbation:
 \begin{equation}\label{eq:VeloctiyPertubation}
@@ -17,6 +22,7 @@ Then the vorticity of the mean flow and the perturbation is:
 \begin{equation}\label{eq:VortPertubation}
     Z = \pdv{V}{x} - \pdv{U}{y} \; , \quad \zeta' = \pdv{v'}{x} - \pdv{u'}{y}
 \end{equation}
+
 To linearise the Coriolis parameter, we expand $f$
 around a reference latitude $\theta_0$,
 \begin{equation}\label{eq:Beta_approx}
@@ -27,6 +33,9 @@ the radius of the earth. This linearisation of the Coriolis parameter
 \cref{eq:Beta_approx} is commonly referred to as the $\beta-\mathrm{plane}$
 approximation.
 
+Inserting  \cref{eq:Beta_approx} and \cref{eq:VeloctiyPertubation} in to the
+vorticity equation \cref{eq:QG_vorticity}.
+
 \begin{equation}
     \pdv{\zeta'}{t} + (U+u')\pdv{\zeta'}{x} + (V+v')\pdv{\zeta'}{y} + \bvec{U}
     \cdot \nabla q_s + u' \pdv{q_s}{x} + v' \pdv{q_s}{y} = 0
@@ -34,7 +43,7 @@ approximation.
 \begin{equation}\label{eq:q_s}
     q_s = Z + f_0 + \beta y
 \end{equation}
-Then mean flow $\bvec{U}$ is geostrophic, consequently the flow will be parallel
+The mean flow $\bvec{U}$ is geostrophic, consequently the flow will be parallel
 to the contours of stationary potential vorticity $q_s$, ergo $\bvec{U} \cdot
 \nabla q_s = 0$. The perturbations are assumed to be weak so that perturbations
 advecting perturbations can be neglected. Thus we get the following linearised
@@ -43,7 +52,6 @@ barotropic vorticity equation:
 \begin{equation}
     \pdv{\zeta '}{t} + U\pdv{\zeta'}{x} + V\pdv{\zeta'}{y} + \beta v' = 0
 \end{equation}
-
 We will drop the primes from here on. Next we suppose that the velocity of
 the mean flow is zero, and express the perturbation velocities in terms of the streamfunction
 $\psi$, $u = -\pdv{\psi}{y}$, $v = \pdv{\psi}{x}$ and $\zeta = \nabla_H^2 \psi
@@ -55,6 +63,10 @@ $. The equation we end up with is the barotropic Rossby wave equation
 \end{equation}
 
 \subsection{Analytic expression of phase velocities}
+Proceeding from the barotropic Rossby wave equation \cref{eq:barotropicRossby}
+we will find analytical expression for the phase velocity in
+one dimension, first with periodic boundary conditions and then with bounded
+boundaries.  
 \subsubsection{Periodic boundaries}
 We assume the following periodic solution \cref{eq:waveSolution}.
 At $x=0$ we have $\psi = A\cos{(-\omega t)}$ and at $x = L$, $\psi = A
@@ -90,9 +102,8 @@ the wave \cref{eq:phase}.
 \begin{equation}\label{eq:phase}
     \theta = \frac{n \pi x}{L} - \omega t
 \end{equation}
-Then peak of the wave would be at $\theta = 2\pi$, where $\psi = A\cos{(2\pi)}$.
-In therms of the atmospheric motion this peak would correspond to would
-correspond to high pressure point. To get the motion of this point we can solve
+Then the peak of the wave would be at $\theta = 2\pi$, where $\psi = A\cos{(2\pi)}$.
+This peak corresponds to a high pressure point in the flow. To get the motion of this point we can solve
 \cref{eq:phase} for x, $x=\theta L / 2n \pi + \omega t L / 2n \pi$ and then
 obtaining the phase speed by taking the time derivative.
 \begin{equation}
@@ -101,7 +112,7 @@ obtaining the phase speed by taking the time derivative.
 Inserting the expression for $\omega$ obtained previously \cref{eq:omega1}, we
 get the following expression for the phase speed.
 \begin{equation}\label{eq:Phase-speed1}
-    c = \frac{-\beta L^2}{(2n\pi)^2} = \frac{-\beta}{k^2}
+    c = \frac{-\beta}{k^2} = \frac{-\beta L^2}{(2n\pi)^2} 
 \end{equation}
 Then according to \cref{eq:Phase-speed1} the Rossby waves will propagate
 toward the west.
@@ -157,14 +168,15 @@ Then final solution becomes:
 The solution contains the same cosine term as in the periodic domain, but is now
 modulated by a sine term that enforces the boundary conditions and increases
 the number of throughs and ridges compared to the periodic solution.
-The phase speed can be calculated in the same manner as in the periodic case.
+The phase speed can be calculated in the same manner as in the periodic case,
+except now $k=\frac{n\pi}{L}$.
+
 \begin{equation}
-    c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2}
+    c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2} = -\frac{\beta L^2}{2 
+    \pi^2 n^2}
 \end{equation}
-The phase speed for the Rossby waves with solid boundaries is half compared to
+The phase speed for the Rossby waves with solid boundaries is twice compared to
 the periodic boundaries.
-
-
 
 \section{Numerical model}
 
@@ -188,7 +200,7 @@ After doing the scaling we end up with the following dimensionless BRWE
 The general algorithm for solving the BRWE is outlined in
 \cref{algo:vort}.
 
-\begin{algorithm}
+\begin{algorithm}[H]
   \SetAlgoLined
   initialize $\zeta$ and $\psi$ using sine or gaussian\\
   \For{t=0; t<\text{timesteps}; t++}{
@@ -273,9 +285,8 @@ shows the absolute error of jacobis method compared to the analytical solutions.
 For small convergence parameters, Jacobis method gives a smaller
 absolute error on large grids.
 For our model runs we will be using close to 40 grid points and we found that
-setting the convergence parameter to 10$^{-8}$ Jacobis method achieved
-satisfactory result.
-
+Jacobis method achieved satisfactory result when setting the convergence
+parameter to 10$^{-8}$.
 
 \subsection{Stability and comparison of timestepping methods}
 
