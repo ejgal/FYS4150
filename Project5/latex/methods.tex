@@ -105,7 +105,7 @@ obtaining the phase speed by taking the time derivative.
 Inserting the expression for $\omega$ obtained previously \cref{eq:omega1}, we
 get the following expression for the phase speed.
 \begin{equation}\label{eq:Phase-speed1}
-    c = \frac{-\beta L^2}{(2n\pi)^2} = \frac{-\beta}{k^2}
+    c = \frac{-\beta}{k^2} = \frac{-\beta L^2}{(2n\pi)^2} 
 \end{equation}
 Then according to \cref{eq:Phase-speed1} the Rossby waves will propagate
 toward the west.
@@ -161,14 +161,15 @@ Then final solution becomes:
 The solution contains the same cosine term as in the periodic domain, but is now
 modulated by a sine term that enforces the boundary conditions and increases
 the number of throughs and ridges compared to the periodic solution.
-The phase speed can be calculated in the same manner as in the periodic case.
+The phase speed can be calculated in the same manner as in the periodic case,
+except now $k=\frac{n\pi}{L}$.
+
 \begin{equation}
-    c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2}
+    c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2} = -\frac{\beta L^2}{2 
+    \pi^2 n^2}
 \end{equation}
-The phase speed for the Rossby waves with solid boundaries is half compared to
+The phase speed for the Rossby waves with solid boundaries is twice compared to
 the periodic boundaries.
-
-
 
 \section{Numerical model}
 
