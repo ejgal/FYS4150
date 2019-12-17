@@ -1,14 +1,9 @@
 \section{Theory}
 
 \subsection{The barotropic Rossby wave equation}
-<<<<<<< HEAD
 
 A problem with the current vorticity \cref{eq:QG_vorticity} is
 that it is nonlinear, in order obtain linear wave solutions we need to
-=======
-The current vorticity \cref{eq:QG_vorticity} is
- nonlinear, in order obtain linear wave solutions we need to
->>>>>>> master
 linearise the equation. We will linearise \cref{eq:QG_vorticity} by supposing
 that the flow can be represented by a mean flow plus some small perturbation:
 \begin{equation}\label{eq:VeloctiyPertubation}
@@ -66,7 +61,7 @@ $. The equation we end up with is the barotropic Rossby wave equation
 Proceeding from the barotropic Rossby wave equation \cref{eq:barotropicRossby}
 we will find analytical expression for the phase velocity in
 one dimension, first with periodic boundary conditions and then with bounded
-boundaries.  
+boundaries.
 \subsubsection{Periodic boundaries}
 We assume the following periodic solution \cref{eq:waveSolution}.
 At $x=0$ we have $\psi = A\cos{(-\omega t)}$ and at $x = L$, $\psi = A
@@ -112,7 +107,7 @@ obtaining the phase speed by taking the time derivative.
 Inserting the expression for $\omega$ obtained previously \cref{eq:omega1}, we
 get the following expression for the phase speed.
 \begin{equation}\label{eq:Phase-speed1}
-    c = \frac{-\beta}{k^2} = \frac{-\beta L^2}{(2n\pi)^2} 
+    c = \frac{-\beta}{k^2} = \frac{-\beta L^2}{(2n\pi)^2}
 \end{equation}
 Then according to \cref{eq:Phase-speed1} the Rossby waves will propagate
 toward the west.
@@ -172,7 +167,7 @@ The phase speed can be calculated in the same manner as in the periodic case,
 except now $k=\frac{n\pi}{L}$.
 
 \begin{equation}
-    c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2} = -\frac{\beta L^2}{2 
+    c = \dv{x}{t} = \frac{\omega}{k} = -\frac{\beta}{2k^2} = -\frac{\beta L^2}{2
     \pi^2 n^2}
 \end{equation}
 The phase speed for the Rossby waves with solid boundaries is twice compared to
@@ -304,9 +299,10 @@ The FTCS gives,
 
 Solving for A leads to $ A = 1 + \frac{c \Delta t}{\Delta x} sin(k\Delta x) i$.
 For the numerical solution to stay stable we need $\abs{A}^2 <= 1$, which can
-not be satisfied. Therefore the FTCS scheme is unconditionally unstable.
-The instability of the FTCS scheme is shown in \cref{fig:compare_small},
-where we see the FTCS solutions diverging around t=10. Another view of the
+not be satisfied. Therefore the FTCS scheme is unconditionally unstable. The
+instability of the FTCS scheme is shown in \cref{fig:compare_small}, where we
+see the FTCS solutions diverging around t=10. The oscillations might be caused
+by our lack of initalizing $\zeta_{j}^{-1}$ properly. Another view of the
 instability is given in \cref{sec:stability} which shows the whole wave.
 
 \begin{figure}[h]
