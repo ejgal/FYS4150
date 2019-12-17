@@ -3,7 +3,7 @@
 \subsection{The barotropic Rossby wave equation}
 
 A problem with the current vorticity \cref{eq:QG_vorticity} is
-that it is nonlinear, in order obtain linear wave solutions we need to
+that it is nonlinear. In order to obtain linear wave solutions we need to
 linearise the equation. We will linearise \cref{eq:QG_vorticity} by supposing
 that the flow can be represented by a mean flow plus some small perturbation:
 \begin{equation}\label{eq:VeloctiyPertubation}
@@ -28,7 +28,7 @@ the radius of the earth. This linearisation of the Coriolis parameter
 \cref{eq:Beta_approx} is commonly referred to as the $\beta-\mathrm{plane}$
 approximation.
 
-Inserting  \cref{eq:Beta_approx} and \cref{eq:VeloctiyPertubation} in to the
+Inserting  \cref{eq:Beta_approx} and \cref{eq:VeloctiyPertubation} in the
 vorticity equation \cref{eq:QG_vorticity}.
 
 \begin{equation}
@@ -60,7 +60,7 @@ $. The equation we end up with is the barotropic Rossby wave equation
 \subsection{Analytic expression of phase velocities}
 Proceeding from the barotropic Rossby wave equation \cref{eq:barotropicRossby}
 we will find analytical expression for the phase velocity in
-one dimension, first with periodic boundary conditions and then with bounded
+one dimension, first with periodic boundary conditions and then with closed
 boundaries.
 \subsubsection{Periodic boundaries}
 We assume the following periodic solution \cref{eq:waveSolution}.
@@ -111,9 +111,10 @@ get the following expression for the phase speed.
 \end{equation}
 Then according to \cref{eq:Phase-speed1} the Rossby waves will propagate
 toward the west.
-\subsubsection{Bounded boundaries}
-In the ocean the boundaries would be better represented using bounded boundary
-condition. We will suppose a wavelike solution of \cref{eq:barotropicRossby}
+
+\subsubsection{Closed boundaries}
+In the ocean the boundaries would be better represented using closed boundary
+conditions. We will suppose a wavelike solution of \cref{eq:barotropicRossby}
 where the amplitude of the wave also vary in $x$. We
 require there to be no flow at the endpoints, which we can enforce with simple
 Dirichlet conditions $\psi= 0$ at $x=0$ and $x=L$.
@@ -131,7 +132,7 @@ equation:
     \end{split}
 \end{equation}
 The terms in front of the cosine and sine has to be zero, which means that we
-can split equation into two equations, one for the sine and one cosine
+can split the equation into two equations, one for the sine and one cosine
 terms respectively (\cref{eq:sine-terms}, \cref{eq:cos-terms}).
 
 \begin{equation}\label{eq:sine-terms}
@@ -175,13 +176,18 @@ the periodic boundaries.
 
 \section{Numerical model}
 
+In this section we explain the implementation of the numerical model and explore
+stability .
+Further details can be found in the python code in the github repository of
+this project
+\footnote{\url{https://github.com/Ovewh/Computilus/tree/master/Project5}}.
 
 \subsection{Scaling}
 Before we do the discretisation it is useful to nondimensionalise the BRWE.
 We scale the BRWE using $x = \tilde{x} L $ and $t = \frac{\tilde{t}}{L \beta}$.
 The dimensionless phase speed is then $\frac{d\tilde{x}}{d\tilde{t}} = \frac{1}
 {\beta L^2} c$. For wavenumber two this gives us phase speeds of
-$-0.0063$ for the periodic case and $c = -0.012665$ for the bounded case.
+$-0.0063$ for the periodic case and $c = -0.012665$ for the closed boundary case.
 After doing the scaling we end up with the following dimensionless BRWE
 \cref{eq:scaled_BRWE}.
 
@@ -234,7 +240,8 @@ time centered space (CTCS) \cref{eq:advance_forward} schemes.
 
 The truncation error of the centered difference terms are of order
 $(\Delta x)^2$ and
-$(\Delta t)^2$, while the forward difference term are of order $\Delta t$
+$(\Delta t)^2$, while the forward difference term has a truncation error
+of order $\Delta t$
  \parencite{langtangen}.
 
 
@@ -247,7 +254,7 @@ In two dimensions we will use a two-dimensional sinusoidal $\psi(x,y,0) =
 \sin{(4 \pi x)} \sin{(4 \pi y)}$. $ \zeta(t=0) $ was initalized as $
 \pdv[2]{\psi}{x} $ in one dimension and as $\nabla_H^2 \psi$ in two dimensions.
 
-For CTCS $\zeta_{j}^{1}$ is a function of $\zeta_{j}^{-1}$ which we don't know.
+For the CTCS scheme, $\zeta_{j}^{1}$ is a function of $\zeta_{j}^{-1}$ which we don't know.
 We could either set $\zeta_{j}^{-1} = \zeta_{j}^{0}$ or use the FTCS scheme
 backwards. At first we tried to implement the latter but ran into problems we
 could not resolve, and opted for the first option.
@@ -260,7 +267,7 @@ equation using
 jacobis method. Jacobis method requires a convergence parameter for deciding
 when to stop iterating. To determine this parameter we tested our
 numerical solutions  against two analytical solutions
-of poissons equation, one bounded and one periodic.
+of poissons equation, one closed and one periodic.
 
 \begin{figure}[h]
   \centering
@@ -336,7 +343,7 @@ combinations of k and $\Delta x$.
 We therefore find the stability criterion for the CTCS scheme to be
 $ \frac{\Delta t}{\Delta x} < \frac{1}{c} = k^2$.
 
-For the CTCS scheme with a sinusoidal inital state with wavenumber $4 \pi$ and
+For the CTCS scheme with a sinusoidal inital state with k = $4 \pi$ and
 $\Delta x = \frac{1}{40}$
 this corresponds to having $ \Delta t \leq \frac{\para{4 \pi}^2}{40} = 3.948$.
 Some runs with periodic boundaries is shown in \cref{fig:compare_ctcs}.
