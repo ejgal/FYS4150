@@ -1,0 +1,14 @@
+\section*{Abstract}
+This work investigates solutions of the barotropic Rossby wave equation (BRWE)
+in a closed and periodic domain, using finite difference methods. First we
+derived the BRWE  by linearising the barotropic vorticity equation and
+then we scaled this linearised equation to obtain dimensionless analytical
+values for the phase speed $c_{\mathrm{periodic}} = -0.0063$,
+$c_{\mathrm{closed}} = -0.012665$. 
+Next we developed an algorithm for solving the BRWE, which we implemented using
+both forward time centered space (FTCS) and centered time centered space (CTCS).
+For both versions we did an extensive stability analysis and found FTCS to be
+unconditionally unstable for all combination of $\Delta x, \Delta t$. CTCS was
+found to be stable for $\Delta x / \Delta t < k^2$. Using CTCS version we
+obtained $c_{\mathrm{periodic}}= - 0.00625$ and $c_{\mathrm{closed}} = -
+0.0125$.  
