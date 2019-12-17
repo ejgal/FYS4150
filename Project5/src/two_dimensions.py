@@ -25,9 +25,7 @@ def poisson2d_bounded(p, b, dx, nx, target=1e-8, iter=10000):
 
     while (diff > target and count < iter):
         diff = 0
-        # p[10:15, 10:15] = 1
         pn = p.copy()
-        # p[1:-1, 1:-1] = 0.25 * ((pn[1:-1, 2:] + pn[1:-1, 0:-2]) + (pn[2:, 1:-1] + pn[0:-2, 1:-1]))
         for j in range(1, nx - 1):
             for i in range(1, ny - 1):
                 p[j, i] = - b[j, i] * dx**2
@@ -37,10 +35,6 @@ def poisson2d_bounded(p, b, dx, nx, target=1e-8, iter=10000):
                 diff += np.abs(pn[j, i] - p[j, i])  # Fix
         count += 1
         diff /= (nx**2)
-        # print(diff)
-        # plot2d(np.linspace(0,1,nx), np.linspace(0,1,nx), p)
-        # plot2d(np.linspace(0, 1-dx, nx), np.linspace(0, 1, ny), p)
-    print('Iterations: {}'.format(count))
     return p
 
 
@@ -62,7 +56,6 @@ def poisson2d_periodic(p, b, dx, nx, target=1e-8, iter=10000):
                 diff += np.abs(pn[j, i] - p[j, i])
         count += 1
         diff /= (nx**2)
-    print('Iterations: {}'.format(count))
     return p
 
 
