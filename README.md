@@ -1,6 +1,3 @@
-# Computilus
-Repository  for projects in FYS4150, autumn 2019
-
 ## Abstracts
 
 ### Project 1 - Increasing accuracy and speed in numerical solutions of differential equations
